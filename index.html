@@ -5,246 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Doki Chat Demo</title>
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff0f5;
-}
+body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 
 /* Home page */
-.home .container {
-  padding: 15px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 15px;
-}
-
-.card {
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-}
-
-.card h3 {
-  margin: 8px 0 4px;
-  font-size: 14px;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 5px;
-  padding-bottom: 8px;
-}
-
-.tag {
-  background: #f0f0f0;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-}
+.home .container { padding:15px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:15px; }
+.card { background:#fff; border-radius:10px; overflow:hidden; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.1); cursor:pointer; transition:transform 0.2s; }
+.card:hover { transform:translateY(-5px); }
+.card img { width:100%; height:120px; object-fit:cover; }
+.card h3 { margin:8px 0 4px; font-size:14px; }
+.tags { display:flex; flex-wrap:wrap; justify-content:center; gap:5px; padding-bottom:8px; }
+.tag { background:#f0f0f0; padding:2px 6px; border-radius:4px; font-size:11px; }
 
 /* Profile page */
-.profile {
-  display: none;
-  height: 100vh;
-  background: #fff8f0;
-  position: relative;
-}
-
-.profile-header {
-  position: sticky;
-  top: 0;
-  background: #fff8f0;
-  z-index: 10;
-  text-align: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.profile-header img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-}
-
-.profile-header h2 {
-  margin: 10px 0 0;
-}
-
-.profile-content {
-  padding: 15px;
-  overflow-y: auto;
-  max-height: calc(100vh - 70px - 60px); /* trừ header + nút chat */
-}
-
-.profile-content p {
-  margin: 8px 0;
-  line-height: 1.4;
-  font-size: 14px;
-}
-
-.profile-content .speech {
-  color: #1e90ff;
-}
-
-.profile-content .scene {
-  font-style: italic;
-  color: #555;
-}
-
-.profile-button {
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  background: #fff8f0;
-  padding: 10px 0;
-  border-top: 1px solid #ddd;
-}
-
-.profile-button button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background: #ff5b8a;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-}
+.profile { display:none; height:100vh; background:#fff8f0; position:relative; }
+.profile-header { position:sticky; top:0; background:#fff8f0; z-index:10; text-align:center; padding:15px 0; border-bottom:1px solid #ddd; }
+.profile-header img { width:120px; height:120px; border-radius:50%; }
+.profile-header h2 { margin:10px 0 0; }
+.profile-content { padding:15px; overflow-y:auto; max-height:calc(100vh - 70px - 60px); }
+.profile-content p { margin:8px 0; line-height:1.4; font-size:14px; }
+.profile-content .speech { color:#1e90ff; background:#d2b48c; padding:3px 6px; border-radius:5px; display:inline-block; }
+.profile-content .scene { font-style:italic; background:#f5f5dc; padding:3px 6px; border-radius:5px; display:inline-block; }
+.profile-content .history { background:#fffaf0; padding:3px 6px; border-radius:5px; display:block; }
+.profile-button { position:sticky; bottom:0; width:100%; text-align:center; background:#fff8f0; padding:10px 0; border-top:1px solid #ddd; }
+.profile-button button { padding:10px 20px; border:none; border-radius:8px; background:#ff5b8a; color:#fff; font-size:16px; cursor:pointer; }
 
 /* Chat screen */
-.chat-screen {
-  display: none;
-  flex-direction: column;
-  height: 100vh;
-  background: #fff0f5;
-}
-
-.chat-header {
-  background: #ff5b8a;
-  color: #fff;
-  padding: 10px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.chat-header img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-/* Hảo cảm bar */
-.affection-bar {
-  flex:1;
-  height: 10px;
-  background: #f0f0f0;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-left: 5px;
-}
-
-.affection-fill {
-  height: 100%;
-  width: 50%;
-  background: #ff1493;
-  transition: width 0.3s;
-  border-radius: 5px;
-}
+.chat-screen { display:none; flex-direction:column; height:100vh; background:#fff0f5; }
+.chat-header { background:#ff5b8a; color:#fff; padding:10px; font-weight:bold; display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:10; }
+.chat-header img { width:40px; height:40px; border-radius:50%; }
+.affection-bar { flex:1; height:10px; background:#f0f0f0; border-radius:5px; overflow:hidden; margin-left:5px; }
+.affection-fill { height:100%; width:50%; background:#ff1493; transition:width 0.3s; border-radius:5px; }
+.affection-icon { margin-left:5px; font-size:18px; }
 
 /* Chat messages */
-.chat-messages {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-}
+.chat-messages { flex:1; padding:10px; overflow-y:auto; font-size:14px; display:flex; flex-direction:column; }
+.message { margin:5px 0; padding:6px 10px; border-radius:10px; max-width:70%; }
+.user-msg { background:#000; font-weight:bold; color:#fff; align-self:flex-end; }
+.char-msg { background:#d2b48c; color:#1e90ff; align-self:flex-start; padding:6px 10px; border-radius:10px; margin-bottom:3px; }
+.char-msg .scene { font-style:italic; color:#555; background:#f5f5dc; display:block; margin-top:3px; padding:3px 6px; border-radius:5px; }
 
-.message {
-  margin: 5px 0;
-  padding: 6px 10px;
-  border-radius: 10px;
-  max-width: 70%;
-}
-
-.user-msg {
-  background: #000;
-  font-weight: bold;
-  color: #fff;
-  align-self: flex-end;
-}
-
-.char-msg {
-  background: #1e90ff;
-  color: #fff;
-  align-self: flex-start;
-}
-
-.chat-input {
-  display: flex;
-  padding: 10px;
-  gap: 5px;
-}
-
-.chat-input input {
-  flex: 1;
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.chat-input button {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: none;
-  background: #ff5b8a;
-  color: #fff;
-  cursor: pointer;
-}
+/* Chat input */
+.chat-input { display:flex; padding:10px; gap:5px; }
+.chat-input input { flex:1; padding:6px; border-radius:6px; border:1px solid #ccc; }
+.chat-input button { padding:6px 12px; border-radius:6px; border:none; background:#ff5b8a; color:#fff; cursor:pointer; }
 
 /* Navigation Bar */
-.navbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 24px;
-  z-index: 999;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-}
-
-.navbar .active {
-  color: #ff5b8a;
-}
-
+.navbar { position:fixed; bottom:0; width:100%; height:60px; background:#fff; border-top:1px solid #ddd; display:flex; justify-content:space-around; align-items:center; font-size:24px; z-index:999; box-shadow:0 -2px 5px rgba(0,0,0,0.1); }
+.navbar .active { color:#ff5b8a; }
 </style>
 </head>
 <body>
@@ -279,7 +87,7 @@ body {
     <p class="scene">*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*</p>
     <p class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</p>
     <p class="scene">*Hành lang tầng hai rộn ràng, tiếng học sinh rì rầm vang cả dãy lớp…*</p>
-    <p><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần trở thành “oan gia quen mặt”.</p>
+    <p class="history"><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần trở thành “oan gia quen mặt”.</p>
     <p><strong>Tuổi:</strong> 26</p>
     <p><strong>Giới tính:</strong> Nam - Bottom</p>
     <p><strong>Nghề nghiệp:</strong> Giáo viên Toán trường THPT XXX</p>
@@ -299,6 +107,7 @@ body {
     <div class="affection-bar">
       <div id="affectionFill" class="affection-fill"></div>
     </div>
+    <span class="affection-icon" id="affectionIcon">🙂</span>
     <span id="affectionPercent" style="margin-left:5px;">50%</span>
   </div>
   <div id="chatMessages" class="chat-messages"></div>
@@ -321,9 +130,24 @@ body {
 // Hảo cảm
 let affection = 50;
 
+function getAffectionIcon(score){
+  if(score < -100) return '👿';
+  if(score < -20) return '💢';
+  if(score < 0) return '😐';
+  if(score < 20) return '🙂';
+  if(score < 100) return '🧑‍🤝‍🧑';
+  if(score < 500) return '💗';
+  if(score < 2000) return '🌹';
+  return '💍';
+}
+
 function updateAffection(){
-  document.getElementById('affectionFill').style.width = affection + '%';
-  document.getElementById('affectionPercent').textContent = affection + '%';
+  // giới hạn -150 → 2500
+  if(affection < -150) affection = -150;
+  if(affection > 2500) affection = 2500;
+  document.getElementById('affectionFill').style.width = Math.min(100, (affection/25)) + '%';
+  document.getElementById('affectionPercent').textContent = affection;
+  document.getElementById('affectionIcon').textContent = getAffectionIcon(affection);
 }
 
 // Mở profile
@@ -338,7 +162,10 @@ function openChat(){
   document.getElementById('chatScreen').style.display = 'flex';
   document.getElementById('chatMessages').innerHTML = '';
   updateAffection();
-  addCharMsg('"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"');
+  // Push intro: lời nói + cảnh + lịch sử
+  addCharMsg('"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"', '*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*');
+  addCharMsg('"Thầy Toán mà thấy thì xác định, mau lên!"', '*Hành lang tầng hai rộn ràng, tiếng học sinh rì rầm vang cả dãy lớp…*');
+  addCharMsg('Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần trở thành “oan gia quen mặt”.', '');
 }
 
 // Gửi chat
@@ -349,18 +176,24 @@ function sendChat(){
   addUserMsg(msg);
   input.value = '';
 
-  // Thay đổi hảo cảm
+  // thay đổi hảo cảm + cảnh
+  let charScene = '';
   if(msg.toLowerCase().includes('xin lỗi') || msg.toLowerCase().includes('thích')){
-    affection = Math.min(100, affection + 5);
+    affection = Math.min(2500, affection + 20);
+    charScene = '*Tư Viễn mỉm cười nhẹ, ánh mắt dịu lại*';
   } else if(msg.toLowerCase().includes('ghét') || msg.toLowerCase().includes('chọc')){
-    affection = Math.max(0, affection - 5);
+    affection = Math.max(-150, affection - 20);
+    charScene = '*Tư Viễn nhíu mày khó chịu*';
+  } else {
+    affection = affection; // giữ nguyên
+    charScene = '*Tư Viễn im lặng quan sát*';
   }
   updateAffection();
 
-  setTimeout(() => addCharMsg(generateReply(msg)), 500);
+  setTimeout(() => addCharMsg(generateReply(msg), charScene), 500);
 }
 
-// Thêm tin nhắn user
+// Tin nhắn user
 function addUserMsg(msg){
   let div = document.createElement('div');
   div.className = 'message user-msg';
@@ -369,11 +202,12 @@ function addUserMsg(msg){
   scrollChat();
 }
 
-// Thêm tin nhắn char
-function addCharMsg(msg){
+// Tin nhắn char
+function addCharMsg(msg, scene){
   let div = document.createElement('div');
   div.className = 'message char-msg';
-  div.textContent = msg;
+  div.innerHTML = `<span class="speech">${msg}</span>`;
+  if(scene) div.innerHTML += `<span class="scene">${scene}</span>`;
   document.getElementById('chatMessages').appendChild(div);
   scrollChat();
 }
@@ -384,7 +218,7 @@ function scrollChat(){
   chat.scrollTop = chat.scrollHeight;
 }
 
-// Trả lời char đơn giản
+// Trả lời char cơ bản
 function generateReply(userMsg){
   userMsg = userMsg.toLowerCase();
   if(userMsg.includes("chạy") || userMsg.includes("tiết")){
@@ -398,7 +232,7 @@ function generateReply(userMsg){
   }
   return '"Hừ… tôi không biết phải trả lời sao."';
 }
-</script>
 
+</script>
 </body>
 </html>
