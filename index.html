@@ -1,60 +1,139 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Chat Aii</title>
-</head>
-<body>
-  <h2>Chat AI (test)</h2>
-
-  <input id="msg" placeholder="Nhập gì đó..." />
-  <button onclick="send()">Gửi</button>
-
-  <p id="res"></p>
-
-  <script>
-    function send() {
-      const text = document.getElementById("msg").value;
-<!DOCTYPE html>
-<html lang="vi">
-<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demo Nav Bar</title>
+<title>TP C.AI Demo</title>
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff0f5;
-}
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff0f5; /* nền hồng nhạt */
+  }
 
-/* Nav bar dưới cùng */
-.navbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-  font-size: 24px;
-}
+  /* Header */
+  header {
+    background: #ff5b8a;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    padding: 12px 0;
+    font-weight: bold;
+  }
 
-/* Màu icon khi active (ví dụ Home) */
-.navbar .active {
-  color: #ff5b8a;
-}
+  /* Container card */
+  .container {
+    padding: 15px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+  }
+
+  .card h3 {
+    margin: 8px 0 4px;
+    font-size: 14px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding-bottom: 8px;
+  }
+
+  .tag {
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  /* Navigation bar dưới cùng */
+  .navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 24px;
+    z-index: 999;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  }
+
+  .navbar .active {
+    color: #ff5b8a;
+  }
+
+  /* Padding để nội dung không bị che navbar */
+  .content-wrapper {
+    padding-bottom: 70px;
+  }
 </style>
 </head>
 <body>
 
-<!-- Nội dung chính -->
-<div style="padding-bottom: 70px;"> <!-- padding để không che nội dung -->
-  <h1>Demo Web</h1>
-  <p>Nội dung phía trên navigation bar.</p>
+<header>TP C.AI Demo</header>
+
+<div class="content-wrapper container">
+  <div class="grid">
+    <div class="card">
+      <img src="https://i.pravatar.cc/150?img=1" alt="Avatar 1">
+      <h3>Người 1</h3>
+      <div class="tags">
+        <span class="tag">Ác</span>
+        <span class="tag">Lạnh lùng</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.pravatar.cc/150?img=2" alt="Avatar 2">
+      <h3>Người 2</h3>
+      <div class="tags">
+        <span class="tag">Omega</span>
+        <span class="tag">Thống trị</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.pravatar.cc/150?img=3" alt="Avatar 3">
+      <h3>Người 3</h3>
+      <div class="tags">
+        <span class="tag">Đẹp trai</span>
+        <span class="tag">Cá tính</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.pravatar.cc/150?img=4" alt="Avatar 4">
+      <h3>Người 4</h3>
+      <div class="tags">
+        <span class="tag">Thông minh</span>
+        <span class="tag">Hào hoa</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Navigation Bar -->
@@ -66,11 +145,5 @@ body {
   <div>👤</div>
 </div>
 
-</body>
-</html>
-      document.getElementById("res").innerText =
-        "AI nói: " + text;
-    }
-  </script>
 </body>
 </html>
