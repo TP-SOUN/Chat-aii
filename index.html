@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI SUPER FIX</title>
+    <title>TP C-AI ALL-IN-ONE</title>
     <style>
         :root {
             --primary: #8E2DE2;
@@ -13,156 +13,173 @@
         }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* CẤU TRÚC TRANG */
+        /* Cấu trúc trang */
         .page { flex: 1; padding: 15px; padding-bottom: 90px; overflow-y: auto; display: none; }
         .page.active { display: block; }
 
-        /* TRANG CHỦ & TÌM KIẾM */
+        /* Home & Search */
         .home-top { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; height: 40px; }
-        .s-wrap { display: none; background: #f1f3f5; border-radius: 12px; padding: 8px 12px; flex: 1; align-items: center; gap: 8px; }
-        .s-wrap input { border: none; background: transparent; outline: none; width: 100%; }
-        .searching .s-wrap { display: flex; }
-        .searching #h-title, .searching #s-btn { display: none; }
+        .s-input-wrap { display: none; background: #f1f3f5; border-radius: 12px; padding: 8px 12px; flex: 1; align-items: center; gap: 8px; }
+        .s-input-wrap input { border: none; background: transparent; outline: none; width: 100%; }
+        .searching .s-input-wrap { display: flex; }
+        .searching #h-title, .searching #s-trigger { display: none; }
 
-        /* TRANG CÁ NHÂN */
-        .p-tools { text-align: right; padding: 10px; }
-        .u-section { display: flex; align-items: center; gap: 15px; }
-        .avt-holder { position: relative; width: 85px; height: 85px; }
+        /* Profile & Avatar */
+        .p-header { text-align: right; padding: 10px; }
+        .u-info { display: flex; align-items: center; gap: 15px; }
+        .avt-container { position: relative; width: 85px; height: 85px; }
         .avt-main { width: 100%; height: 100%; border-radius: 25px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 35px; font-weight: bold; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; }
         .avt-main img { width: 100%; height: 100%; object-fit: cover; }
-        .pen-btn { position: absolute; bottom: -2px; right: -2px; background: #fff; width: 28px; height: 28px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; border: 1px solid #eee; z-index: 5; }
+        .edit-pen { position: absolute; bottom: -2px; right: -2px; background: #fff; width: 28px; height: 28px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; border: 1px solid #eee; z-index: 10; }
 
-        /* THANH TIA SÉT */
-        .energy-bar { background: #fff9db; border-radius: 16px; padding: 16px; margin: 20px 0; display: flex; justify-content: space-between; align-items: center; color: #f08c00; font-weight: bold; cursor: pointer; border: 1px solid #ffe066; }
+        /* Nhiệm vụ & Tia sét */
+        .energy-btn { background: #fff9db; border-radius: 16px; padding: 16px; margin: 20px 0; display: flex; justify-content: space-between; align-items: center; color: #f08c00; font-weight: bold; cursor: pointer; border: 1px solid #ffe066; }
+        .m-item { background: #f8f9fa; border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .m-btn { background: #fff; border: 1px solid #eee; padding: 8px 16px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+        .m-btn.done { background: #eee; color: #bbb; cursor: default; }
 
-        /* NAVIGATION BAR */
+        /* Nav Bar */
         .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 999; }
         .n-btn { color: #ccc; font-size: 26px; cursor: pointer; padding: 10px; }
         .n-btn.active { color: #333; }
-        .add-btn { font-size: 45px; color: #333; cursor: pointer; font-weight: 300; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .add-btn { font-size: 45px; color: #333; cursor: pointer; transition: 0.2s; }
         .add-btn:active { transform: scale(0.9) rotate(90deg); color: var(--primary); }
+
+        #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; display: none; z-index: 10000; }
     </style>
 </head>
 <body>
 
+    <div id="toast"></div>
+
     <div id="pg-home" class="page active">
         <div class="home-top" id="h-top">
-            <span id="s-btn" style="font-size: 24px; cursor: pointer;" onclick="openS()">🔍</span>
+            <span id="s-trigger" style="font-size: 24px; cursor: pointer;" onclick="openSearch()">🔍</span>
             <span id="h-title" style="font-size: 22px; font-weight: 800;">Đề xuất</span>
-            <div class="s-wrap" id="s-wrap">
+            <div class="s-input-wrap">
                 <span>🔍</span>
-                <input type="text" id="s-in" placeholder="Tìm kiếm..." onblur="closeS()">
+                <input type="text" id="s-in" placeholder="Tìm char của ní..." onblur="closeSearch()">
             </div>
         </div>
-        <div style="text-align: center; color: #eee; margin-top: 100px;">
-            <p style="font-size: 50px; margin: 0;">✨</p>
-            <p>Trang chủ sạch sẽ nhen ní!</p>
-        </div>
+        <p style="text-align: center; color: #ddd; margin-top: 100px;">Trang chủ đang đợi ní...</p>
     </div>
 
-    <div id="pg-chat" class="page"><h2>Tin nhắn</h2></div>
-
-    <div id="pg-explore" class="page"><h2>Khám phá</h2></div>
-
     <div id="pg-profile" class="page">
-        <div class="p-tools">
-            <span onclick="editName()" style="cursor:pointer; font-size: 24px; color: var(--pink);">⚙️</span>
+        <div class="p-header">
+            <span onclick="doRename()" style="cursor:pointer; font-size: 24px; color: var(--pink);">⚙️</span>
         </div>
-        <div class="u-section">
-            <div class="avt-holder">
+        <div class="u-info">
+            <div class="avt-container">
                 <div class="avt-main" id="u-avt">U</div>
-                <label for="f-up" class="pen-btn">✏️</label>
-                <input type="file" id="f-up" hidden accept="image/*" onchange="uploadAvt(this)">
+                <label for="img-input" class="edit-pen">✏️</label>
+                <input type="file" id="img-input" hidden accept="image/*" onchange="doUpload(this)">
             </div>
             <div>
                 <h2 style="margin:0" id="u-name">Trùm Móc</h2>
-                <span style="font-size: 12px; color: #aaa;">ID: 20260103</span>
+                <span style="font-size: 12px; color: #aaa;">Nhà sáng tạo AI</span>
             </div>
         </div>
-        <div class="energy-bar" onclick="showEnergy()">
+        <div class="energy-btn" onclick="goPage('pg-energy')">
             <span>⚡ Năng lượng tia sét</span>
-            <span>123 ⚡ ❯</span>
+            <span id="p-val">123 ⚡ ❯</span>
         </div>
     </div>
 
     <div id="pg-energy" class="page">
-        <div onclick="backToProfile()" style="padding:10px; font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
-        <div style="background:#fff5f5; border-radius:25px; padding:35px; text-align:center; margin:15px">
-            <div style="color:var(--pink); font-size:14px; margin-bottom:10px">Tia sét hiện có</div>
-            <div style="font-size:45px; font-weight:900; color:var(--lightning)">⚡ 123</div>
+        <div onclick="goPage('pg-profile')" style="padding:10px; font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
+        <div style="background:#fff5f5; border-radius:25px; padding:30px; text-align:center; margin:15px">
+            <div style="font-size:45px; font-weight:900; color:var(--lightning)" id="m-val">123</div>
+            <div style="color:var(--pink); font-size:14px;">Tia sét hiện có</div>
+        </div>
+
+        <b style="margin-left:15px; color:#333">Nhiệm vụ hằng ngày</b>
+        <div class="m-item" style="margin-top:10px">
+            <div><b>Điểm danh</b><br><small style="color:var(--lightning)">+50 ⚡</small></div>
+            <button class="m-btn" id="btn-daily" onclick="claimDaily()">Nhận</button>
+        </div>
+        <div class="m-item">
+            <div><b>Xem quảng cáo</b><br><small style="color:var(--lightning)">+5 ⚡</small></div>
+            <button class="m-btn" onclick="claimAds()">Xem ❯</button>
         </div>
     </div>
 
     <div class="nav">
-        <div class="n-btn active" onclick="tab(this, 'pg-home')">🏠</div>
-        <div class="n-btn" onclick="tab(this, 'pg-chat')">💬</div>
-        <div class="add-btn" onclick="alert('Bắt đầu tạo nhân vật nhen ní!')">+</div>
-        <div class="n-btn" onclick="tab(this, 'pg-explore')">🧭</div>
-        <div class="n-btn" onclick="tab(this, 'pg-profile')">👤</div>
+        <div class="n-btn active" onclick="navTab(this, 'pg-home')">🏠</div>
+        <div style="font-size:26px; color:#ccc">💬</div>
+        <div class="add-btn" onclick="alert('Đang mở trang tạo nhân vật...')">+</div>
+        <div style="font-size:26px; color:#ccc">🧭</div>
+        <div class="n-btn" onclick="navTab(this, 'pg-profile')">👤</div>
     </div>
 
     <script>
-        // Load dữ liệu khi mở
-        window.onload = refresh;
+        let energy = parseInt(localStorage.getItem('tp_energy')) || 123;
 
-        function refresh() {
-            const n = localStorage.getItem('tp_user') || "Trùm Móc";
-            const a = localStorage.getItem('tp_avt');
-            document.getElementById('u-name').innerText = n;
+        window.onload = function() {
+            renderAll();
+        };
+
+        function renderAll() {
+            const name = localStorage.getItem('tp_user') || "Trùm Móc";
+            const photo = localStorage.getItem('tp_avt');
+            document.getElementById('u-name').innerText = name;
             const box = document.getElementById('u-avt');
-            if(a) box.innerHTML = `<img src="${a}">`;
-            else box.innerText = n.charAt(0).toUpperCase();
-        }
+            if(photo) box.innerHTML = `<img src="${photo}">`;
+            else box.innerText = name.charAt(0).toUpperCase();
 
-        // ĐỔI TÊN
-        function editName() {
-            const n = prompt("Ní muốn đổi tên thành gì?", document.getElementById('u-name').innerText);
-            if(n && n.trim()) {
-                localStorage.setItem('tp_user', n);
-                refresh();
+            document.getElementById('p-val').innerText = energy + " ⚡ ❯";
+            document.getElementById('m-val').innerText = energy;
+
+            const today = new Date().toDateString();
+            if(localStorage.getItem('tp_last_check') === today) {
+                const b = document.getElementById('btn-daily');
+                b.innerText = "Đã nhận"; b.classList.add('done'); b.onclick = null;
             }
         }
 
-        // ĐỔI ẢNH
-        function uploadAvt(input) {
-            if(input.files && input.files[0]) {
+        // --- ĐỔI TÊN & ẢNH ---
+        function doRename() {
+            const n = prompt("Tên mới cực ngầu:", document.getElementById('u-name').innerText);
+            if(n && n.trim()) { localStorage.setItem('tp_user', n); renderAll(); }
+        }
+        function doUpload(el) {
+            if(el.files && el.files[0]) {
                 const reader = new FileReader();
-                reader.onload = e => {
-                    localStorage.setItem('tp_avt', e.target.result);
-                    refresh();
-                };
-                reader.readAsDataURL(input.files[0]);
+                reader.onload = e => { localStorage.setItem('tp_avt', e.target.result); renderAll(); };
+                reader.readAsDataURL(el.files[0]);
             }
         }
 
-        // TÌM KIẾM
-        function openS() {
-            document.getElementById('h-top').classList.add('searching');
-            document.getElementById('s-in').focus();
+        // --- TIA SÉT ---
+        function toast(m) {
+            const t = document.getElementById('toast'); t.innerText = m; t.style.display = 'block';
+            setTimeout(()=> t.style.display = 'none', 2000);
         }
-        function closeS() {
-            if(document.getElementById('s-in').value === "") {
-                document.getElementById('h-top').classList.remove('searching');
-            }
+        function claimDaily() {
+            localStorage.setItem('tp_last_check', new Date().toDateString());
+            energy += 50; localStorage.setItem('tp_energy', energy);
+            renderAll(); toast("Đã nhận 50 ⚡ điểm danh!");
+        }
+        function claimAds() {
+            toast("Đang tải QC (2s)...");
+            setTimeout(() => {
+                energy += 5; localStorage.setItem('tp_energy', energy);
+                renderAll(); toast("Đã nhận 5 ⚡!");
+            }, 2000);
         }
 
-        // CHUYỂN TRANG
-        function tab(el, id) {
+        // --- ĐIỀU HƯỚNG ---
+        function openSearch() { document.getElementById('h-top').classList.add('searching'); document.getElementById('s-in').focus(); }
+        function closeSearch() { if(!document.getElementById('s-in').value) document.getElementById('h-top').classList.remove('searching'); }
+        
+        function navTab(el, id) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
             document.getElementById(id).style.display = 'block';
             document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
             el.classList.add('active');
         }
-
-        function showEnergy() {
+        function goPage(id) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById('pg-energy').style.display = 'block';
-        }
-
-        function backToProfile() {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById('pg-profile').style.display = 'block';
-            document.querySelectorAll('.n-btn')[3].classList.add('active'); // Update nav
+            document.getElementById(id).style.display = 'block';
         }
     </script>
 </body>
