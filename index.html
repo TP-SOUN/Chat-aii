@@ -13,8 +13,8 @@
             padding: 15px 0; border-bottom: 1px solid #ffe6ea;
             color: #FF5E85; font-weight: bold; position: fixed; top: 0; width: 100%; background: white; z-index: 10;
         }
-        .header span { opacity: 0.5; cursor: pointer; transition: 0.3s; }
-        .header span.active { opacity: 1; border-bottom: 2px solid #FF5E85; padding-bottom: 5px; }
+        .header span { opacity: 0.5; cursor: pointer; transition: 0.3s; padding-bottom: 5px; }
+        .header span.active { opacity: 1; border-bottom: 2px solid #FF5E85; }
 
         /* Nội dung giữa */
         #content-area {
@@ -22,7 +22,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #ccc;
+            color: #FFB6C1;
+            font-size: 18px;
+            text-align: center;
         }
 
         /* Menu đáy */
@@ -31,56 +33,54 @@
             background: white; display: flex; justify-content: space-around;
             align-items: center; border-top: 1px solid #eee; font-size: 26px;
         }
-        .nav-item { cursor: pointer; transition: 0.2s; padding: 10px; }
-        .nav-item:active { transform: scale(0.8); } /* Hiệu ứng nhấn nút */
+        .nav-item { cursor: pointer; transition: 0.2s; padding: 10px; color: #ccc; }
+        .nav-item.active { color: #FF5E85 !important; }
 
         .plus-btn { 
             background: #FF5E85; color: white; width: 45px; height: 45px; 
             border-radius: 50%; display: flex; justify-content: center; 
             align-items: center; font-size: 30px; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255, 94, 133, 0.3);
         }
-        .plus-btn:active { transform: scale(0.9); background: #e65578; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <span onclick="selectTab(this)">👣 Theo Dõi</span>
-        <span class="active" onclick="selectTab(this)">👍 Đề Xuất</span>
-        <span onclick="selectTab(this)">🔥 Phổ Biến</span>
+        <span onclick="tabSwitch(this)">👣 Theo Dõi</span>
+        <span class="active" onclick="tabSwitch(this)">👍 Đề Xuất</span>
+        <span onclick="tabSwitch(this)">🔥 Phổ Biến</span>
     </div>
 
     <div id="content-area">
-        <p id="status-text">Chưa có nhân vật nào</p>
+        <p id="display-text">Đang ở trang Đề Xuất</p>
     </div>
 
     <div class="bottom-nav">
-        <span class="nav-item" style="color: #FF5E85;" onclick="navClick('Trang chủ')">🏠</span>
-        <span class="nav-item" style="color: #ccc;" onclick="navClick('Tin nhắn')">💬</span>
-        <div class="plus-btn" onclick="navClick('Tạo nhân vật mới')">+</div>
-        <span class="nav-item" style="color: #ccc;" onclick="navClick('Khám phá')">🧭</span>
-        <span class="nav-item" style="color: #ccc;" onclick="navClick('Cá nhân')">👤</span>
+        <span class="nav-item active" onclick="navSwitch(this, 'Trang chủ')">🏠</span>
+        <span class="nav-item" onclick="navSwitch(this, 'Tin nhắn')">💬</span>
+        <div class="plus-btn" onclick="navSwitch(this, 'Tạo mới')">+</div>
+        <span class="nav-item" onclick="navSwitch(this, 'Khám phá')">🧭</span>
+        <span class="nav-item" onclick="navSwitch(this, 'Cá nhân')">👤</span>
     </div>
 
     <script>
-        // Hàm xử lý khi bấm vào các Tab ở trên
-        function selectTab(element) {
-            // Xóa chữ đậm của tất cả các tab
+        // Xử lý các tab phía trên
+        function tabSwitch(el) {
             document.querySelectorAll('.header span').forEach(s => s.classList.remove('active'));
-            // Thêm chữ đậm cho tab vừa bấm
-            element.classList.add('active');
-            document.getElementById('status-text').innerText = "Đang xem: " + element.innerText;
+            el.classList.add('active');
+            document.getElementById('display-text').innerText = "Đang xem: " + el.innerText;
         }
 
-        // Hàm xử lý khi bấm vào các nút ở dưới
-        function navClick(name) {
-            // Hiện thông báo cho ní biết là đã bấm được
-            alert("Ní vừa bấm vào: " + name);
+        // Xử lý menu phía dưới
+        function navSwitch(el, name) {
+            // Đổi trạng thái màu sắc icon
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if(el.classList.contains('nav-item')) {
+                el.classList.add('active');
+            }
             
-            // Đổi màu các icon để ní thấy nó nhảy màu
-            document.querySelectorAll('.nav-item').forEach(i => i.style.color = '#ccc');
-            event.target.style.color = '#FF5E85';
+            // Thay đổi chữ ở giữa màn hình để ní biết đã bấm vào đâu
+            document.getElementById('display-text').innerText = "Bạn đang ở mục: " + name;
         }
     </script>
 
