@@ -3,162 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI ORIGINAL</title>
+    <title>TP C-AI ENERGY</title>
     <style>
         :root {
             --primary: #8E2DE2;
-            --accent: #00d2ff;
-            --main-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
+            --lightning: #f1c40f;
             --bg: #ffffff;
+            --card-bg: #f9f9fb;
         }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
         /* PAGES */
         .page { flex: 1; padding: 15px; padding-bottom: 100px; overflow-y: auto; display: none; }
-        .page.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page.active { display: block; }
 
-        /* PROFILE UI - BẢN ORIGINAL */
-        .p-header-tools { display: flex; justify-content: flex-end; gap: 15px; padding: 10px; font-size: 22px; color: #ccc; }
-        .user-section { display: flex; align-items: center; gap: 18px; padding: 10px 15px; }
-        .avt-container { position: relative; width: 85px; height: 85px; }
-        .avt-main { width: 100%; height: 100%; border-radius: 28px; background: var(--main-gradient); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 35px; color: white; border: 3px solid #fff; box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
+        /* PROFILE SECTION */
+        .user-header { display: flex; align-items: center; gap: 15px; padding: 20px 10px; }
+        .avt-main { width: 75px; height: 75px; border-radius: 20px; background: #eee; overflow: hidden; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .avt-main img { width: 100%; height: 100%; object-fit: cover; }
-        .edit-badge { position: absolute; bottom: -5px; right: -5px; background: #333; color: #fff; width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; border: 2px solid #fff; }
-
-        .u-name-label { font-size: 22px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
-        .u-id-tag { font-size: 11px; color: #bbb; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* THANH THAY THẾ "TRÁI TIM" - TRẠM KHÔNG GIAN AI */
-        .creative-bar { 
-            background: linear-gradient(90deg, #f3f0ff 0%, #e0f7ff 100%);
-            border-radius: 20px; 
-            padding: 18px; 
-            margin: 25px 0; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            border: 1px solid rgba(142, 45, 226, 0.1);
-            cursor: pointer;
-            transition: 0.3s;
+        .u-name { font-size: 20px; font-weight: 800; margin: 0; }
+        
+        /* THANH TIA SÉT (THAY TRÁI TIM) */
+        .energy-bar { 
+            background: linear-gradient(90deg, #fff9db, #fff3bf);
+            border-radius: 15px; padding: 15px; margin: 15px 0;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; border: 1px solid #ffe066;
         }
-        .creative-bar:active { transform: scale(0.98); }
-        .cb-left { display: flex; align-items: center; gap: 12px; }
-        .cb-icon { width: 35px; height: 35px; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .cb-text { font-weight: 700; font-size: 15px; color: #4A00E0; }
+        .eb-left { display: flex; align-items: center; gap: 10px; color: #f08c00; font-weight: bold; }
 
-        /* TABS */
-        .tabs-container { display: flex; justify-content: space-around; margin-top: 10px; border-bottom: 2px solid #f0f0f0; }
-        .tab-item { padding: 12px 20px; cursor: pointer; font-weight: 700; color: #ccc; transition: 0.3s; position: relative; }
-        .tab-item.active { color: #333; }
-        .tab-item.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--primary); border-radius: 10px; }
+        /* TRANG NHIỆM VỤ TIA SÉT */
+        .mission-header { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+        .energy-count-card { background: #fff5f5; border-radius: 15px; padding: 20px; margin: 15px; text-align: center; }
+        .energy-val { font-size: 30px; font-weight: 900; color: var(--lightning); display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        .section-label { font-size: 14px; font-weight: 700; color: #ff8787; margin: 20px 15px 10px; }
+        .mission-item { background: var(--card-bg); border-radius: 15px; padding: 15px; margin: 0 15px 10px; display: flex; justify-content: space-between; align-items: center; }
+        .m-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+        .m-desc { font-size: 12px; color: #888; }
+        .m-reward { color: var(--lightning); font-weight: bold; font-size: 14px; margin-top: 5px; }
+        .btn-go { background: white; border: 1px solid #eee; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; }
 
         /* BOTTOM NAV */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; height: 75px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; border-radius: 25px 25px 0 0; }
-        .nav-link { color: #444; font-size: 26px; cursor: pointer; transition: 0.3s; }
-        .nav-link.active { color: #fff; transform: translateY(-5px); }
-        .nav-add { background: var(--main-gradient); width: 55px; height: 55px; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; transform: translateY(-15px); box-shadow: 0 10px 20px rgba(142, 45, 226, 0.3); }
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 70px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; }
+        .nav-i { color: #ccc; font-size: 24px; cursor: pointer; }
+        .nav-i.active { color: #333; }
     </style>
 </head>
 <body>
 
-    <div id="pg-home" class="page active">
-        <div style="display:flex; align-items:center; gap:15px">
-            <span style="font-size:24px">🔍</span>
-            <span style="font-weight:900; font-size:20px">Đề xuất</span>
-        </div>
-        <div style="text-align:center; color:#ddd; margin-top:100px">
-            <p style="font-size:60px">🚀</p>
-            <p>Sẵn sàng khám phá chưa ní?</p>
-        </div>
-    </div>
-
-    <div id="pg-chat" class="page">
-        <h2 style="font-weight:900">Cuộc hội thoại</h2>
-    </div>
-
-    <div id="pg-explore" class="page">
-        <h2 style="font-weight:900">Khám phá AI</h2>
-    </div>
-
-    <div id="pg-profile" class="page">
-        <div class="p-header-tools">
-            <span onclick="doRename()" style="cursor:pointer">⚙️</span>
-        </div>
-
-        <div class="user-section">
-            <div class="avt-container">
-                <div class="avt-main" id="u-avt">U</div>
-                <label for="f-up" class="edit-badge">✏️</label>
-                <input type="file" id="f-up" hidden accept="image/*" onchange="changePic(this)">
+    <div id="pg-profile" class="page active">
+        <div style="text-align: right; padding: 10px;">⚙️</div>
+        <div class="user-header">
+            <div class="avt-main" id="u-avt">U</div>
+            <div class="u-info">
+                <h2 class="u-name" id="u-name">Trùm Móc</h2>
+                <div style="font-size: 12px; color: #aaa;">ID: 20260102</div>
             </div>
+        </div>
+
+        <div class="energy-bar" onclick="showEnergyPage()">
+            <div class="eb-left"><span>⚡</span> Năng lượng tia sét</div>
+            <div style="color: #f08c00;">123 ⚡ ></div>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 40px; margin-top: 20px; border-bottom: 1px solid #eee;">
+            <div style="padding: 10px; color: #ff8787; border-bottom: 2px solid #ff8787; font-weight: bold;">Nhân Vật</div>
+            <div style="padding: 10px; color: #ccc; font-weight: bold;">Bộ Sưu Tập</div>
+        </div>
+        <div style="text-align: center; padding: 50px; color: #ddd;">Trống trơn nhen ní...</div>
+    </div>
+
+    <div id="pg-energy" class="page">
+        <div class="mission-header">
+            <span onclick="hideEnergyPage()" style="cursor:pointer; font-size: 20px; margin-right: 15px;">❮</span>
+            <span style="font-weight: 800; font-size: 18px;">Năng lượng của tôi</span>
+        </div>
+
+        <div class="energy-count-card">
+            <div style="font-size: 14px; color: #ff8787; margin-bottom: 10px;">Năng lượng hiện có</div>
+            <div class="energy-val">⚡ 123</div>
+        </div>
+
+        <div class="section-label">Nhiệm Vụ Hàng Ngày</div>
+        <div class="mission-item">
             <div>
-                <h2 class="u-name-label" id="u-name">Trùm Móc</h2>
-                <span class="u-id-tag">AI-CREATOR-2026</span>
+                <div class="m-title">Đăng nhập mỗi ngày</div>
+                <div class="m-desc">Nhận tia sét miễn phí khi vào app</div>
+                <div class="m-reward">⚡ +50</div>
             </div>
+            <button class="btn-go" style="color: #ccc;">Đã nhận</button>
         </div>
 
-        <div class="creative-bar">
-            <div class="cb-left">
-                <div class="cb-icon">⚡</div>
-                <div class="cb-text">Vùng Đất Sáng Tạo</div>
+        <div class="mission-item">
+            <div>
+                <div class="m-title">Xem quảng cáo</div>
+                <div class="m-desc">Hỗ trợ tui bằng cách xem clip ngắn</div>
+                <div class="m-reward">⚡ +5 / lượt</div>
             </div>
-            <span style="color:#4A00E0; font-weight:bold">→</span>
+            <button class="btn-go" onclick="alert('Đang tải quảng cáo...')">Xem ❯</button>
         </div>
 
-        <div class="tabs-container">
-            <div class="tab-item active" onclick="subTab(this, 's1')">Của tui (0)</div>
-            <div class="tab-item" onclick="subTab(this, 's2')">Ưa thích</div>
+        <div class="section-label">Nhiệm Vụ Đặc Biệt</div>
+        <div class="mission-item">
+            <div>
+                <div class="m-title">Mời bạn bè</div>
+                <div class="m-desc">Nhập mã mời để cả hai cùng nhận quà</div>
+                <div class="m-reward">⚡ +100</div>
+            </div>
+            <button class="btn-go" onclick="alert('Mã của ní: MJKJ7ZRZ')">Mời ❯</button>
         </div>
-
-        <div id="s1" class="sub-page" style="display:block; text-align:center; padding:50px; color:#ccc">Chưa có nhân vật nào</div>
-        <div id="s2" class="sub-page" style="display:none; text-align:center; padding:50px; color:#ccc">Chưa thích ai hết ní</div>
     </div>
+
+    <div id="pg-home" class="page"><h2 style="text-align:center">Home</h2></div>
+    <div id="pg-chat" class="page"><h2 style="text-align:center">Chat</h2></div>
+    <div id="pg-explore" class="page"><h2 style="text-align:center">Khám phá</h2></div>
 
     <div class="nav">
-        <span class="nav-link active" onclick="go(this, 'pg-home')">🏠</span>
-        <span class="nav-link" onclick="go(this, 'pg-chat')">💬</span>
-        <div class="nav-add" onclick="alert('Tạo thôi!')">+</div>
-        <span class="nav-link" onclick="go(this, 'pg-explore')">🧭</span>
-        <span class="nav-link" onclick="go(this, 'pg-profile')">👤</span>
+        <span class="nav-i" onclick="tab(this, 'pg-home')">🏠</span>
+        <span class="nav-i" onclick="tab(this, 'pg-chat')">💬</span>
+        <span style="font-size:35px; color:#ccc; cursor:pointer">+</span>
+        <span class="nav-i" onclick="tab(this, 'pg-explore')">🧭</span>
+        <span class="nav-i active" onclick="tab(this, 'pg-profile')">👤</span>
     </div>
 
     <script>
-        window.onload = () => { load(); };
-
-        function load() {
-            const n = localStorage.getItem('tp_n') || "Trùm Móc";
-            const a = localStorage.getItem('tp_a');
-            document.getElementById('u-name').innerText = n;
-            const b = document.getElementById('u-avt');
-            if(a) b.innerHTML = `<img src="${a}">`;
-            else b.innerHTML = n.charAt(0).toUpperCase();
+        function showEnergyPage() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('pg-energy').classList.add('active');
         }
-
-        function doRename() {
-            const n = prompt("Tên mới cực ngầu:");
-            if(n) { localStorage.setItem('tp_n', n); load(); }
+        function hideEnergyPage() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('pg-profile').classList.add('active');
         }
-
-        function changePic(input) {
-            if(input.files && input.files[0]) {
-                const r = new FileReader();
-                r.onload = (e) => { localStorage.setItem('tp_a', e.target.result); load(); };
-                r.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function go(el, id) {
+        function tab(el, id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-link').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function subTab(el, id) {
-            document.querySelectorAll('.sub-page').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-i').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
         }
     </script>
