@@ -3,35 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI ULTIMATE</title>
+    <title>TP C-AI ALL-IN-ONE PRO</title>
     <style>
         :root { --primary: #8E2DE2; --lightning: #f1c40f; --bg: #ffffff; --pink: #ff7675; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         .page { flex: 1; padding: 15px; padding-bottom: 90px; overflow-y: auto; display: none; }
         .page.active { display: block; }
 
-        /* AVATAR & PROFILE */
-        .profile-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; position: relative; }
-        .avatar-box { width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--primary); overflow: hidden; background: #eee; cursor: pointer; position: relative; }
+        /* PROFILE */
+        .profile-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .avatar-box { width: 75px; height: 75px; border-radius: 22px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; background: var(--primary); cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; font-weight: bold; }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .edit-badge { position: absolute; bottom: 0; right: 0; background: var(--primary); color: #fff; font-size: 10px; padding: 2px 5px; border-radius: 5px; }
 
-        /* UI NĂNG LƯỢNG */
-        .e-card { background: linear-gradient(135deg, #fff5f5 0%, #fff 100%); border-radius: 25px; padding: 25px; text-align: center; margin-bottom: 20px; border: 1px solid #ffe3e3; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .m-item { background: #f8f9fa; border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f3f5; }
+        /* ENERGY CARD */
+        .e-card { background: #fff5f5; border-radius: 25px; padding: 25px; text-align: center; margin-bottom: 20px; border: 1px solid #ffe3e3; }
+        
+        /* MISSION ITEMS */
+        .m-item { background: #f8f9fa; border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .m-btn { background: #fff; border: 1px solid #eee; padding: 10px 18px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.2s; }
-        .m-btn:active { transform: scale(0.92); background: #f0f0f0; }
-        .m-btn.off { background: #eee !important; color: #bbb !important; cursor: not-allowed !important; transform: none !important; }
+        .m-btn:active { transform: scale(0.92); }
+        .m-btn.off { background: #eee !important; color: #bbb !important; cursor: not-allowed !important; }
 
         /* MODALS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px); }
-        .modal { background: #fff; width: 85%; border-radius: 25px; padding: 25px; text-align: center; animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .modal input { width: 90%; padding: 12px; border-radius: 12px; border: 2px solid #eee; margin: 10px 0; text-align: center; font-size: 16px; }
-        .my-code-box { background: #f8f0ff; padding: 15px; border-radius: 15px; margin-top: 15px; border: 1px dashed var(--primary); }
+        .modal { background: #fff; width: 85%; border-radius: 25px; padding: 25px; text-align: center; }
+        .modal input { width: 90%; padding: 12px; border-radius: 12px; border: 2px solid #eee; margin: 10px 0; text-align: center; }
 
-        #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; display: none; z-index: 10001; }
+        #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; display: none; z-index: 10001; }
     </style>
 </head>
 <body>
@@ -39,156 +37,167 @@
 
     <div id="pg-profile" class="page active">
         <div class="profile-header">
-            <div class="avatar-box" onclick="openEditProfile()">
-                <img id="u-avt" src="https://api.dicebear.com/7.x/bottts/svg?seed=Lucky" alt="avatar">
-                <div class="edit-badge">Sửa</div>
-            </div>
+            <div class="avatar-box" id="avt-display" onclick="openEditModal()">U</div>
             <div>
-                <h2 id="u-name" style="margin:0; font-size:22px">Người Dùng Mới</h2>
-                <small style="color:#888" onclick="openEditProfile()">Bấm để đổi tên & ảnh ✎</small>
+                <h2 id="u-name" style="margin:0" onclick="openEditModal()">Trùm Móc ✎</h2>
+                <small style="color:#aaa">ID: 20260103</small>
             </div>
         </div>
 
         <div class="e-card" onclick="goPage('pg-energy')" style="cursor:pointer">
             <div style="font-size:45px; font-weight:900; color:var(--lightning)" id="p-val">0</div>
-            <div style="color:var(--pink); font-size:13px; font-weight:bold; letter-spacing:1px">SÉT NĂNG LƯỢNG ⚡</div>
+            <div style="color:var(--pink); font-size:13px; font-weight:bold">TIA SÉT HIỆN CÓ ⚡</div>
         </div>
         
-        <button class="m-btn" style="width:100%; background:var(--primary); color:#fff; border:none; padding:15px" onclick="goPage('pg-energy')">ĐẾN KHU NHIỆM VỤ</button>
+        <button class="m-btn" style="width:100%; background:var(--primary); color:#fff; border:none; padding:15px" onclick="goPage('pg-energy')">NHẬN THÊM TIA SÉT</button>
     </div>
 
     <div id="pg-energy" class="page">
         <div onclick="goPage('pg-profile')" style="padding:10px; font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
-        <h3 style="margin:20px 0 10px 0">Nhiệm vụ nhận Sét</h3>
         
+        <h3 style="margin-top:20px">Nhiệm vụ hằng ngày</h3>
         <div class="m-item">
-            <div><b>Mời bạn bè</b><br><small id="status-share" style="color:var(--primary)">Nhận 100 ⚡ (Đã nhận: 0/10)</small></div>
-            <button class="m-btn" onclick="openInviteModal()">Mời</button>
+            <div><b>Điểm danh</b><br><small>+50 ⚡ (1/1)</small></div>
+            <button class="m-btn" id="btn-daily" onclick="claimDaily()">Nhận</button>
+        </div>
+        <div class="m-item">
+            <div><b>Xem quảng cáo</b><br><small id="ads-txt">+5 ⚡ (0/20)</small></div>
+            <button class="m-btn" id="btn-ads" onclick="claimAds()">Xem</button>
         </div>
 
+        <h3 style="margin-top:20px">Nhiệm vụ mời bạn</h3>
         <div class="m-item">
-            <div><b>Nhập mã mời</b><br><small id="status-input">Nhận ngay 100 ⚡</small></div>
+            <div><b>Nhập mã mời</b><br><small id="status-input">Chỉ được 1 lần (+100 ⚡)</small></div>
             <button class="m-btn" id="btn-input" onclick="openInviteModal()">Nhập</button>
         </div>
+        <div class="m-item">
+            <div><b>Mời người khác</b><br><small id="status-share">Đã nhận: 0/10 (+100 ⚡/người)</small></div>
+            <button class="m-btn" onclick="openInviteModal()">Lấy mã</button>
+        </div>
     </div>
 
-    <div id="edit-profile-modal" class="modal-overlay">
+    <div id="edit-modal" class="modal-overlay">
         <div class="modal">
-            <b>Chỉnh sửa cá nhân</b><br><br>
-            <input type="text" id="input-name" placeholder="Nhập tên mới">
-            <input type="text" id="input-avt-seed" placeholder="Nhập từ khóa tạo ảnh (v.d: mèo)">
-            <p style="font-size:10px; color:#aaa">Ảnh sẽ tự tạo ngẫu nhiên theo từ khóa ní nhập!</p>
+            <b>Chỉnh sửa cá nhân</b><br>
+            <input type="text" id="input-name" placeholder="Tên của ní">
+            <input type="file" id="input-file" accept="image/*" style="display:none" onchange="handleFile(this)">
+            <button class="m-btn" style="width:100%; margin-top:10px" onclick="document.getElementById('input-file').click()">Chọn ảnh từ máy 🖼️</button>
             <div style="display:flex; gap:10px; margin-top:15px">
                 <button class="m-btn" style="flex:1" onclick="closeModals()">Hủy</button>
-                <button class="m-btn" style="flex:1; background:var(--primary); color:#fff; border:none" onclick="saveProfile()">Lưu lại</button>
+                <button class="m-btn" style="flex:1; background:var(--primary); color:#fff" onclick="saveProfile()">Lưu</button>
             </div>
         </div>
     </div>
 
-    <div id="invite-box" class="modal-overlay">
+    <div id="invite-modal" class="modal-overlay">
         <div class="modal">
-            <b id="modal-title">Mời Bạn Đồng Hành</b>
+            <b>Hệ Thống Mời Bạn</b>
             <div id="input-section">
-                <input type="text" id="input-code" placeholder="NHẬP MÃ TP-XXXXXX">
-                <button class="m-btn" style="width:100%; background:var(--primary); color:#fff; border:none" onclick="submitCode()">Xác nhận</button>
+                <input type="text" id="input-code" placeholder="MÃ TP-XXXXXX">
+                <button class="m-btn" style="width:100%; background:var(--primary); color:#fff" onclick="submitCode()">Xác nhận mã</button>
             </div>
-            <div class="my-code-box">
-                <small>Mã mời của bạn:</small><br>
+            <div style="background:#f8f0ff; padding:15px; border-radius:15px; margin-top:15px; border:1px dashed var(--primary)">
+                <small>Mã mời của ní:</small><br>
                 <b id="my-code-display" style="color:var(--primary); font-size:20px">...</b><br>
-                <button onclick="copyCode()" style="border:none; background:none; color:var(--pink); font-size:12px; font-weight:bold; cursor:pointer">SAO CHÉP</button>
+                <button onclick="copyCode()" style="border:none; background:none; color:var(--pink); font-size:12px; font-weight:bold; cursor:pointer">SAO CHÉP MÃ</button>
             </div>
-            <button class="m-btn" style="margin-top:20px; border:none; color:#aaa" onclick="closeModals()">Đóng</button>
+            <button class="m-btn" style="margin-top:15px; border:none; color:#aaa" onclick="closeModals()">Đóng</button>
         </div>
     </div>
 
     <script>
-        let userData = JSON.parse(localStorage.getItem('tp_user')) || { name: "Trùm Móc", avtSeed: "Lucky", energy: 123 };
-        let hasEnteredCode = localStorage.getItem('tp_has_entered') === 'true';
-        let sharedRewards = parseInt(localStorage.getItem('tp_shared_count')) || 0;
+        let energy = parseInt(localStorage.getItem('tp_e')) || 123;
+        let adsCount = parseInt(localStorage.getItem('tp_ads')) || 0;
+        let sharedRewards = parseInt(localStorage.getItem('tp_shared')) || 0;
+        let hasEntered = localStorage.getItem('tp_has_entered') === 'true';
         let myCode = localStorage.getItem('tp_my_code');
+        let profile = JSON.parse(localStorage.getItem('tp_profile')) || { name: "Trùm Móc", avt: null };
 
         if (!myCode) {
             myCode = 'TP-' + Math.random().toString(36).substr(2, 6).toUpperCase();
             localStorage.setItem('tp_my_code', myCode);
         }
 
-        window.onload = render;
+        window.onload = function() {
+            const today = new Date().toDateString();
+            if(localStorage.getItem('tp_last_date') !== today) {
+                adsCount = 0; localStorage.setItem('tp_ads', 0);
+                localStorage.setItem('tp_last_date', today);
+            }
+            render();
+        };
 
         function render() {
-            // Cập nhật Profile
-            document.getElementById('u-name').innerText = userData.name;
-            document.getElementById('u-avt').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${userData.avtSeed}`;
-            document.getElementById('p-val').innerText = userData.energy;
-            
-            // Cập nhật Nhiệm vụ
-            document.getElementById('my-code-display').innerText = myCode;
-            document.getElementById('status-share').innerText = `Nhận 100 ⚡ (Đã nhận: ${sharedRewards}/10)`;
+            document.getElementById('p-val').innerText = energy;
+            document.getElementById('u-name').innerText = profile.name + " ✎";
+            const avtBox = document.getElementById('avt-display');
+            if(profile.avt) avtBox.innerHTML = `<img src="${profile.avt}">`;
+            else avtBox.innerText = profile.name.charAt(0).toUpperCase();
 
-            if (hasEnteredCode) {
-                document.getElementById('btn-input').innerText = "Xong";
-                document.getElementById('btn-input').classList.add('off');
-                document.getElementById('status-input').innerText = "Đã nhập mã rồi";
-                document.getElementById('input-section').style.display = "none";
+            document.getElementById('ads-txt').innerText = `+5 ⚡ (${adsCount}/20)`;
+            document.getElementById('status-share').innerText = `Đã nhận: ${sharedRewards}/10 (+100 ⚡/người)`;
+            document.getElementById('my-code-display').innerText = myCode;
+
+            if(adsCount >= 20) lock('btn-ads', 'Hết lượt');
+            if(hasEntered) {
+                lock('btn-input', 'Xong');
+                document.getElementById('input-section').style.display = 'none';
             }
-            localStorage.setItem('tp_user', JSON.stringify(userData));
+            if(localStorage.getItem('tp_checkin') === new Date().toDateString()) lock('btn-daily', 'Đã nhận');
+
+            localStorage.setItem('tp_e', energy);
+            localStorage.setItem('tp_profile', JSON.stringify(profile));
         }
 
-        function openEditProfile() {
-            document.getElementById('input-name').value = userData.name;
-            document.getElementById('edit-profile-modal').style.display = 'flex';
+        function lock(id, txt) { const b = document.getElementById(id); b.innerText = txt; b.classList.add('off'); b.onclick = null; }
+        function toast(m) { const t = document.getElementById('toast'); t.innerText = m; t.style.display = 'block'; setTimeout(()=> t.style.display = 'none', 2000); }
+
+        function openEditModal() { document.getElementById('input-name').value = profile.name; document.getElementById('edit-modal').style.display = 'flex'; }
+        function openInviteModal() { document.getElementById('invite-modal').style.display = 'flex'; }
+        function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+
+        function handleFile(el) {
+            if(el.files && el.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => { profile.avt = e.target.result; render(); };
+                reader.readAsDataURL(el.files[0]);
+            }
         }
 
         function saveProfile() {
-            const newName = document.getElementById('input-name').value.trim();
-            const newSeed = document.getElementById('input-avt-seed').value.trim();
-            if(newName) userData.name = newName;
-            if(newSeed) userData.avtSeed = newSeed;
-            render();
-            closeModals();
-            toast("Đã cập nhật trang cá nhân!");
+            const n = document.getElementById('input-name').value.trim();
+            if(n) profile.name = n;
+            render(); closeModals(); toast("Đã lưu!");
         }
 
-        function openInviteModal() { document.getElementById('invite-box').style.display = 'flex'; }
-        
-        function closeModals() {
-            document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+        function claimDaily() {
+            localStorage.setItem('tp_checkin', new Date().toDateString());
+            energy += 50; render(); toast("Đã nhận 50 ⚡!");
         }
 
-        function toast(m) {
-            const t = document.getElementById('toast'); t.innerText = m; t.style.display = 'block';
-            setTimeout(()=> t.style.display = 'none', 2000);
-        }
-
-        function copyCode() {
-            navigator.clipboard.writeText(myCode);
-            toast("Đã copy mã mời!");
+        function claimAds() {
+            const b = document.getElementById('btn-ads'); b.onclick = null; b.innerText = "...";
+            toast("Đang tải QC...");
+            setTimeout(() => {
+                adsCount++; localStorage.setItem('tp_ads', adsCount);
+                energy += 5; render(); toast("Nhận 5 ⚡!");
+                if(adsCount < 20) { b.onclick = claimAds; b.innerText = "Xem"; }
+            }, 1500);
         }
 
         function submitCode() {
-            const code = document.getElementById('input-code').value.trim().toUpperCase();
-            if (code === myCode) return toast("Không thể tự nhập mã mình!");
-            if (!code.startsWith("TP-")) return toast("Sai định dạng mã!");
+            const c = document.getElementById('input-code').value.trim().toUpperCase();
+            if(c === myCode) return toast("Không thể tự nhập mã!");
+            if(!c.startsWith("TP-")) return toast("Sai mã!");
             
-            userData.energy += 100;
-            hasEnteredCode = true;
+            energy += 100; hasEntered = true;
             localStorage.setItem('tp_has_entered', 'true');
-            
-            // Tặng thêm quà mời bạn để test
-            if(sharedRewards < 10) {
-                sharedRewards++;
-                localStorage.setItem('tp_shared_count', sharedRewards);
-                userData.energy += 100;
-            }
-
-            render();
-            closeModals();
-            toast("Nhập mã thành công! +200 ⚡");
+            if(sharedRewards < 10) { sharedRewards++; localStorage.setItem('tp_shared', sharedRewards); energy += 100; }
+            render(); closeModals(); toast("Thành công!");
         }
 
-        function goPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-        }
+        function copyCode() { navigator.clipboard.writeText(myCode); toast("Đã chép mã!"); }
+        function goPage(id) { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
     </script>
 </body>
 </html>
