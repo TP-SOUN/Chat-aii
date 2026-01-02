@@ -15,6 +15,59 @@
   <script>
     function send() {
       const text = document.getElementById("msg").value;
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Nav Bar</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fff0f5;
+}
+
+/* Nav bar dưới cùng */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  font-size: 24px;
+}
+
+/* Màu icon khi active (ví dụ Home) */
+.navbar .active {
+  color: #ff5b8a;
+}
+</style>
+</head>
+<body>
+
+<!-- Nội dung chính -->
+<div style="padding-bottom: 70px;"> <!-- padding để không che nội dung -->
+  <h1>Demo Web</h1>
+  <p>Nội dung phía trên navigation bar.</p>
+</div>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+  <div class="active">🏠</div>
+  <div>💬</div>
+  <div>＋</div>
+  <div>🔍</div>
+  <div>👤</div>
+</div>
+
+</body>
+</html>
       document.getElementById("res").innerText =
         "AI nói: " + text;
     }
