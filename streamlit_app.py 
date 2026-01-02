@@ -1,1 +1,67 @@
-.
+import streamlit as st
+import google.generativeai as genai
+
+# --- CẤU HÌNH QUAN TRỌNG ---
+# Ní lấy API Key ở aistudio.google.com rồi dán vào đây nha
+MY_API_KEY = "DÁN_API_KEY_CỦA_NÍ_VÀO_ĐÂY"
+
+# Khởi tạo AI
+if MY_API_KEY != "gen-lang-client-0516686578":
+    genai.configure(api_key=MY_API_KEY)
+    model = genai.GenerativeModel('gemini-1.5-flash')
+
+# --- GIAO DIỆN APP MOBILE ---
+st.set_page_config(page_title="Dokichat AI", page_icon="💕", layout="centered")
+
+# CSS để làm app màu hồng và có thanh menu
+st.markdown("""
+<style>
+    /* Ẩn các thành phần thừa */
+    header, footer, #MainMenu {visibility: hidden;}
+    .stApp {background-color: white;}
+    
+    /* Thanh Header trên đầu */
+    .mobile-header {
+        position: fixed; top: 0; left: 0; right: 0;
+        background: white; padding: 15px 0;
+        text-align: center; border-bottom: 2px solid #ffe6ea;
+        z-index: 999; color: #FF5E85; font-weight: bold;
+        display: flex; justify-content: space-around;
+        font-family: sans-serif;
+    }
+    
+    /* Đẩy phần chat xuống để không bị đè */
+    .block-container {
+        padding-top: 60px !important;
+        padding-bottom: 100px !important;
+    }
+
+    /* Tin nhắn chat bong bóng */
+    .stChatMessage {
+        border-radius: 15px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="mobile-header">
+    <span style="opacity:0.5">Theo Dõi</span>
+    <span style="border-bottom: 3px solid #FF5E85; padding-bottom: 5px;">Đề Xuất</span>
+    <span style="opacity:0.5">Phổ Biến</span>
+</div>
+""", unsafe_allow_html=True)
+
+# Khởi tạo lịch sử chat
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Nếu chưa có tin nhắn thì hiện màn hình trống xinh xắn
+if not st.session_state.messages:
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.markdown("""
+        <div style="text-align: center; color: #FFB6C1; margin-top: 50px;">
+            <h1 style="font-size: 50px;">💕</h1>
+            <p style="font-size: 18px;">Ní muốn tâm sự gì với AI nè?</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+# Hi
