@@ -3,147 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI MINIMAL</title>
+    <title>TP C-AI CLEAN</title>
     <style>
         :root {
             --primary: #8E2DE2;
             --lightning: #f1c40f;
             --bg: #ffffff;
+            --pink: #ff7675;
         }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
+        /* PAGES */
         .page { flex: 1; padding: 15px; padding-bottom: 90px; overflow-y: auto; display: none; }
-        .page.active { display: block; animation: fadeIn 0.2s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page.active { display: block; }
 
-        /* GIAO DIỆN HOME TỐI GIẢN THEO Ý NÍ */
-        .home-top-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; padding: 5px 0; }
-        .search-icon { font-size: 24px; cursor: pointer; color: #333; }
-        .section-label { font-size: 19px; font-weight: 800; color: #000; }
+        /* HOME TỐI GIẢN */
+        .home-top { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .home-title { font-size: 20px; font-weight: 800; color: #000; }
 
-        /* GRID NHÂN VẬT */
-        .char-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .char-card { background: #fff; border-radius: 20px; padding: 10px; border: 1px solid #f0f0f0; box-shadow: 0 4px 10px rgba(0,0,0,0.02); text-align: center; }
-        .char-thumb { width: 100%; aspect-ratio: 1/1; border-radius: 15px; background: #f8f9fa; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 35px; color: #ddd; }
-        .char-name { font-weight: 700; font-size: 14px; color: #333; }
+        /* PROFILE UI */
+        .header-action { text-align: right; padding: 10px; }
+        .profile-info { display: flex; align-items: center; gap: 15px; }
+        .avt { width: 75px; height: 75px; border-radius: 22px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: bold; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .avt img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* THANH TIA SÉT */
+        .energy-btn { background: #fff9db; border-radius: 15px; padding: 15px; margin: 20px 0; display: flex; justify-content: space-between; align-items: center; color: #f08c00; font-weight: bold; cursor: pointer; border: 1px solid #ffe066; }
 
-        /* PROFILE & ENERGY (GIỮ NGUYÊN TÍNH NĂNG) */
-        .energy-box { background: #fff9db; border-radius: 16px; padding: 16px; margin: 15px 0; display: flex; justify-content: space-between; align-items: center; color: #f08c00; font-weight: bold; cursor: pointer; border: 1px solid #ffe066; }
-        .avt-circle { width: 75px; height: 75px; border-radius: 20px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: bold; border: 3px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; }
-        .avt-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .tabs { display: flex; justify-content: center; gap: 30px; border-bottom: 1px solid #eee; margin-top: 10px; }
+        .tab { padding: 10px; color: #ccc; font-weight: bold; cursor: pointer; position: relative; }
+        .tab.active { color: var(--pink); }
+        .tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--pink); }
+
+        /* MISSION */
+        .energy-display { background: #fff5f5; border-radius: 20px; padding: 30px; text-align: center; margin: 15px; }
 
         /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
-        .nav-btn { color: #ccc; font-size: 26px; cursor: pointer; }
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 9999; }
+        .nav-btn { color: #ccc; font-size: 26px; cursor: pointer; padding: 10px; }
         .nav-btn.active { color: #333; }
-        .add-btn { font-size: 38px; color: #ccc; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="pg-home" class="page active">
-        <div class="home-top-bar">
-            <span class="search-icon">🔍</span>
-            <span class="section-label">Đề xuất</span>
+        <div class="home-top">
+            <span style="font-size: 22px;">🔍</span>
+            <span class="home-title">Đề xuất</span>
         </div>
-
-        <div class="char-grid">
-            <div class="char-card" onclick="alert('Đang đợi ní tạo...')">
-                <div class="char-thumb">+</div>
-                <div class="char-name">Trống</div>
-            </div>
-            <div class="char-card">
-                <div class="char-thumb">🎭</div>
-                <div class="char-name">Sắp có</div>
-            </div>
+        <div style="text-align: center; color: #eee; margin-top: 100px;">
+            <p style="font-size: 50px;">✨</p>
+            <p>Đang trống nhen ní...</p>
         </div>
     </div>
 
-    <div id="pg-chat" class="page"><h2 style="padding:10px">Tin nhắn</h2></div>
-    <div id="pg-explore" class="page"><h2 style="padding:10px">Khám phá</h2></div>
+    <div id="pg-chat" class="page"><h2>Tin nhắn</h2></div>
+
+    <div id="pg-explore" class="page"><h2>Khám phá</h2></div>
 
     <div id="pg-profile" class="page">
-        <div style="text-align: right; margin-bottom: 10px;">
-            <span onclick="renameUser()" style="cursor:pointer; font-size: 22px; color: #ff7675;">⚙️</span>
+        <div class="header-action">
+            <span onclick="doRename()" style="cursor:pointer; font-size: 24px; color: var(--pink);">⚙️</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <div class="avt-circle" id="u-avt">U</div>
+        <div class="profile-info">
+            <div class="avt" id="u-avt">U</div>
             <div>
-                <h2 style="margin:0; font-size: 22px;" id="u-name">Trùm Móc</h2>
-                <span style="font-size: 12px; color: #aaa;">ID: 20260103</span>
+                <h2 style="margin:0" id="u-name">Trùm Móc</h2>
+                <span style="font-size: 12px; color: #aaa;">Nhà sáng tạo AI</span>
             </div>
         </div>
 
-        <div class="energy-box" onclick="goToEnergy()">
+        <div class="energy-btn" onclick="goEnergy()">
             <span>⚡ Năng lượng tia sét</span>
             <span>123 ⚡ ❯</span>
         </div>
 
-        <div style="display:flex; justify-content:center; gap:30px; border-bottom:1px solid #eee; margin-top:20px">
-            <div style="color:#ff7675; border-bottom:2px solid #ff7675; padding:10px; font-weight:bold">Nhân Vật</div>
-            <div style="color:#ccc; padding:10px; font-weight:bold">Bộ Sưu Tập</div>
+        <div class="tabs">
+            <div class="tab active">Nhân Vật</div>
+            <div class="tab">Bộ Sưu Tập</div>
         </div>
     </div>
 
     <div id="pg-energy" class="page">
-        <div style="padding: 10px; font-weight: bold; cursor:pointer;" onclick="navToProfile()">❮ Năng lượng của tôi</div>
-        <div style="background: #fff5f5; border-radius: 20px; padding: 30px; text-align: center; margin: 15px;">
-            <div style="color: #ff7675; margin-bottom: 10px; font-size: 14px;">Tia sét hiện có</div>
+        <div style="padding: 10px; font-weight: bold; cursor: pointer; color: var(--pink);" onclick="goProfile()">❮ Quay lại</div>
+        <div class="energy-display">
+            <div style="color: var(--pink); font-size: 14px; margin-bottom: 10px;">Tia sét của tôi</div>
             <div style="font-size: 40px; font-weight: 900; color: var(--lightning);">⚡ 123</div>
-        </div>
-        <div style="padding: 15px; font-weight: 800; color: #ff7675;">Nhiệm vụ</div>
-        <div style="margin: 15px; background:#f8f9fa; padding:15px; border-radius:15px; display:flex; justify-content:space-between; align-items:center">
-            <div>
-                <b style="font-size:15px">Xem quảng cáo</b><br>
-                <span style="font-size:12px; color:#aaa">+5 ⚡ / lượt</span>
-            </div>
-            <button style="border:none; background:#fff; padding:8px 15px; border-radius:10px; font-weight:bold; cursor:pointer">Xem ❯</button>
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <span class="nav-btn active" onclick="tab(this, 'pg-home')">🏠</span>
-        <span class="nav-btn" onclick="tab(this, 'pg-chat')">💬</span>
-        <span class="add-btn">+</span>
-        <span class="nav-btn" onclick="tab(this, 'pg-explore')">🧭</span>
-        <span class="nav-btn" onclick="tab(this, 'pg-profile')">👤</span>
+    <div class="nav">
+        <div class="nav-btn active" onclick="nav(this, 'pg-home')">🏠</div>
+        <div class="nav-btn" onclick="nav(this, 'pg-chat')">💬</div>
+        <div style="font-size: 35px; color: #eee;">+</div>
+        <div class="nav-btn" onclick="nav(this, 'pg-explore')">🧭</div>
+        <div class="nav-btn" onclick="nav(this, 'pg-profile')">👤</div>
     </div>
 
     <script>
-        window.onload = function() { loadData(); };
+        // Khởi tạo dữ liệu
+        window.onload = function() {
+            render();
+        };
 
-        function loadData() {
-            const n = localStorage.getItem('user_n') || "Trùm Móc";
-            const a = localStorage.getItem('user_a');
-            document.getElementById('u-name').innerText = n;
-            const box = document.getElementById('u-avt');
-            if(a) box.innerHTML = `<img src="${a}">`;
-            else box.innerHTML = n.charAt(0).toUpperCase();
+        function render() {
+            const name = localStorage.getItem('app_name') || "Trùm Móc";
+            document.getElementById('u-name').innerText = name;
+            const avt = document.getElementById('u-avt');
+            avt.innerText = name.charAt(0).toUpperCase();
         }
 
-        function renameUser() {
-            const n = prompt("Tên mới cực ngầu:", document.getElementById('u-name').innerText);
+        function doRename() {
+            const n = prompt("Tên mới của ní:", document.getElementById('u-name').innerText);
             if(n && n.trim() !== "") {
-                localStorage.setItem('user_n', n);
-                loadData();
+                localStorage.setItem('app_name', n);
+                render();
             }
         }
 
-        function tab(el, id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+        function nav(el, id) {
+            // Ẩn tất cả trang
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            // Hiện trang được chọn
+            document.getElementById(id).style.display = 'block';
+            // Cập nhật icon nav
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            if(el) el.classList.add('active');
+            el.classList.add('active');
         }
 
-        function goToEnergy() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('pg-energy').classList.add('active');
+        function goEnergy() {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById('pg-energy').style.display = 'block';
         }
 
-        function navToProfile() {
-            tab(null, 'pg-profile');
-            document.querySelectorAll('.nav-btn')[4].classList.add('active');
+        function goProfile() {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById('pg-profile').style.display = 'block';
         }
     </script>
 </body>
