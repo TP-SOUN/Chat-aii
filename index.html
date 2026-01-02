@@ -3,186 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI FINAL PRO</title>
+    <title>TP C-AI ELITE</title>
     <style>
         :root {
             --primary: #8E2DE2;
             --lightning: #f1c40f;
-            --pink-bg: #fff5f5;
             --bg: #ffffff;
+            --soft-purple: #f3f0ff;
         }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* NAVIGATION PAGES */
         .page { flex: 1; padding: 15px; padding-bottom: 90px; overflow-y: auto; display: none; }
-        .page.active { display: block; animation: fadeIn 0.2s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page.active { display: block; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* HOME UI */
-        .home-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 25px; color: white; margin-bottom: 25px; }
-        .char-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .char-slot { background: #f8f9fa; border: 2px dashed #ddd; border-radius: 20px; height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #bbb; cursor: pointer; }
+        /* HOME UI UPGRADE */
+        .top-nav { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; margin-bottom: 15px; }
+        .logo { font-size: 24px; font-weight: 900; background: linear-gradient(135deg, #8E2DE2, #4A00E0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .search-bar { background: #f1f3f5; border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; gap: 10px; color: #adb5bd; margin-bottom: 20px; }
+        
+        .hero-card { background: linear-gradient(135deg, #6e8efb, #a777e3); border-radius: 24px; padding: 20px; color: white; position: relative; box-shadow: 0 10px 20px rgba(110, 142, 251, 0.3); margin-bottom: 25px; }
+        .hero-card h3 { margin: 0; font-size: 20px; }
+        .hero-btn { background: white; color: #8E2DE2; border: none; padding: 8px 16px; border-radius: 10px; font-weight: bold; margin-top: 12px; font-size: 13px; cursor: pointer; }
 
-        /* PROFILE UI (FIX ĐỔI TÊN) */
-        .p-tools { text-align: right; padding: 10px; font-size: 22px; color: #ff7675; }
-        .user-card { display: flex; align-items: center; gap: 15px; padding: 10px; }
-        .avt-box { position: relative; width: 80px; height: 80px; }
-        .avt-img { width: 100%; height: 100%; border-radius: 25px; background: var(--primary); overflow: hidden; display: flex; align-items: center; justify-content: center; color: white; font-size: 35px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .avt-img img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-pen { position: absolute; bottom: -5px; right: -5px; background: #fff; width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer; }
+        .section-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .section-title { font-size: 18px; font-weight: 800; color: #333; }
+        .view-all { font-size: 13px; color: var(--primary); font-weight: 600; }
 
-        .energy-strip { background: #fff9db; border-radius: 15px; padding: 15px; margin: 20px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: #f08c00; font-weight: bold; border: 1px solid #ffe066; }
+        /* GRID CHARACTERS */
+        .char-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .char-item { background: white; border-radius: 20px; padding: 12px; border: 1px solid #f0f0f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); text-align: center; }
+        .char-img { width: 100%; aspect-ratio: 1/1; border-radius: 16px; background: #f8f9fa; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+        .char-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; color: #2d3436; }
+        .char-info { font-size: 11px; color: #999; }
 
-        .tab-line { display: flex; justify-content: center; gap: 30px; border-bottom: 1px solid #eee; margin-top: 10px; }
-        .tab-n { padding: 10px; color: #ccc; font-weight: bold; cursor: pointer; position: relative; }
-        .tab-n.active { color: #ff7675; }
-        .tab-n.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: #ff7675; }
+        /* PROFILE & ENERGY (FIXED) */
+        .energy-box { background: #fff9db; border-radius: 16px; padding: 16px; margin: 15px 0; display: flex; justify-content: space-between; align-items: center; color: #f08c00; font-weight: bold; cursor: pointer; border: 1px solid #ffe066; }
+        .avt-circle { width: 70px; height: 70px; border-radius: 22px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; font-weight: bold; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .avt-circle img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* MISSION PAGE */
-        .m-header { padding: 15px; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 15px; }
-        .e-card { background: var(--pink-bg); border-radius: 20px; padding: 25px; margin: 15px; text-align: center; }
-        .m-box { background: #f8f9fa; border-radius: 15px; padding: 15px; margin: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
-
-        /* NAVIGATION BAR */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
-        .nav-i { color: #ccc; font-size: 26px; cursor: pointer; transition: 0.2s; }
-        .nav-i.active { color: #333; transform: translateY(-3px); }
-        .add-main { font-size: 38px; color: #ccc; cursor: pointer; }
+        /* NAV */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
+        .nav-btn { color: #d1d8e0; font-size: 24px; cursor: pointer; transition: 0.2s; }
+        .nav-btn.active { color: #2d3436; transform: translateY(-3px); }
+        .create-btn { font-size: 38px; color: #d1d8e0; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="pg-home" class="page active">
-        <div class="home-header">
-            <span style="font-weight: 900; font-size: 22px; color: var(--primary);">TP C-AI</span>
+        <div class="top-nav">
+            <span class="logo">TP C-AI</span>
+            <span style="font-size: 22px;">🔔</span>
+        </div>
+
+        <div class="search-bar">
             <span>🔍</span>
+            <span>Tìm kiếm nhân vật...</span>
         </div>
-        <div class="banner">
-            <h3 id="welcome-name">Chào ní!</h3>
-            <p>Hôm nay ní định "móc" nhân vật nào nè?</p>
+
+        <div class="hero-card">
+            <h3>Sáng tạo nhân vật <br>của riêng ní!</h3>
+            <button class="hero-btn">Bắt đầu ngay ❯</button>
         </div>
-        <div style="font-weight: 800; margin-bottom: 15px;">✨ Đề xuất cho ní</div>
-        <div class="char-grid">
-            <div class="char-slot" onclick="alert('Đang đợi ní tạo char...')"><span>+</span></div>
-            <div class="char-slot"><span>🎭</span></div>
+
+        <div class="section-row">
+            <span class="section-title">Xu hướng AI</span>
+            <span class="view-all">Xem tất cả</span>
+        </div>
+
+        <div class="char-container">
+            <div class="char-item">
+                <div class="char-img">🤖</div>
+                <div class="char-name">Trợ lý thông minh</div>
+                <div class="char-info">1.2k Trò chuyện</div>
+            </div>
+            <div class="char-item">
+                <div class="char-img">🎨</div>
+                <div class="char-name">Họa sĩ AI</div>
+                <div class="char-info">850 Trò chuyện</div>
+            </div>
         </div>
     </div>
 
-    <div id="pg-chat" class="page">
-        <h2 style="padding: 10px;">Tin nhắn</h2>
-        <p style="text-align: center; color: #ccc; margin-top: 50px;">Chưa có tin nhắn nào.</p>
-    </div>
-
-    <div id="pg-explore" class="page">
-        <h2 style="padding: 10px;">Khám phá</h2>
-    </div>
+    <div id="pg-chat" class="page"><h2>Tin nhắn</h2></div>
+    <div id="pg-explore" class="page"><h2>Khám phá</h2></div>
 
     <div id="pg-profile" class="page">
-        <div class="p-tools">
-            <span onclick="rename()" style="cursor:pointer">⚙️</span>
-        </div>
-        <div class="user-card">
-            <div class="avt-box">
-                <div class="avt-img" id="u-avt">U</div>
-                <label for="f-up" class="btn-pen">✏️</label>
-                <input type="file" id="f-up" hidden accept="image/*" onchange="changeAvt(this)">
-            </div>
+        <div style="text-align: right; margin-bottom: 10px;"><span onclick="renameUser()" style="cursor:pointer; font-size: 22px;">⚙️</span></div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="avt-circle" id="u-avt">U</div>
             <div>
-                <h2 style="margin:0; font-size: 22px;" id="u-name">Người dùng</h2>
-                <div style="font-size: 12px; color: #bbb;">ID: 20260103</div>
+                <h2 style="margin:0" id="u-name">Trùm Móc</h2>
+                <span style="font-size: 12px; color: #aaa;">Hạng: Nhà sáng tạo</span>
             </div>
         </div>
 
-        <div class="energy-strip" onclick="showEnergy()">
+        <div class="energy-box" onclick="goToEnergy()">
             <span>⚡ Năng lượng tia sét</span>
             <span>123 ⚡ ❯</span>
         </div>
 
-        <div class="tab-line">
-            <div class="tab-n active">Nhân Vật ( )</div>
-            <div class="tab-n">Bộ Sưu Tập</div>
+        <div style="display:flex; justify-content:center; gap:30px; border-bottom:1px solid #eee; margin-top:20px">
+            <div style="color:var(--primary); border-bottom:2px solid var(--primary); padding:10px; font-weight:bold">Của tui</div>
+            <div style="color:#ccc; padding:10px; font-weight:bold">Yêu thích</div>
         </div>
     </div>
 
     <div id="pg-energy" class="page">
-        <div class="m-header" onclick="hideEnergy()" style="cursor:pointer">❮ Năng lượng của tôi</div>
-        <div class="e-card">
-            <div style="color:#ff7675; font-size: 14px;">Tia sét hiện có</div>
-            <div style="font-size: 35px; font-weight: 900; color: var(--lightning);">⚡ 123</div>
-        </div>
-        <div style="padding: 15px; font-weight: 800; color: #ff7675;">Nhiệm vụ</div>
-        <div class="m-box">
-            <div><b>Xem quảng cáo</b><br><span style="font-size:12px; color:#aaa;">Nhận ngay 5 tia sét</span></div>
-            <button style="border:none; background:#fff; padding:8px 15px; border-radius:10px; font-weight:bold; cursor:pointer" onclick="alert('Đang tải...')">Xem ❯</button>
+        <div style="padding: 10px; font-weight: bold;" onclick="navToProfile()">❮ Trở về</div>
+        <div style="background: var(--soft-purple); border-radius: 20px; padding: 30px; text-align: center; margin: 15px;">
+            <div style="color: #666; margin-bottom: 10px;">Năng lượng sẵn có</div>
+            <div style="font-size: 40px; font-weight: 900; color: var(--lightning);">⚡ 123</div>
         </div>
     </div>
 
-    <div class="nav">
-        <span class="nav-i active" onclick="nav(this, 'pg-home')">🏠</span>
-        <span class="nav-i" onclick="nav(this, 'pg-chat')">💬</span>
-        <span class="add-main">+</span>
-        <span class="nav-i" onclick="nav(this, 'pg-explore')">🧭</span>
-        <span class="nav-i" onclick="nav(this, 'pg-profile')">👤</span>
+    <div class="bottom-nav">
+        <span class="nav-btn active" onclick="tab(this, 'pg-home')">🏠</span>
+        <span class="nav-btn" onclick="tab(this, 'pg-chat')">💬</span>
+        <span class="create-btn">+</span>
+        <span class="nav-btn" onclick="tab(this, 'pg-explore')">🧭</span>
+        <span class="nav-btn" onclick="tab(this, 'pg-profile')">👤</span>
     </div>
 
     <script>
-        // Hàm load dữ liệu ngay khi mở app
-        window.onload = function() {
-            refreshUI();
-        };
+        window.onload = function() { updateUI(); };
 
-        function refreshUI() {
-            const savedName = localStorage.getItem('user_name_fixed') || "Trùm Móc";
-            const savedAvt = localStorage.getItem('user_avt_fixed');
-            
-            // Cập nhật tên ở mọi nơi
-            document.getElementById('u-name').innerText = savedName;
-            document.getElementById('welcome-name').innerText = "Chào ní, " + savedName + "!";
-            
-            // Cập nhật Avatar
-            const avtBox = document.getElementById('u-avt');
-            if(savedAvt) {
-                avtBox.innerHTML = `<img src="${savedAvt}">`;
-            } else {
-                avtBox.innerHTML = savedName.charAt(0).toUpperCase();
+        function updateUI() {
+            const name = localStorage.getItem('tp_name') || "Trùm Móc";
+            const avt = localStorage.getItem('tp_avt');
+            document.getElementById('u-name').innerText = name;
+            const box = document.getElementById('u-avt');
+            if(avt) box.innerHTML = `<img src="${avt}">`;
+            else box.innerHTML = name.charAt(0).toUpperCase();
+        }
+
+        function renameUser() {
+            const n = prompt("Tên mới:", document.getElementById('u-name').innerText);
+            if(n && n.trim() !== "") {
+                localStorage.setItem('tp_name', n);
+                updateUI();
             }
         }
 
-        function rename() {
-            const newName = prompt("Ní muốn đổi tên thành gì?", document.getElementById('u-name').innerText);
-            if (newName && newName.trim() !== "") {
-                localStorage.setItem('user_name_fixed', newName);
-                refreshUI(); // Cập nhật ngay lập tức
-            }
-        }
-
-        function changeAvt(input) {
-            if(input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    localStorage.setItem('user_avt_fixed', e.target.result);
-                    refreshUI();
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function nav(el, id) {
+        function tab(el, id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-i').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            if(el) el.classList.add('active');
         }
 
-        function showEnergy() {
+        function goToEnergy() {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('pg-energy').classList.add('active');
         }
 
-        function hideEnergy() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('pg-profile').classList.add('active');
+        function navToProfile() {
+            tab(null, 'pg-profile');
+            document.querySelectorAll('.nav-btn')[4].classList.add('active');
         }
     </script>
 </body>
