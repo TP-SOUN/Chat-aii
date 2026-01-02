@@ -28,7 +28,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 /* Cảnh + lời nói liền khối */
 .scene-speech { background:#f5f5dc; padding:8px; border-radius:8px; line-height:1.5; white-space:pre-line; }
 .scene-speech .speech { color:#1e90ff; }
-.scene-speech .scene { font-style:italic; color:#555; display:block; margin:4px 0; }
+.scene-speech .scene { font-style:italic; color:#555; }
 
 /* Profile button sticky */
 .profile-button { position:fixed; bottom:0; width:100%; background:#fff8f0; padding:10px 0; border-top:1px solid #ddd; text-align:center; z-index:999; }
@@ -53,10 +53,6 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 .chat-input { display:flex; padding:10px; gap:5px; }
 .chat-input input { flex:1; padding:6px; border-radius:6px; border:1px solid #ccc; }
 .chat-input button { padding:6px 12px; border-radius:6px; border:none; background:#ff5b8a; color:#fff; cursor:pointer; }
-
-/* Navigation Bar */
-.navbar { position:fixed; bottom:0; width:100%; height:60px; background:#fff; border-top:1px solid #ddd; display:flex; justify-content:space-around; align-items:center; font-size:24px; z-index:999; }
-.navbar .active { color:#ff5b8a; }
 </style>
 </head>
 <body>
@@ -89,23 +85,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
   <div class="profile-content" id="profileContent">
     <p class="history"><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Thầy Tư Viễn (Toán) nghiêm khắc, rất nạnh nùng, còn bạn (thầy Booyin – Thể dục) lại năng động, hay trêu chọc. Ban đầu hai người khắc khẩu, thường cãi nhau vì chuyện dạy học, nhưng dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.</p>
 
-    <p class="scene-speech">
-*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu, chúng nó phóng vào lớp như bay cứ sợ Tư Viễn thấy rồi trách phạt*  
-"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"  
-*Hành lang tầng hai rộn ràng như giờ ra chơi, tiếng học sinh rì rầm vang cả dãy lớp. Ở cuối hành lang, Tư Viễn, giáo viên dạy môn Toán nâng cao đang đi về phía cửa lớp, áo sơ mi trắng được ủi phẳng phiu, trên tay cầm cuốn sổ sinh tử, đang đứng dựa vai vào cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra*  
-"Thầy Toán mà thấy thì xác định, mau lên!"  
-*Phía bên ngoài sân trường, {{user}}, giáo viên Thể dục, vừa kết thúc tiết chạy 100m, mồ hôi vẫn còn đọng trên cổ. Anh ngước lên bắt gặp ánh nhìn kia, cái ánh nhìn đó đủ khiến cả đám học sinh tản đi như có quả boom chuẩn bị nổ*  
-"Thầy {{user}}," giọng Tư Viễn vang lên, vừa chậm và rõ từng chữ, "anh lại bắt học sinh của tôi chạy quá giờ quy định à?"  
-*{{user}} chối đây đẩy, đổ hết tội danh vào đám học sinh đang thở như cún*  
-"Không phải đâu, tụi nó xin ở lại luyện thêm thôi."  
-*Giọng nói đối đáp qua lại, tưởng như xung đột sắp var nhau tới nơi, nhưng học sinh quanh đó đều biết hai người này cãi nhau như cơm bữa*  
-"Luyện thêm hay… bị thầy kéo lại cho đủ hiệp?"  
-*Tư Viễn cố gắng đẩy cái tay {{user}} ra, nhưng dĩ nhiên là không thể, {{user}} đáp trả không biết ngượng*  
-"Anh đừng có nhìn tôi như vậy, đang trong trường đó."  
-*Chỉ có họ mới biết, phía sau bộ đồ chỉnh tề và khuôn mặt nhăn nhó khi dạy, cuộc tranh cãi lại biến thành những câu nói nhỏ, những cái chạm tay vụng trộm dưới gầm bàn*  
-"Ủa, là em nhìn anh trước chứ bộ."  
-"Anh-" Giọng nghiêm rồi lại hạ xuống, mắt khẽ đỏ, "Thật hết nói nổi."
-    </p>
+    <p class="scene-speech">*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu, chúng nó phóng vào lớp như bay cứ sợ Tư Viễn thấy rồi trách phạt* "Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!" *Hành lang tầng hai rộn ràng như giờ ra chơi, Tư Viễn đi về phía cửa lớp, áo sơ mi trắng được ủi phẳng phiu, cầm sổ sinh tử, đứng dựa vai cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra* "Thầy Toán mà thấy thì xác định, mau lên!" *Phía bên ngoài sân trường, {{user}}, giáo viên Thể dục, vừa kết thúc tiết chạy 100m, mồ hôi còn đọng trên cổ, anh ngước lên bắt gặp ánh nhìn kia, khiến đám học sinh tản đi như có quả boom chuẩn bị nổ* "Thầy {{user}}," giọng Tư Viễn vang lên, "anh lại bắt học sinh của tôi chạy quá giờ quy định à?" *{{user}} chối đây đẩy, đổ hết tội danh vào đám học sinh đang thở như cún* "Không phải đâu, tụi nó xin ở lại luyện thêm thôi." *Giọng nói đối đáp qua lại, học sinh quanh đó biết hai người cãi nhau như cơm bữa* "Luyện thêm hay… bị thầy kéo lại cho đủ hiệp?" *Tư Viễn cố gắng đẩy tay {{user}} nhưng không thể, {{user}} đáp trả không biết ngượng* "Anh đừng có nhìn tôi như vậy, đang trong trường đó." *Chỉ có họ biết phía sau bộ đồ chỉnh tề và khuôn mặt nhăn nhó, cuộc tranh cãi biến thành những câu nói nhỏ, những cái chạm tay vụng trộm dưới gầm bàn* "Ủa, là em nhìn anh trước chứ bộ." "Anh-" Giọng nghiêm hạ xuống, mắt khẽ đỏ, "Thật hết nói nổi."</p>
 
     <p><strong>Tuổi:</strong> 26</p>
     <p><strong>Giới tính:</strong> Nam - Bottom</p>
@@ -171,9 +151,8 @@ function openChat(){
   document.getElementById('chatMessages').innerHTML='';
   updateAffection();
 
-  // Push cảnh + lời nói đầu tiên vào chat
-  addCharMsg('"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"', '*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu, chúng nó phóng vào lớp như bay cứ sợ Tư Viễn thấy rồi trách phạt*');
-  addCharMsg('"Thầy Toán mà thấy thì xác định, mau lên!"', '*Hành lang tầng hai rộn ràng như giờ ra chơi, Tư Viễn đi về phía cửa lớp, áo sơ mi phẳng phiu, cầm sổ sinh tử*');
+  // Push ngay đoạn lịch sử + cảnh + lời nói đầu
+  addCharMsg("Lịch sử và cảnh+lời nói đầu hiển thị liền khối (xem profile)", "*Đám học sinh nhoi nhoi chạy nhanh vào lớp, chạy thêm mấy vòng để đủ chỉ tiêu, hành lang tầng hai rộn ràng, Tư Viễn đi về phía cửa lớp, ánh mắt lạnh…*");
 }
 
 function sendChat(){
