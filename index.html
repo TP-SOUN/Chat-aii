@@ -9,9 +9,9 @@
             --main-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
             --bg-body: #f8f9fd;
         }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg-body); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* HEADER */
+        /* TOP NAVIGATION */
         .top-nav {
             display: flex; align-items: center; justify-content: center; padding: 15px;
             background: white; position: fixed; top: 0; width: 100%; z-index: 100; box-sizing: border-box;
@@ -19,33 +19,63 @@
         }
         .brand-logo { font-size: 22px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* PAGES */
+        /* PAGE CONTENT */
         .page { display: none; flex: 1; padding: 20px; padding-top: 80px; padding-bottom: 100px; overflow-y: auto; }
         .page.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* PROFILE CARD */
         .profile-card {
-            background: white; border-radius: 30px; padding: 25px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px;
+            background: white; border-radius: 30px; padding: 30px 20px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px; position: relative;
         }
+        .settings-btn { position: absolute; top: 20px; right: 20px; font-size: 22px; cursor: pointer; color: #ccc; padding: 5px; }
+        
+        .avatar-container { position: relative; width: 100px; height: 100px; margin: 0 auto 15px; }
         .avatar-box {
-            width: 80px; height: 80px; border-radius: 25px; background: var(--main-gradient);
+            width: 100%; height: 100%; border-radius: 30px; background: var(--main-gradient);
             display: flex; align-items: center; justify-content: center;
-            font-size: 35px; color: white; margin: 0 auto 15px; font-weight: bold;
+            font-size: 40px; color: white; font-weight: bold; overflow: hidden;
+            border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
-        .user-name { font-size: 22px; font-weight: 800; color: #1a1a1a; cursor: pointer; }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+        .edit-badge {
+            position: absolute; bottom: -5px; right: -5px; background: white;
+            width: 30px; height: 30px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer;
+        }
 
-        /* BOTTOM NAV - FIX BẤM */
+        .user-name { font-size: 24px; font-weight: 800; color: #1a1a1a; margin-top: 10px; }
+
+        /* BOTTOM SHEET MENU */
+        .overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; z-index: 2000; align-items: flex-end;
+        }
+        .sheet {
+            background: white; width: 100%; border-radius: 30px 30px 0 0;
+            padding: 20px; box-sizing: border-box; transform: translateY(0);
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        .sheet-item {
+            padding: 18px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid #f9f9f9; font-weight: 600; color: #333; cursor: pointer;
+        }
+        .sheet-item:active { background: #f5f5f5; }
+        .logout-text { color: #ff4757; margin-top: 10px; border: none; }
+
+        /* NAVIGATION BAR */
         .nav-bar {
             position: fixed; bottom: 15px; left: 15px; right: 15px;
             background: #1a1a1a; border-radius: 25px; height: 65px;
             display: flex; justify-content: space-around; align-items: center; z-index: 1000;
         }
         .nav-link { color: #555; font-size: 24px; cursor: pointer; padding: 10px; transition: 0.3s; }
-        .nav-link.active { color: #fff; }
-        
-        .add-btn {
+        .nav-link.active { color: white; }
+        .center-btn {
             width: 55px; height: 55px; background: var(--main-gradient);
             border-radius: 20px; display: flex; align-items: center; justify-content: center;
             color: white; font-size: 30px; margin-top: -40px; border: 5px solid var(--bg-body);
@@ -57,62 +87,104 @@
 
     <div class="top-nav"><div class="brand-logo">TP C-AI</div></div>
 
-    <div id="home-pg" class="page active">
-        <div style="text-align: center; margin-top: 50px;">
-            <h2 id="hi-text">Chào ní!</h2>
-            <p style="color: #888;">Trang chủ TP C-AI đang chờ ní.</p>
+    <div id="home-page" class="page active">
+        <div style="text-align: center; margin-top: 100px; color: #ccc;">
+            <h3>Chào mừng ní đến với TP C-AI!</h3>
+            <p>Bấm vào icon 👤 để thiết lập hồ sơ nhé.</p>
         </div>
     </div>
 
-    <div id="chat-pg" class="page"><div style="text-align:center;color:#ccc;margin-top:50px;">Chưa có tin nhắn</div></div>
-    <div id="explore-pg" class="page"><div style="text-align:center;color:#ccc;margin-top:50px;">Khám phá nhân vật mới</div></div>
-
-    <div id="profile-pg" class="page">
+    <div id="profile-page" class="page">
         <div class="profile-card">
-            <div class="avatar-box" id="avt">U</div>
-            <div class="user-name" id="u-name" onclick="editName()">Người dùng</div>
-            <div style="font-size:11px; color:#aaa; margin-top:5px;">(Chạm để đổi tên)</div>
+            <div class="settings-btn" onclick="openSettings()">⚙️</div>
+            <div class="avatar-container">
+                <div class="avatar-box" id="avatar-display">U</div>
+                <label for="file-input" class="edit-badge">✏️</label>
+                <input type="file" id="file-input" hidden accept="image/*" onchange="handleFile(this)">
+            </div>
+            <div class="user-name" id="name-display">Người dùng</div>
+            <div style="font-size: 12px; color: #aaa; margin-top: 5px;">ID: TP-2026-PRO</div>
+        </div>
+    </div>
+
+    <div class="overlay" id="settings-overlay" onclick="closeSettings()">
+        <div class="sheet" onclick="event.stopPropagation()">
+            <div style="width: 40px; height: 5px; background: #eee; margin: 0 auto 20px; border-radius: 10px;"></div>
+            <div class="sheet-item" onclick="triggerRename()">📝 Đổi tên người dùng <span>&rsaquo;</span></div>
+            <div class="sheet-item">🔒 Bảo mật tài khoản <span>&rsaquo;</span></div>
+            <div class="sheet-item">🌗 Giao diện tối <span>&rsaquo;</span></div>
+            <div class="sheet-item logout-text" onclick="doLogout()">🚪 Đăng xuất</div>
         </div>
     </div>
 
     <div class="nav-bar">
-        <span class="nav-link active" onclick="nav(this, 'home-pg')">🏠</span>
-        <span class="nav-link" onclick="nav(this, 'chat-pg')">💬</span>
-        <div class="add-btn" onclick="nav(null, 'explore-pg')">+</div>
-        <span class="nav-link" onclick="nav(this, 'explore-pg')">🧭</span>
-        <span class="nav-link" onclick="nav(this, 'profile-pg')">👤</span>
+        <span class="nav-link active" onclick="changeTab(this, 'home-page')">🏠</span>
+        <span class="nav-link" onclick="changeTab(this, 'home-page')">💬</span>
+        <div class="center-btn" onclick="changeTab(null, 'home-page')">+</div>
+        <span class="nav-link" onclick="changeTab(this, 'home-page')">🧭</span>
+        <span class="nav-link" onclick="changeTab(this, 'profile-page')">👤</span>
     </div>
 
     <script>
-        // Load tên đã lưu
+        // Khởi tạo dữ liệu khi mở app
         window.onload = function() {
-            const n = localStorage.getItem('tp_name');
-            if(n) upUI(n);
+            const savedName = localStorage.getItem('user_name');
+            const savedAvt = localStorage.getItem('user_avt');
+            if(savedName) applyName(savedName);
+            if(savedAvt) document.getElementById('avatar-display').innerHTML = `<img src="${savedAvt}">`;
         };
 
-        function editName() {
-            const n = prompt("Tên ní là gì?");
-            if(n && n.trim() != "") {
-                localStorage.setItem('tp_name', n);
-                upUI(n);
-            }
-        }
-
-        function upUI(n) {
-            document.getElementById('u-name').innerText = n;
-            document.getElementById('avt').innerText = n.charAt(0).toUpperCase();
-            document.getElementById('hi-text').innerText = "Chào " + n + "!";
-        }
-
-        function nav(el, id) {
-            // Chuyển trang
+        // Chuyển trang
+        function changeTab(el, pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            document.getElementById(pageId).classList.add('active');
             
-            // Đổi màu icon (nếu có element truyền vào)
             if(el) {
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 el.classList.add('active');
+            }
+        }
+
+        // Mở/Đóng Cài đặt
+        function openSettings() { document.getElementById('settings-overlay').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settings-overlay').style.display = 'none'; }
+
+        // Đổi tên
+        function triggerRename() {
+            const newName = prompt("Nhập tên mới cho ngầu nè ní:");
+            if(newName && newName.trim() !== "") {
+                localStorage.setItem('user_name', newName);
+                applyName(newName);
+                closeSettings();
+            }
+        }
+
+        function applyName(name) {
+            document.getElementById('name-display').innerText = name;
+            // Nếu chưa có ảnh thì lấy chữ cái đầu làm đại diện
+            if(!localStorage.getItem('user_avt')) {
+                document.getElementById('avatar-display').innerText = name.charAt(0).toUpperCase();
+            }
+        }
+
+        // Đổi Avatar
+        function handleFile(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgData = e.target.result;
+                    localStorage.setItem('user_avt', imgData);
+                    document.getElementById('avatar-display').innerHTML = `<img src="${imgData}">`;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Đăng xuất
+        function doLogout() {
+            if(confirm("Xóa sạch profile để làm lại từ đầu hả ní?")) {
+                localStorage.clear();
+                location.reload();
             }
         }
     </script>
