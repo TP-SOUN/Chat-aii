@@ -6,126 +6,112 @@
     <title>TP C-AI</title>
     <style>
         :root {
-            --main-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0); /* Tím đậm quyền lực */
+            --main-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
             --accent-color: #00f2fe;
             --bg-body: #f8f9fd;
         }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background-color: var(--bg-body); color: #2d3436; height: 100vh; display: flex; flex-direction: column; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-body); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* HEADER TP C-AI */
         .top-nav {
-            display: flex; align-items: center; justify-content: center; padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
-            position: fixed; top: 0; width: 100%; z-index: 100; box-sizing: border-box;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; align-items: center; justify-content: center; padding: 15px;
+            background: white; position: fixed; top: 0; width: 100%; z-index: 100; box-sizing: border-box;
+            border-bottom: 1px solid #eee;
         }
-        .brand-logo { font-size: 22px; font-weight: 900; letter-spacing: 1px; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-logo { font-size: 22px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .page { display: none; flex: 1; padding: 20px; padding-top: 80px; padding-bottom: 100px; }
-        .page.active { display: block; animation: slideUp 0.3s ease-out; }
+        .page { display: none; flex: 1; padding: 20px; padding-top: 80px; padding-bottom: 100px; overflow-y: auto; }
+        .page.active { display: block; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* PROFILE GIAO DIỆN TP C-AI */
+        /* GIAO DIỆN PROFILE BIẾN THIÊN */
         .profile-card {
-            background: white; border-radius: 30px; padding: 25px;
-            text-align: center; box-shadow: 0 15px 35px rgba(74, 0, 224, 0.08); margin-bottom: 25px;
-            position: relative; overflow: hidden;
+            background: white; border-radius: 30px; padding: 25px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px;
         }
-        /* Trang trí một chút màu sắc ở góc card */
-        .profile-card::before { content: ""; position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: var(--main-gradient); opacity: 0.1; border-radius: 50%; }
-
         .avatar-box {
-            width: 90px; height: 90px; border-radius: 25px;
-            background: var(--main-gradient); display: flex; align-items: center; justify-content: center;
-            font-size: 40px; color: white; margin: 0 auto 15px;
-            box-shadow: 0 8px 20px rgba(74, 0, 224, 0.2);
+            width: 80px; height: 80px; border-radius: 25px; background: var(--main-gradient);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 35px; color: white; margin: 0 auto 15px; font-weight: bold;
         }
-        .user-name { font-size: 24px; font-weight: 800; color: #1a1a1a; margin: 0; }
-        .user-id { font-size: 13px; color: #a0a0a0; margin-top: 5px; }
+        .user-name { font-size: 22px; font-weight: 800; color: #1a1a1a; cursor: pointer; }
+        .edit-hint { font-size: 11px; color: #aaa; margin-top: 5px; }
 
-        .stats-container { display: flex; margin-top: 25px; background: #fafafa; border-radius: 20px; padding: 15px 0; }
-        .stat-item { flex: 1; border-right: 1px solid #eee; }
-        .stat-item:last-child { border-right: none; }
-        .stat-num { display: block; font-size: 20px; font-weight: bold; color: #4A00E0; }
-        .stat-label { font-size: 11px; color: #888; text-transform: uppercase; }
+        .stats-row { display: flex; margin-top: 20px; background: #fdfdfd; border-radius: 20px; padding: 15px 0; }
+        .stat-item { flex: 1; }
+        .stat-num { display: block; font-size: 18px; font-weight: bold; color: #4A00E0; }
+        .stat-label { font-size: 10px; color: #999; text-transform: uppercase; }
 
-        .menu-list { margin-top: 20px; }
-        .menu-item { background: white; padding: 15px 20px; border-radius: 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-
-        /* NAVIGATION BAR MỚI */
+        /* MENU DƯỚI */
         .nav-bar {
             position: fixed; bottom: 15px; left: 15px; right: 15px;
-            background: #1a1a1a; border-radius: 25px; height: 70px;
-            display: flex; justify-content: space-around; align-items: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 1000;
+            background: #1a1a1a; border-radius: 25px; height: 65px;
+            display: flex; justify-content: space-around; align-items: center; z-index: 1000;
         }
-        .nav-link { color: #555; font-size: 24px; cursor: pointer; transition: 0.3s; position: relative; }
-        .nav-link.active { color: #fff; transform: translateY(-3px); }
-        .nav-link.active::after { content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; background: var(--accent-color); border-radius: 50%; }
-        
+        .nav-link { color: #555; font-size: 22px; cursor: pointer; transition: 0.3s; }
+        .nav-link.active { color: #fff; }
         .add-btn {
-            width: 60px; height: 60px; background: var(--main-gradient);
-            border-radius: 22px; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 35px; margin-top: -45px; border: 6px solid var(--bg-body);
-            box-shadow: 0 10px 25px rgba(74, 0, 224, 0.4);
+            width: 55px; height: 55px; background: var(--main-gradient);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 30px; margin-top: -40px; border: 5px solid var(--bg-body);
         }
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <div class="brand-logo">TP C-AI</div>
-    </div>
+    <div class="top-nav"><div class="brand-logo">TP C-AI</div></div>
 
     <div id="home" class="page active">
-        <div style="padding: 40px 20px; text-align: center; color: #b2bec3;">
-            <div style="font-size: 50px; margin-bottom: 10px;">✨</div>
-            <h3>Chào mừng tới TP C-AI</h3>
-            <p>Không gian sáng tạo nhân vật của riêng ní.</p>
+        <div style="text-align: center; margin-top: 50px;">
+            <h2 id="welcome-text">Chào ní!</h2>
+            <p style="color: #888;">Khám phá các nhân vật AI đỉnh cao.</p>
         </div>
     </div>
 
     <div id="profile" class="page">
         <div class="profile-card">
-            <div class="avatar-box">TP</div>
-            <h2 class="user-name">Trùm Móc</h2>
-            <div class="user-id">ID: 2026-TPCAI</div>
+            <div class="avatar-box" id="avatar-text">U</div>
+            <div class="user-name" id="display-name" onclick="changeName()">Người dùng</div>
+            <div class="edit-hint">(Chạm vào tên để đổi)</div>
             
-            <div class="stats-container">
-                <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">Mẫu AI</span></div>
-                <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">Followers</span></div>
-                <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">Points</span></div>
+            <div class="stats-row">
+                <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">AI</span></div>
+                <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">Fan</span></div>
+                <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">Xu</span></div>
             </div>
-        </div>
-
-        <div class="menu-list">
-            <div class="menu-item"><span>🎨 Kho nhân vật</span> <span>&rsaquo;</span></div>
-            <div class="menu-item"><span>📦 Bộ sưu tập</span> <span>&rsaquo;</span></div>
-            <div class="menu-item"><span>🛠️ Cài đặt hệ thống</span> <span>&rsaquo;</span></div>
         </div>
     </div>
 
     <div class="nav-bar">
-        <span class="nav-link active" onclick="go(this, 'home')">🏠</span>
-        <span class="nav-link" onclick="go(this, 'home')">💬</span>
-        <div class="add-btn" onclick="go(this, 'home')">+</div>
-        <span class="nav-link" onclick="go(this, 'home')">🧭</span>
-        <span class="nav-link" onclick="go(this, 'profile')">👤</span>
+        <span class="nav-link active" onclick="nav(this, 'home')">🏠</span>
+        <span class="nav-link" onclick="nav(this, 'home')">💬</span>
+        <div class="add-btn">+</div>
+        <span class="nav-link" onclick="nav(this, 'home')">🧭</span>
+        <span class="nav-link" onclick="nav(this, 'profile')">👤</span>
     </div>
 
     <script>
-        function go(btn, pageId) {
-            // Chuyển trang
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            
-            // Đổi màu icon
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            if(btn.classList.contains('nav-link')) {
-                btn.classList.add('active');
+        // Khi app mở lên, kiểm tra xem người dùng đã có tên chưa
+        window.onload = function() {
+            const savedName = localStorage.getItem('tp_cai_name');
+            if (savedName) {
+                updateUI(savedName);
+            }
+        };
+
+        function changeName() {
+            const newName = prompt("Ní muốn tên gì nè?");
+            if (newName && newName.trim() !== "") {
+                localStorage.setItem('tp_cai_name', newName);
+                updateUI(newName);
             }
         }
-    </script>
-</body>
-</html>
+
+        function updateUI(name) {
+            document.getElementById('display-name').innerText = name;
+            document.getElementById('avatar-text').innerText = name.charAt(0).toUpperCase();
+            document.getElementById('welcome-text').innerText = "Chào " + name + "!";
+        }
+
+        function nav(btn, id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
