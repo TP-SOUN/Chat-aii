@@ -3,56 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character Display</title>
+    <title>Character App</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background-color: #fff; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        body { font-family: sans-serif; margin: 0; background-color: #fff; height: 100vh; overflow: hidden; }
         
-        /* Header hồng tối giản */
+        /* Header */
         .header {
             display: flex; justify-content: space-around; align-items: center;
             padding: 15px 0; border-bottom: 1px solid #ffe6ea;
             color: #FF5E85; font-weight: bold; position: fixed; top: 0; width: 100%; background: white; z-index: 10;
         }
-        .header span { opacity: 0.5; }
+        .header span { opacity: 0.5; cursor: pointer; transition: 0.3s; }
         .header span.active { opacity: 1; border-bottom: 2px solid #FF5E85; padding-bottom: 5px; }
 
-        /* Vùng nội dung trống hoàn toàn */
+        /* Nội dung giữa */
         #content-area {
-            flex: 1;
-            padding-top: 60px;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #fff;
+            color: #ccc;
         }
 
-        /* Menu đáy cố định */
+        /* Menu đáy */
         .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; height: 60px;
+            position: fixed; bottom: 0; width: 100%; height: 70px;
             background: white; display: flex; justify-content: space-around;
-            align-items: center; border-top: 1px solid #eee; font-size: 24px;
+            align-items: center; border-top: 1px solid #eee; font-size: 26px;
         }
-        .plus-btn { background: #FF5E85; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 28px; }
+        .nav-item { cursor: pointer; transition: 0.2s; padding: 10px; }
+        .nav-item:active { transform: scale(0.8); } /* Hiệu ứng nhấn nút */
+
+        .plus-btn { 
+            background: #FF5E85; color: white; width: 45px; height: 45px; 
+            border-radius: 50%; display: flex; justify-content: center; 
+            align-items: center; font-size: 30px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 94, 133, 0.3);
+        }
+        .plus-btn:active { transform: scale(0.9); background: #e65578; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <span>👣 Theo Dõi</span>
-        <span class="active">👍 Đề Xuất</span>
-        <span>🔥 Phổ Biến</span>
+        <span onclick="selectTab(this)">👣 Theo Dõi</span>
+        <span class="active" onclick="selectTab(this)">👍 Đề Xuất</span>
+        <span onclick="selectTab(this)">🔥 Phổ Biến</span>
     </div>
 
     <div id="content-area">
-        </div>
+        <p id="status-text">Chưa có nhân vật nào</p>
+    </div>
 
     <div class="bottom-nav">
-        <span style="color: #FF5E85;">🏠</span>
-        <span style="color: #ccc;">💬</span>
-        <div class="plus-btn">+</div>
-        <span style="color: #ccc;">🧭</span>
-        <span style="color: #ccc;">👤</span>
+        <span class="nav-item" style="color: #FF5E85;" onclick="navClick('Trang chủ')">🏠</span>
+        <span class="nav-item" style="color: #ccc;" onclick="navClick('Tin nhắn')">💬</span>
+        <div class="plus-btn" onclick="navClick('Tạo nhân vật mới')">+</div>
+        <span class="nav-item" style="color: #ccc;" onclick="navClick('Khám phá')">🧭</span>
+        <span class="nav-item" style="color: #ccc;" onclick="navClick('Cá nhân')">👤</span>
     </div>
+
+    <script>
+        // Hàm xử lý khi bấm vào các Tab ở trên
+        function selectTab(element) {
+            // Xóa chữ đậm của tất cả các tab
+            document.querySelectorAll('.header span').forEach(s => s.classList.remove('active'));
+            // Thêm chữ đậm cho tab vừa bấm
+            element.classList.add('active');
+            document.getElementById('status-text').innerText = "Đang xem: " + element.innerText;
+        }
+
+        // Hàm xử lý khi bấm vào các nút ở dưới
+        function navClick(name) {
+            // Hiện thông báo cho ní biết là đã bấm được
+            alert("Ní vừa bấm vào: " + name);
+            
+            // Đổi màu các icon để ní thấy nó nhảy màu
+            document.querySelectorAll('.nav-item').forEach(i => i.style.color = '#ccc');
+            event.target.style.color = '#FF5E85';
+        }
+    </script>
 
 </body>
 </html>
