@@ -26,9 +26,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 .history { background:#fffaf0; padding:5px 8px; border-radius:5px; display:block; margin-bottom:10px; }
 
 /* Cảnh + lời nói liền khối */
-.scene-speech { background:#f5f5dc; padding:8px; border-radius:8px; line-height:1.5; white-space:pre-line; }
-.scene-speech .speech { color:#1e90ff; }
-.scene-speech .scene { font-style:italic; color:#555; }
+.scene-speech { background:#f5f5dc; padding:8px; border-radius:8px; line-height:1.5; white-space:pre-wrap; word-break:break-word; }
 
 /* Profile button sticky */
 .profile-button { position:fixed; bottom:0; width:100%; background:#fff8f0; padding:10px 0; border-top:1px solid #ddd; text-align:center; z-index:999; }
@@ -47,7 +45,6 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 .message { margin:5px 0; padding:6px 10px; border-radius:10px; max-width:70%; word-break:break-word; }
 .user-msg { background:#000; font-weight:bold; color:#fff; align-self:flex-end; }
 .char-msg { background:#d2b48c; color:#1e90ff; align-self:flex-start; padding:6px 10px; border-radius:10px; margin-bottom:3px; }
-.char-msg .scene { font-style:italic; color:#555; background:#f5f5dc; display:block; margin-top:3px; padding:3px 6px; border-radius:5px; }
 
 /* Chat input */
 .chat-input { display:flex; padding:10px; gap:5px; }
@@ -85,7 +82,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
   <div class="profile-content" id="profileContent">
     <p class="history"><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Thầy Tư Viễn (Toán) nghiêm khắc, rất nạnh nùng, còn bạn (thầy Booyin – Thể dục) lại năng động, hay trêu chọc. Ban đầu hai người khắc khẩu, thường cãi nhau vì chuyện dạy học, nhưng dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.</p>
 
-    <p class="scene-speech">*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu, chúng nó phóng vào lớp như bay cứ sợ Tư Viễn thấy rồi trách phạt* "Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!" *Hành lang tầng hai rộn ràng như giờ ra chơi, Tư Viễn đi về phía cửa lớp, áo sơ mi trắng được ủi phẳng phiu, cầm sổ sinh tử, đứng dựa vai cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra* "Thầy Toán mà thấy thì xác định, mau lên!" *Phía bên ngoài sân trường, {{user}}, giáo viên Thể dục, vừa kết thúc tiết chạy 100m, mồ hôi còn đọng trên cổ, anh ngước lên bắt gặp ánh nhìn kia, khiến đám học sinh tản đi như có quả boom chuẩn bị nổ* "Thầy {{user}}," giọng Tư Viễn vang lên, "anh lại bắt học sinh của tôi chạy quá giờ quy định à?" *{{user}} chối đây đẩy, đổ hết tội danh vào đám học sinh đang thở như cún* "Không phải đâu, tụi nó xin ở lại luyện thêm thôi." *Giọng nói đối đáp qua lại, học sinh quanh đó biết hai người cãi nhau như cơm bữa* "Luyện thêm hay… bị thầy kéo lại cho đủ hiệp?" *Tư Viễn cố gắng đẩy tay {{user}} nhưng không thể, {{user}} đáp trả không biết ngượng* "Anh đừng có nhìn tôi như vậy, đang trong trường đó." *Chỉ có họ biết phía sau bộ đồ chỉnh tề và khuôn mặt nhăn nhó, cuộc tranh cãi biến thành những câu nói nhỏ, những cái chạm tay vụng trộm dưới gầm bàn* "Ủa, là em nhìn anh trước chứ bộ." "Anh-" Giọng nghiêm hạ xuống, mắt khẽ đỏ, "Thật hết nói nổi."</p>
+    <p class="scene-speech">"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!" *đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu  chúng nó phóng vào lớp như bay cứ sợ Tư Viễn thấy rồi trách phạt* "Thầy Toán mà thấy thì xác định, mau lên!" Hành lang tầng hai rộn ràng như giờ ra chơi, tiếng học sinh rì rầm vang cả dãy lớp. Ở cuối hành lang, Tư Viễn, giáo viên dạy môn Toán nâng cao đang đi về phái cửa lớp, áo sơ mi trắng được ủi phẳng phiu, trên tay cầm cuốn sổ sinh tử (sổ điểm), đang đứng dựa vai vào cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra:))). Phía bên ngoài sân trường, {{user}}, giáo viên Thể dục, vừa kết thúc tiết chạy 100m, mồ hôi vẫn còn đọng trên cổ. Anh ngước lên bắt gặp ánh nhìn kia, cái ánh nhìn đó đủ khiến cả đám học sinh tản đi như có quả boom chuẩn bị nổ. “Thầy {{user}},” giọng Tư Viễn vang lên, vừa chậm và rõ từng chữ, “anh lại bắt học sinh của tôi chạy quá giờ quy định à?” “Không phải đâu, tụi nó xin ở lại luyện thêm thôi.” *{{user}} chối đây đẩy, đổ hết tội danh vào đám học sinh đang thở như cún* “Luyện thêm hay… bị thầy kéo lại cho đủ hiệp?” Giọng nói đối đáp qua lại, tưởng như xung đột sắp var nhau tới nơi, nhưng học sinh quanh đó đều biết hai người này cãi nhau như cơm bữa. Ban đầu tưởng ghét bỏ gì nhau thật, ai mà dè có lần tan họp thấy hai thầy đi chung ra cổng, nói chuyện to nhỏ, rồi còn cười như hai thằng nhóc. Chỉ có họ mới biết, phía sau bộ đồ chỉnh tề và khuôn mặt nhăn nhó khi dạy, cuộc tranh cãi lại biến thành những câu nói nhỏ, những cái chạm tay vụng trộm dưới gầm bàn. “Anh đừng có nhìn tôi như vậy, đang trong trường đó.” *Tư Viễn cố gắng đẩy cái tay {{user}} ra, nhưng dĩ nhiên là không thể, {{user}} đáp trả không biết ngượng* “Ủa, là em nhìn anh trước chứ bộ.” “Anh-” Giọng nghiêm rồi lại hạ xuống, mắt khẽ đỏ. “Thật hết nói nổi.”</p>
 
     <p><strong>Tuổi:</strong> 26</p>
     <p><strong>Giới tính:</strong> Nam - Bottom</p>
@@ -107,11 +104,6 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
   <div class="chat-header">
     <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
     Trung Tư Viễn
-    <div class="affection-bar">
-      <div id="affectionFill" class="affection-fill"></div>
-    </div>
-    <span class="affection-icon" id="affectionIcon">🙂</span>
-    <span id="affectionPercent" style="margin-left:5px;">50</span>
   </div>
   <div id="chatMessages" class="chat-messages"></div>
   <div class="chat-input">
@@ -121,25 +113,6 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 </div>
 
 <script>
-let affection=50;
-function getAffectionIcon(score){
-  if(score<-100) return '👿';
-  if(score<-20) return '💢';
-  if(score<0) return '😐';
-  if(score<20) return '🙂';
-  if(score<100) return '🧑‍🤝‍🧑';
-  if(score<500) return '💗';
-  if(score<2000) return '🌹';
-  return '💍';
-}
-function updateAffection(){
-  if(affection<-150) affection=-150;
-  if(affection>2500) affection=2500;
-  document.getElementById('affectionFill').style.width=Math.min(100,(affection/25))+'%';
-  document.getElementById('affectionPercent').textContent=affection;
-  document.getElementById('affectionIcon').textContent=getAffectionIcon(affection);
-}
-
 function openProfile(){
   document.getElementById('homePage').style.display='none';
   document.getElementById('profilePage').style.display='block';
@@ -149,60 +122,26 @@ function openChat(){
   document.getElementById('profilePage').style.display='none';
   document.getElementById('chatScreen').style.display='flex';
   document.getElementById('chatMessages').innerHTML='';
-  updateAffection();
-
-  // Push ngay đoạn lịch sử + cảnh + lời nói đầu
-  addCharMsg("Lịch sử và cảnh+lời nói đầu hiển thị liền khối (xem profile)", "*Đám học sinh nhoi nhoi chạy nhanh vào lớp, chạy thêm mấy vòng để đủ chỉ tiêu, hành lang tầng hai rộn ràng, Tư Viễn đi về phía cửa lớp, ánh mắt lạnh…*");
+  
+  // Push nguyên đoạn lịch sử + cảnh + lời nói đầu vào chat
+  let msg=`"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!" *đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu  chúng nó phóng vào lớp như bay cứ sợ Tư Viễn thấy rồi trách phạt* "Thầy Toán mà thấy thì xác định, mau lên!" Hành lang tầng hai rộn ràng như giờ ra chơi, tiếng học sinh rì rầm vang cả dãy lớp. Ở cuối hành lang, Tư Viễn, giáo viên dạy môn Toán nâng cao đang đi về phái cửa lớp, áo sơ mi trắng được ủi phẳng phiu, trên tay cầm cuốn sổ sinh tử (sổ điểm), đang đứng dựa vai vào cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra:))). Phía bên ngoài sân trường, {{user}}, giáo viên Thể dục, vừa kết thúc tiết chạy 100m, mồ hôi vẫn còn đọng trên cổ. Anh ngước lên bắt gặp ánh nhìn kia, cái ánh nhìn đó đủ khiến cả đám học sinh tản đi như có quả boom chuẩn bị nổ. “Thầy {{user}},” giọng Tư Viễn vang lên, vừa chậm và rõ từng chữ, “anh lại bắt học sinh của tôi chạy quá giờ quy định à?” “Không phải đâu, tụi nó xin ở lại luyện thêm thôi.” *{{user}} chối đây đẩy, đổ hết tội danh vào đám học sinh đang thở như cún* “Luyện thêm hay… bị thầy kéo lại cho đủ hiệp?” Giọng nói đối đáp qua lại, tưởng như xung đột sắp var nhau tới nơi, nhưng học sinh quanh đó đều biết hai người này cãi nhau như cơm bữa. Ban đầu tưởng ghét bỏ gì nhau thật, ai mà dè có lần tan họp thấy hai thầy đi chung ra cổng, nói chuyện to nhỏ, rồi còn cười như hai thằng nhóc. Chỉ có họ mới biết, phía sau bộ đồ chỉnh tề và khuôn mặt nhăn nhó khi dạy, cuộc tranh cãi lại biến thành những câu nói nhỏ, những cái chạm tay vụng trộm dưới gầm bàn. “Anh đừng có nhìn tôi như vậy, đang trong trường đó.” *Tư Viễn cố gắng đẩy cái tay {{user}} ra, nhưng dĩ nhiên là không thể, {{user}} đáp trả không biết ngượng* “Ủa, là em nhìn anh trước chứ bộ.” “Anh-” Giọng nghiêm rồi lại hạ xuống, mắt khẽ đỏ, “Thật hết nói nổi.”`;
+  
+  let div=document.createElement('div');
+  div.className='message char-msg';
+  div.textContent=msg;
+  document.getElementById('chatMessages').appendChild(div);
 }
-
 function sendChat(){
   let input=document.getElementById('chatInput');
   let msg=input.value.trim();
   if(!msg) return;
-  addUserMsg(msg);
-  input.value='';
-
-  let charScene='';
-  if(msg.toLowerCase().includes('xin lỗi')||msg.toLowerCase().includes('thích')){
-    affection=Math.min(2500,affection+20);
-    charScene='*Tư Viễn mỉm cười nhẹ, ánh mắt dịu lại*';
-  } else if(msg.toLowerCase().includes('ghét')||msg.toLowerCase().includes('chọc')){
-    affection=Math.max(-150,affection-20);
-    charScene='*Tư Viễn nhíu mày khó chịu*';
-  } else charScene='*Tư Viễn im lặng quan sát*';
-  updateAffection();
-  setTimeout(()=>addCharMsg(generateReply(msg),charScene),500);
-}
-
-function addUserMsg(msg){
   let div=document.createElement('div');
   div.className='message user-msg';
   div.textContent=msg;
   document.getElementById('chatMessages').appendChild(div);
-  scrollChat();
-}
-
-function addCharMsg(msg,scene){
-  let div=document.createElement('div');
-  div.className='message char-msg';
-  div.innerHTML=`<span class="speech">${msg}</span>`;
-  if(scene) div.innerHTML+=`<span class="scene">${scene}</span>`;
-  document.getElementById('chatMessages').appendChild(div);
-  scrollChat();
-}
-
-function scrollChat(){
-  let chat=document.getElementById('chatMessages');
-  chat.scrollTop=chat.scrollHeight;
-}
-
-function generateReply(userMsg){
-  userMsg=userMsg.toLowerCase();
-  if(userMsg.includes("chạy")||userMsg.includes("tiết")) return '"Chạy nhanh lên! Tiết học sắp bắt đầu rồi đó!"';
-  if(userMsg.includes("xin lỗi")) return '"Được rồi, lần sau cẩn thận hơn nhé."';
-  if(userMsg.includes("thầy")||userMsg.includes("trò chuyện")) return '"Tôi đang quan sát học sinh, đừng làm phiền."';
-  return '"Hừ… tôi không biết phải trả lời sao."';
+  input.value='';
 }
 </script>
+
 </body>
 </html>
