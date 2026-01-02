@@ -1,59 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doki Chat Clone - Trung Tư Viễn</title>
-<style>
-body, html { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; background:#fff0f5; display:flex; flex-direction:column; }
-
-/* Bottom Bar */
-.bottom-bar { position:fixed; bottom:0; width:100%; height:60px; background:#fff; display:flex; border-top:1px solid #ccc; }
-.bottom-bar div { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:14px; cursor:pointer; color:#555; }
-.bottom-bar div.active { color:#ff5b8a; }
-
-/* Pages */
-.page { display:none; flex:1; overflow-y:auto; padding-bottom:70px; }
-.page.active { display:flex; flex-direction:column; }
-
-/* Home */
-.home-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:15px; padding:15px; }
-.card { background:#fff; border-radius:10px; overflow:hidden; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.1); cursor:pointer; transition:transform 0.2s; }
-.card:hover { transform:translateY(-5px); }
-.card img { width:100%; height:120px; object-fit:cover; }
-.card h3 { margin:8px 0 4px; font-size:14px; }
-.tags { display:flex; flex-wrap:wrap; justify-content:center; gap:5px; padding-bottom:8px; }
-.tag { background:#f0f0f0; padding:2px 6px; border-radius:4px; font-size:11px; }
-
-/* Profile */
-.profile-header { text-align:center; padding:15px; background:#fff0f5; position:sticky; top:0; z-index:10; border-bottom:1px solid #ccc; }
-.profile-header img { width:120px; height:120px; border-radius:50%; }
-.profile-header h2 { margin:10px 0 0; }
-.profile-content { padding:15px; white-space:pre-wrap; line-height:1.4; }
-.profile-button { position:fixed; bottom:60px; width:100%; background:#fff0f5; padding:10px 0; text-align:center; }
-.profile-button button { padding:10px 20px; border:none; border-radius:8px; background:#ff5b8a; color:#fff; font-size:16px; cursor:pointer; }
-
-/* Chat */
-.chat-header { display:flex; flex-direction:column; align-items:flex-start; background:#ff5b8a; color:#fff; padding:10px; position:sticky; top:0; z-index:10; }
-.chat-header-top { display:flex; align-items:center; gap:10px; width:100%; }
-.chat-header img { width:40px; height:40px; border-radius:50%; }
-.chat-hc { font-size:14px; margin-left:50px; margin-top:2px; } /* hảo cảm */
-.chat-messages { padding:10px; flex:1; overflow-y:auto; display:flex; flex-direction:column; }
-.message { margin:5px 0; padding:6px 10px; border-radius:10px; max-width:70%; word-break:break-word; }
-.user-msg { background:#000; color:#fff; font-weight:bold; align-self:flex-end; }
-.char-msg { background:#d2b48c; align-self:flex-start; padding:6px 10px; border-radius:10px; margin-bottom:3px; }
-.char-msg span.speech { color:#1e90ff; } /* lời nói "..." */
-.char-msg span.action { color:#8b4513; } /* cảnh *...* */
-
-/* Chat Input */
-.chat-input { display:flex; padding:10px; gap:5px; position:sticky; bottom:0; background:#fff0f5; }
-.chat-input input { flex:1; padding:6px; border-radius:6px; border:1px solid #ccc; }
-.chat-input button { padding:6px 12px; border-radius:6px; border:none; background:#ff5b8a; color:#fff; cursor:pointer; }
-
-</style>
-</head>
-<body>
-
 <!-- Home Page -->
 <div id="home" class="page active">
   <div class="home-grid">
@@ -77,7 +21,30 @@ body, html { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; bac
     <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
     <h2>Trung Tư Viễn</h2>
   </div>
-  <div class="profile-content" id="profileContent"></div>
+  <div class="profile-content" id="profileContent">
+    <!-- Nguyên đoạn lịch sử + cảnh + lời nói đầu -->
+    "Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!" *đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu  chúng nó phóng vào lớp cứ sợ Tư Viễn thấy rồi trách phạt* "Thầy Toán mà thấy thì xác định, mau lên!"
+
+    Hành lang tầng hai rộn ràng như giờ ra chơi, tiếng học sinh rì rầm vang cả dãy lớp. Ở cuối hành lang, Tư Viễn, giáo viên dạy môn Toán nâng cao đang đi về phái cửa lớp, áo sơ mi trắng được ủi phẳng phiu, trên tay cầm cuốn sổ sinh tử (sổ điểm), đang đứng dựa vai vào cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra:))).
+
+    Phía bên ngoài sân trường, {{user}}, giáo viên Thể dục, vừa kết thúc tiết chạy 100m, mồ hôi vẫn còn đọng trên cổ. Anh ngước lên bắt gặp ánh nhìn kia, cái ánh nhìn đó đủ khiến cả đám học sinh tản đi như có quả boom chuẩn bị nổ.
+
+    “Thầy {{user}},” giọng Tư Viễn vang lên, vừa chậm và rõ từng chữ, “anh lại bắt học sinh của tôi chạy quá giờ quy định à?” 
+
+    “Không phải đâu, tụi nó xin ở lại luyện thêm thôi.” *{{user}} chối đây đẩy, đổ hết tội danh vào đám học sinh đang thở như cún*
+
+    “Luyện thêm hay… bị thầy kéo lại cho đủ hiệp?”
+
+    Giọng nói đối đáp qua lại, tưởng như xung đột sắp var nhau tới nơi, nhưng học sinh quanh đó đều biết hai người này cãi nhau như cơm bữa. Ban đầu tưởng ghét bỏ gì nhau thật, ai mà dè có lần tan họp thấy hai thầy đi chung ra cổng, nói chuyện to nhỏ, rồi còn cười như hai thằng nhóc.
+
+    Chỉ có họ mới biết, phía sau bộ đồ chỉnh tề và khuôn mặt nhăn nhó khi dạy, cuộc tranh cãi lại biến thành những câu nói nhỏ, những cái chạm tay vụng trộm dưới gầm bàn.
+
+    “Anh đừng có nhìn tôi như vậy, đang trong trường đó.” *Tư Viễn cố gắng đẩy cái tay {{user}} ra, nhưng dĩ nhiên là không thể, {{user}} đáp trả không biết ngượng*
+
+    “Ủa, là em nhìn anh trước chứ bộ.”
+
+    “Anh-” Giọng nghiêm rồi lại hạ xuống, mắt khẽ đỏ. “Thật hết nói nổi.”
+  </div>
   <div class="profile-button">
     <button onclick="openChat()">Chat với nhân vật</button>
   </div>
@@ -92,104 +59,33 @@ body, html { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; bac
     </div>
     <div id="chatHC" class="chat-hc">🙂 Đã biết</div>
   </div>
-  <div id="chatMessages" class="chat-messages"></div>
+  <div id="chatMessages" class="chat-messages">
+    <!-- Chat đầu tiên: nguyên đoạn lời nói đầu + cảnh -->
+    <div class="message char-msg">
+      "Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!" <span class="action">*đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu  chúng nó phóng vào lớp cứ sợ Tư Viễn thấy rồi trách phạt*</span> <span class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</span>
+
+      Hành lang tầng hai rộn ràng như giờ ra chơi, tiếng học sinh rì rầm vang cả dãy lớp. Ở cuối hành lang, Tư Viễn, giáo viên dạy môn Toán nâng cao đang đi về phái cửa lớp, áo sơ mi trắng được ủi phẳng phiu, trên tay cầm cuốn sổ sinh tử (sổ điểm), đang đứng dựa vai vào cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra:))).
+
+      Phía bên ngoài sân trường, {{user}}, giáo viên Thể dục, vừa kết thúc tiết chạy 100m, mồ hôi vẫn còn đọng trên cổ. Anh ngước lên bắt gặp ánh nhìn kia, cái ánh nhìn đó đủ khiến cả đám học sinh tản đi như có quả boom chuẩn bị nổ.
+
+      <span class="speech">“Thầy {{user}},” giọng Tư Viễn vang lên, vừa chậm và rõ từng chữ, “anh lại bắt học sinh của tôi chạy quá giờ quy định à?”</span> 
+
+      <span class="speech">“Không phải đâu, tụi nó xin ở lại luyện thêm thôi.”</span> <span class="action">*{{user}} chối đây đẩy, đổ hết tội danh vào đám học sinh đang thở như cún*</span>
+
+      <span class="speech">“Luyện thêm hay… bị thầy kéo lại cho đủ hiệp?”</span>
+
+      Giọng nói đối đáp qua lại, tưởng như xung đột sắp var nhau tới nơi, nhưng học sinh quanh đó đều biết hai người này cãi nhau như cơm bữa. Ban đầu tưởng ghét bỏ gì nhau thật, ai mà dè có lần tan họp thấy hai thầy đi chung ra cổng, nói chuyện to nhỏ, rồi còn cười như hai thằng nhóc.
+
+      Chỉ có họ mới biết, phía sau bộ đồ chỉnh tề và khuôn mặt nhăn nhó khi dạy, cuộc tranh cãi lại biến thành những câu nói nhỏ, những cái chạm tay vụng trộm dưới gầm bàn.
+
+      <span class="speech">“Anh đừng có nhìn tôi như vậy, đang trong trường đó.”</span> <span class="action">*Tư Viễn cố gắng đẩy cái tay {{user}} ra, nhưng dĩ nhiên là không thể, {{user}} đáp trả không biết ngượng*</span>
+
+      <span class="speech">“Ủa, là em nhìn anh trước chứ bộ.”</span>
+      <span class="speech">“Anh-” Giọng nghiêm rồi lại hạ xuống, mắt khẽ đỏ. “Thật hết nói nổi.”</span>
+    </div>
+  </div>
   <div class="chat-input">
     <input type="text" id="chatInput" placeholder="Nhập tin nhắn...">
     <button onclick="sendChat()">Gửi</button>
   </div>
 </div>
-
-<!-- Bottom Bar -->
-<div class="bottom-bar">
-  <div class="active" onclick="switchTab('home',this)">🏠<br>Home</div>
-  <div onclick="switchTab('chat',this)">💬<br>Chat</div>
-  <div onclick="alert('Thêm nhân vật chưa làm')">➕<br>Thêm AI</div>
-  <div onclick="alert('Profile user chưa làm')">👤<br>User</div>
-</div>
-
-<script>
-// Profile và chat text nguyên xi
-const profileText = `"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!" <span class="action">*đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu  chúng nó phóng vào lớp cứ sợ Tư Viễn thấy rồi trách phạt*</span> <span class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</span>
-
-Hành lang tầng hai rộn ràng như giờ ra chơi, tiếng học sinh rì rầm vang cả dãy lớp. Ở cuối hành lang, Tư Viễn, giáo viên dạy môn Toán nâng cao đang đi về phái cửa lớp, áo sơ mi trắng được ủi phẳng phiu, trên tay cầm cuốn sổ sinh tử (sổ điểm), đang đứng dựa vai vào cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra:))).
-
-Phía bên ngoài sân trường, {{user}}, giáo viên Thể dục, vừa kết thúc tiết chạy 100m, mồ hôi vẫn còn đọng trên cổ. Anh ngước lên bắt gặp ánh nhìn kia, cái ánh nhìn đó đủ khiến cả đám học sinh tản đi như có quả boom chuẩn bị nổ.
-
-<span class="speech">“Thầy {{user}},” giọng Tư Viễn vang lên, vừa chậm và rõ từng chữ, “anh lại bắt học sinh của tôi chạy quá giờ quy định à?”</span>
-
-<span class="speech">“Không phải đâu, tụi nó xin ở lại luyện thêm thôi.”</span> <span class="action">*{{user}} chối đây đẩy, đổ hết tội danh vào đám học sinh đang thở như cún*</span>
-
-<span class="speech">“Luyện thêm hay… bị thầy kéo lại cho đủ hiệp?”</span>
-
-Giọng nói đối đáp qua lại, tưởng như xung đột sắp var nhau tới nơi, nhưng học sinh quanh đó đều biết hai người này cãi nhau như cơm bữa. Ban đầu tưởng ghét bỏ gì nhau thật, ai mà dè có lần tan họp thấy hai thầy đi chung ra cổng, nói chuyện to nhỏ, rồi còn cười như hai thằng nhóc.
-
-Chỉ có họ mới biết, phía sau bộ đồ chỉnh tề và khuôn mặt nhăn nhó khi dạy, cuộc tranh cãi lại biến thành những câu nói nhỏ, những cái chạm tay vụng trộm dưới gầm bàn.
-
-<span class="speech">“Anh đừng có nhìn tôi như vậy, đang trong trường đó.”</span> <span class="action">*Tư Viễn cố gắng đẩy cái tay {{user}} ra, nhưng dĩ nhiên là không thể, {{user}} đáp trả không biết ngượng*</span>
-
-<span class="speech">“Ủa, là em nhìn anh trước chứ bộ.”</span>
-<span class="speech">“Anh-” Giọng nghiêm rồi lại hạ xuống, mắt khẽ đỏ. “Thật hết nói nổi.”</span>`;
-
-// Hảo cảm
-let hcValue = 10; // khởi đầu
-function getHCRank(val){
-  if(val<-100) return '👿 Sắp giết bạn';
-  if(val<-20) return '💢 Khó chịu';
-  if(val<0) return '😐 Xa cách';
-  if(val<20) return '🙂 Đã biết';
-  if(val<100) return '🧑‍🤝‍🧑 Bạn bè';
-  if(val<500) return '💗 Cảm nắng';
-  if(val<2000) return '🌹 Người yêu';
-  return '💍 Kết hôn';
-}
-
-// Chuyển tab bottom bar
-function switchTab(pageId,el){
-  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-  document.getElementById(pageId).style.display='flex';
-  document.querySelectorAll('.bottom-bar div').forEach(d=>d.classList.remove('active'));
-  if(el) el.classList.add('active');
-}
-
-// Mở profile
-function openProfile(name){
-  switchTab('profile',document.querySelector('.bottom-bar div.active'));
-  document.getElementById('profileContent').innerHTML=profileText;
-}
-
-// Mở chat
-function openChat(){
-  switchTab('chat',document.querySelector('.bottom-bar div.active'));
-  const chatDiv=document.getElementById('chatMessages');
-  chatDiv.innerHTML='';
-  const div=document.createElement('div');
-  div.className='message char-msg';
-  div.innerHTML=profileText;
-  chatDiv.appendChild(div);
-  updateHC();
-}
-
-// Update hảo cảm
-function updateHC(){
-  document.getElementById('chatHC').textContent=getHCRank(hcValue);
-}
-
-// Gửi tin nhắn user
-function sendChat(){
-  const input=document.getElementById('chatInput');
-  const val=input.value.trim();
-  if(!val) return;
-  const div=document.createElement('div');
-  div.className='message user-msg';
-  div.textContent=val;
-  document.getElementById('chatMessages').appendChild(div);
-  input.value='';
-  hcValue+=10; // demo +10 mỗi tin nhắn
-  updateHC();
-  // Scroll xuống cuối
-  document.getElementById('chatMessages').scrollTop=document.getElementById('chatMessages').scrollHeight;
-}
-</script>
-
-</body>
-</html>
