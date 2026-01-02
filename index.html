@@ -5,91 +5,165 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TP C.AI Demo</title>
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #fff0f5; /* nền hồng nhạt */
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fff0f5; /* nền hồng nhạt */
+}
 
-  /* Header */
-  header {
-    background: #ff5b8a;
-    color: #fff;
-    text-align: center;
-    font-size: 24px;
-    padding: 12px 0;
-    font-weight: bold;
-  }
+/* Header */
+header {
+  background: #ff5b8a;
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  padding: 12px 0;
+  font-weight: bold;
+}
 
-  /* Container card */
-  .container {
-    padding: 15px;
-  }
+/* Container card */
+.container {
+  padding: 15px;
+}
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 15px;
-  }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+}
 
-  .card {
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
+.card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
 
-  .card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-  }
+.card:hover {
+  transform: translateY(-5px);
+}
 
-  .card h3 {
-    margin: 8px 0 4px;
-    font-size: 14px;
-  }
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
 
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 5px;
-    padding-bottom: 8px;
-  }
+.card h3 {
+  margin: 8px 0 4px;
+  font-size: 14px;
+}
 
-  .tag {
-    background: #f0f0f0;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 11px;
-  }
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  padding-bottom: 8px;
+}
 
-  /* Navigation bar dưới cùng */
-  .navbar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 24px;
-    z-index: 999;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-  }
+.tag {
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
 
-  .navbar .active {
-    color: #ff5b8a;
-  }
+/* Navigation bar dưới cùng */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 24px;
+  z-index: 999;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
 
-  /* Padding để nội dung không bị che navbar */
-  .content-wrapper {
-    padding-bottom: 70px;
-  }
+.navbar .active {
+  color: #ff5b8a;
+}
+
+/* Padding để nội dung không bị che navbar */
+.content-wrapper {
+  padding-bottom: 70px;
+}
+
+/* Popup char */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 90%;
+  max-width: 350px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+}
+
+.popup.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.popup p {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+/* Chat box */
+.chat-box {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.chat-box input {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.chat-box button {
+  margin-top: 5px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  background: #ff5b8a;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Close button */
+.popup .close-btn {
+  display: block;
+  margin: 10px auto 0;
+  background: #ff5b8a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -98,42 +172,36 @@
 
 <div class="content-wrapper container">
   <div class="grid">
-    <div class="card">
-      <img src="https://i.pravatar.cc/150?img=1" alt="Avatar 1">
-      <h3>Người 1</h3>
+    <!-- Card char Trung Tư Viễn -->
+    <div class="card" onclick="openPopup()">
+      <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
+      <h3>Trung Tư Viễn</h3>
       <div class="tags">
-        <span class="tag">Ác</span>
-        <span class="tag">Lạnh lùng</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://i.pravatar.cc/150?img=2" alt="Avatar 2">
-      <h3>Người 2</h3>
-      <div class="tags">
-        <span class="tag">Omega</span>
-        <span class="tag">Thống trị</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://i.pravatar.cc/150?img=3" alt="Avatar 3">
-      <h3>Người 3</h3>
-      <div class="tags">
-        <span class="tag">Đẹp trai</span>
-        <span class="tag">Cá tính</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://i.pravatar.cc/150?img=4" alt="Avatar 4">
-      <h3>Người 4</h3>
-      <div class="tags">
-        <span class="tag">Thông minh</span>
-        <span class="tag">Hào hoa</span>
+        <span class="tag">Nam</span>
+        <span class="tag">Giáo viên Toán</span>
+        <span class="tag">Nghiêm khắc</span>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Popup thông tin char -->
+<div class="popup" id="charPopup">
+  <h2>Trung Tư Viễn</h2>
+  <p><strong>Giới tính:</strong> Nam</p>
+  <p><strong>Nghề nghiệp:</strong> Giáo viên Toán trường XXX</p>
+  <p><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp, ban đầu khắc khẩu nhưng dần trở thành “oan gia quen mặt”.</p>
+  <p><strong>Tin nhắn đầu:</strong> "Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"</p>
+  <p><strong>Tính cách:</strong> Lạnh lùng với người khác, nghiêm túc, ít nói.</p>
+
+  <!-- Chat box -->
+  <div class="chat-box">
+    <input type="text" id="userMsg" placeholder="Nhập tin nhắn...">
+    <button onclick="sendMsg()">Gửi</button>
+    <div id="chatLog" style="margin-top:5px;font-size:12px;max-height:120px;overflow-y:auto;"></div>
+  </div>
+
+  <button class="close-btn" onclick="closePopup()">Đóng</button>
 </div>
 
 <!-- Navigation Bar -->
@@ -144,6 +212,55 @@
   <div>🔍</div>
   <div>👤</div>
 </div>
+
+<script>
+// Mở / đóng popup
+function openPopup() {
+  document.getElementById('charPopup').classList.add('active');
+}
+function closePopup() {
+  document.getElementById('charPopup').classList.remove('active');
+  document.getElementById('chatLog').innerHTML = ''; // reset chat
+}
+
+// Chat JS cơ bản
+function sendMsg() {
+  let input = document.getElementById('userMsg');
+  let msg = input.value.trim();
+  if(!msg) return;
+  
+  let log = document.getElementById('chatLog');
+  let userDiv = document.createElement('div');
+  userDiv.textContent = "Bạn: " + msg;
+  userDiv.style.color = "#0000ff";
+  log.appendChild(userDiv);
+  
+  // Trả lời theo cốt truyện đơn giản
+  let replyDiv = document.createElement('div');
+  replyDiv.style.color = "#ff1493";
+  replyDiv.style.marginLeft = "10px";
+  replyDiv.textContent = "Tư Viễn: " + generateReply(msg);
+  log.appendChild(replyDiv);
+  
+  log.scrollTop = log.scrollHeight;
+  input.value = '';
+}
+
+// Trả lời demo đơn giản theo cốt truyện / tính cách
+function generateReply(userMsg){
+  userMsg = userMsg.toLowerCase();
+  if(userMsg.includes("chạy") || userMsg.includes("tiết")){
+    return "Chạy nhanh lên! Tiết học sắp bắt đầu rồi đó!";
+  }
+  if(userMsg.includes("xin lỗi")){
+    return "Được rồi, lần sau cẩn thận hơn nhé.";
+  }
+  if(userMsg.includes("thầy") || userMsg.includes("trò chuyện")){
+    return "Tôi đang quan sát học sinh, đừng làm phiền.";
+  }
+  return "Hừ… tôi không biết phải trả lời sao.";
+}
+</script>
 
 </body>
 </html>
