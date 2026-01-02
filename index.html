@@ -3,86 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character App</title>
+    <title>My Unique AI App</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background-color: #fff; height: 100vh; overflow: hidden; }
-        
-        /* Header */
-        .header {
+        :root {
+            --main-gradient: linear-gradient(135deg, #6e8efb, #a777e3);
+            --accent-color: #00d2ff;
+            --bg-body: #f0f2f5;
+        }
+        body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg-body); color: #2d3436; height: 100vh; display: flex; flex-direction: column; }
+
+        /* HEADER KIỂU MỚI */
+        .top-nav {
+            display: flex; align-items: center; padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+            position: fixed; top: 0; width: 100%; z-index: 100; box-sizing: border-box;
+        }
+        .brand-logo { font-size: 20px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .page { display: none; flex: 1; padding: 20px; padding-top: 80px; padding-bottom: 100px; }
+        .page.active { display: block; animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* PROFILE GIAO DIỆN KHÁC BIỆT HOÀN TOÀN */
+        .profile-header {
+            background: white; border-radius: 24px; padding: 20px;
+            display: flex; align-items: center; gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px;
+        }
+        .avatar-square {
+            width: 80px; height: 80px; border-radius: 20px;
+            background: var(--main-gradient); display: flex; align-items: center; justify-content: center;
+            font-size: 30px; color: white;
+        }
+        .user-details h2 { margin: 0; font-size: 22px; }
+        .user-details p { margin: 5px 0 0; font-size: 13px; color: #b2bec3; }
+
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .stat-card {
+            background: white; padding: 15px; border-radius: 18px; text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(255,255,255,0.6);
+        }
+        .stat-num { display: block; font-size: 18px; font-weight: bold; color: #6e8efb; }
+        .stat-lab { font-size: 11px; color: #636e72; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* BOTTOM MENU ĐỘC LẠ */
+        .nav-container {
+            position: fixed; bottom: 20px; left: 20px; right: 20px;
+            background: #2d3436; border-radius: 25px; height: 65px;
             display: flex; justify-content: space-around; align-items: center;
-            padding: 15px 0; border-bottom: 1px solid #ffe6ea;
-            color: #FF5E85; font-weight: bold; position: fixed; top: 0; width: 100%; background: white; z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000;
         }
-        .header span { opacity: 0.5; cursor: pointer; transition: 0.3s; padding-bottom: 5px; }
-        .header span.active { opacity: 1; border-bottom: 2px solid #FF5E85; }
-
-        /* Nội dung giữa */
-        #content-area {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #FFB6C1;
-            font-size: 18px;
-            text-align: center;
-        }
-
-        /* Menu đáy */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; height: 70px;
-            background: white; display: flex; justify-content: space-around;
-            align-items: center; border-top: 1px solid #eee; font-size: 26px;
-        }
-        .nav-item { cursor: pointer; transition: 0.2s; padding: 10px; color: #ccc; }
-        .nav-item.active { color: #FF5E85 !important; }
-
-        .plus-btn { 
-            background: #FF5E85; color: white; width: 45px; height: 45px; 
-            border-radius: 50%; display: flex; justify-content: center; 
-            align-items: center; font-size: 30px; cursor: pointer;
+        .icon-btn { color: #636e72; font-size: 22px; cursor: pointer; transition: 0.3s; }
+        .icon-btn.active { color: #fff; transform: translateY(-5px); text-shadow: 0 0 10px var(--accent-color); }
+        
+        .action-btn {
+            width: 55px; height: 55px; background: var(--main-gradient);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 30px; margin-top: -35px; border: 5px solid var(--bg-body);
+            box-shadow: 0 8px 20px rgba(110, 142, 251, 0.4);
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <span onclick="tabSwitch(this)">👣 Theo Dõi</span>
-        <span class="active" onclick="tabSwitch(this)">👍 Đề Xuất</span>
-        <span onclick="tabSwitch(this)">🔥 Phổ Biến</span>
+    <div class="top-nav">
+        <div class="brand-logo">MY_AI_APP</div>
     </div>
 
-    <div id="content-area">
-        <p id="display-text">Đang ở trang Đề Xuất</p>
+    <div id="home" class="page active">
+        <div style="background: white; padding: 20px; border-radius: 20px; color: #b2bec3; text-align: center;">
+            🚀 Khám phá thế giới AI của riêng ní...
+        </div>
     </div>
 
-    <div class="bottom-nav">
-        <span class="nav-item active" onclick="navSwitch(this, 'Trang chủ')">🏠</span>
-        <span class="nav-item" onclick="navSwitch(this, 'Tin nhắn')">💬</span>
-        <div class="plus-btn" onclick="navSwitch(this, 'Tạo mới')">+</div>
-        <span class="nav-item" onclick="navSwitch(this, 'Khám phá')">🧭</span>
-        <span class="nav-item" onclick="navSwitch(this, 'Cá nhân')">👤</span>
+    <div id="profile" class="page">
+        <div class="profile-header">
+            <div class="avatar-square">👤</div>
+            <div class="user-details">
+                <h2>Trùm Móc</h2>
+                <p>Designer & Creator</p>
+            </div>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card"><span class="stat-num">12</span><span class="stat-lab">Mẫu</span></div>
+            <div class="stat-card"><span class="stat-num">1.2K</span><span class="stat-lab">Lượt thích</span></div>
+            <div class="stat-card"><span class="stat-num">45</span><span class="stat-lab">Kết nối</span></div>
+        </div>
+    </div>
+
+    <div class="nav-container">
+        <span class="icon-btn active" onclick="switchPg(this, 'home')">🏠</span>
+        <span class="icon-btn" onclick="switchPg(this, 'profile')">💬</span>
+        <div class="action-btn">+</div>
+        <span class="icon-btn" onclick="switchPg(this, 'home')">🧭</span>
+        <span class="icon-btn" onclick="switchPg(this, 'profile')">👤</span>
     </div>
 
     <script>
-        // Xử lý các tab phía trên
-        function tabSwitch(el) {
-            document.querySelectorAll('.header span').forEach(s => s.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('display-text').innerText = "Đang xem: " + el.innerText;
-        }
-
-        // Xử lý menu phía dưới
-        function navSwitch(el, name) {
-            // Đổi trạng thái màu sắc icon
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            if(el.classList.contains('nav-item')) {
-                el.classList.add('active');
-            }
-            
-            // Thay đổi chữ ở giữa màn hình để ní biết đã bấm vào đâu
-            document.getElementById('display-text').innerText = "Bạn đang ở mục: " + name;
+        function switchPg(btn, pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.icon-btn').forEach(i => i.classList.remove('active'));
+            btn.classList.add('active');
         }
     </script>
-
 </body>
 </html>
