@@ -66,45 +66,63 @@ body {
 .profile {
   display: none;
   height: 100vh;
-  overflow-y: auto;
-  padding: 15px;
-  box-sizing: border-box;
   background: #fff8f0;
+  position: relative;
 }
 
-.profile img {
+.profile-header {
+  position: sticky;
+  top: 0;
+  background: #fff8f0;
+  z-index: 10;
+  text-align: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-header img {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  display:block;
-  margin: 0 auto;
 }
 
-.profile h2 {
-  text-align: center;
-  margin: 10px 0 5px;
+.profile-header h2 {
+  margin: 10px 0 0;
 }
 
-.profile .info p {
+.profile-content {
+  padding: 15px;
+  overflow-y: auto;
+  max-height: calc(100vh - 70px - 60px); /* trừ header + nút chat */
+}
+
+.profile-content p {
   margin: 8px 0;
   line-height: 1.4;
   font-size: 14px;
 }
 
-.profile .info .speech {
+.profile-content .speech {
   color: #1e90ff;
 }
 
-.profile .info .scene {
+.profile-content .scene {
   font-style: italic;
   color: #555;
 }
 
-.profile button {
-  display: block;
-  width: 80%;
-  margin: 15px auto 30px;
-  padding: 10px;
+.profile-button {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background: #fff8f0;
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+}
+
+.profile-button button {
+  padding: 10px 20px;
   border: none;
   border-radius: 8px;
   background: #ff5b8a;
@@ -149,7 +167,7 @@ body {
 
 .affection-fill {
   height: 100%;
-  width: 50%; /* mặc định 50% */
+  width: 50%;
   background: #ff1493;
   transition: width 0.3s;
   border-radius: 5px;
@@ -161,6 +179,8 @@ body {
   padding: 10px;
   overflow-y: auto;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
 .message {
@@ -250,9 +270,11 @@ body {
 
 <!-- Profile page -->
 <div id="profilePage" class="profile">
-  <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
-  <h2>Trung Tư Viễn</h2>
-  <div class="info">
+  <div class="profile-header">
+    <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
+    <h2>Trung Tư Viễn</h2>
+  </div>
+  <div class="profile-content">
     <p class="speech">"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"</p>
     <p class="scene">*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*</p>
     <p class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</p>
@@ -264,7 +286,9 @@ body {
     <p><strong>Ngoại hình:</strong> Cao 1m70, gầy, da trắng, tóc đen hơi rối, thường đeo kính.</p>
     <p><strong>Sở thích:</strong> Cà phê đen, đọc sách buổi tối, chấm bài im lặng.</p>
   </div>
-  <button onclick="openChat()">Chat với nhân vật</button>
+  <div class="profile-button">
+    <button onclick="openChat()">Chat với nhân vật</button>
+  </div>
 </div>
 
 <!-- Chat screen -->
