@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TP C.AI Demo</title>
+<title>Doki Chat Demo</title>
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #fff0f5; /* nền hồng nhạt */
+  background: #fff0f5;
 }
 
 /* Header */
@@ -21,8 +21,8 @@ header {
   font-weight: bold;
 }
 
-/* Container card */
-.container {
+/* Home page */
+.home .container {
   padding: 15px;
 }
 
@@ -72,32 +72,48 @@ header {
   font-size: 11px;
 }
 
-/* Navigation bar dưới cùng */
-.navbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
+/* Profile page */
+.profile {
+  display: none;
+  padding: 15px;
+}
+
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display:block;
+  margin: 0 auto;
+}
+
+.profile h2 {
+  text-align: center;
+  margin: 10px 0 5px;
+}
+
+.profile .info {
   background: #fff;
-  border-top: 1px solid #ddd;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 24px;
-  z-index: 999;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin: 10px 0;
+  font-size: 14px;
 }
 
-.navbar .active {
-  color: #ff5b8a;
+.profile button {
+  display: block;
+  width: 80%;
+  margin: 15px auto 0;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #ff5b8a;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-/* Padding để nội dung không bị che navbar */
-.content-wrapper {
-  padding-bottom: 70px;
-}
-
-/* Màn hình chat riêng (Doki style) */
+/* Chat screen */
 .chat-screen {
   display: none;
   flex-direction: column;
@@ -119,6 +135,24 @@ header {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+/* Hảo cảm bar */
+.affection-bar {
+  flex:1;
+  height: 10px;
+  background: #f0f0f0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-left: 5px;
+}
+
+.affection-fill {
+  height: 100%;
+  width: 50%; /* mặc định 50% */
+  background: #ff1493;
+  transition: width 0.3s;
+  border-radius: 5px;
 }
 
 .chat-messages {
@@ -167,33 +201,73 @@ header {
   cursor: pointer;
 }
 
+/* Navigation Bar */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 24px;
+  z-index: 999;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar .active {
+  color: #ff5b8a;
+}
+
 </style>
 </head>
 <body>
 
-<!-- Home Page -->
-<div id="homePage" class="content-wrapper container">
-  <div class="grid">
-    <!-- Card char Trung Tư Viễn -->
-    <div class="card" onclick="openChat()">
-      <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
-      <h3>Trung Tư Viễn</h3>
-      <div class="tags">
-        <span class="tag">Male</span>
-        <span class="tag">BL</span>
-        <span class="tag">Học đường</span>
-        <span class="tag">Từ ghét thành …</span>
-        <span class="tag">Đồng nghiệp</span>
+<!-- Home page -->
+<div id="homePage" class="home">
+  <div class="container">
+    <div class="grid">
+      <div class="card" onclick="openProfile()">
+        <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
+        <h3>Trung Tư Viễn</h3>
+        <div class="tags">
+          <span class="tag">Male</span>
+          <span class="tag">BL</span>
+          <span class="tag">Học đường</span>
+          <span class="tag">Từ ghét thành …</span>
+          <span class="tag">Đồng nghiệp</span>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Chat Screen -->
+<!-- Profile page -->
+<div id="profilePage" class="profile">
+  <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
+  <h2>Trung Tư Viễn</h2>
+  <div class="info">
+    <p><strong>Lời nói đầu:</strong> "Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"</p>
+    <p><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần trở thành “oan gia quen mặt”.</p>
+    <p><strong>Tuổi:</strong> 26</p>
+    <p><strong>Giới tính:</strong> Nam - Bottom</p>
+    <p><strong>Nghề nghiệp:</strong> Giáo viên Toán trường THPT XXX</p>
+    <p><strong>Ngoại hình:</strong> Cao 1m70, gầy, da trắng, tóc đen hơi rối, thường đeo kính.</p>
+    <p><strong>Sở thích:</strong> Cà phê đen, đọc sách buổi tối, chấm bài im lặng.</p>
+  </div>
+  <button onclick="openChat()">Chat với nhân vật</button>
+</div>
+
+<!-- Chat screen -->
 <div id="chatScreen" class="chat-screen">
   <div class="chat-header">
     <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
     Trung Tư Viễn
+    <div class="affection-bar">
+      <div id="affectionFill" class="affection-fill"></div>
+    </div>
   </div>
   <div id="chatMessages" class="chat-messages"></div>
   <div class="chat-input">
@@ -212,29 +286,46 @@ header {
 </div>
 
 <script>
-// Mở màn hình chat riêng
-function openChat(){
+// Biến hảo cảm
+let affection = 50; // % mặc định
+
+function updateAffection(){
+  document.getElementById('affectionFill').style.width = affection + '%';
+}
+
+// Mở profile
+function openProfile(){
   document.getElementById('homePage').style.display = 'none';
+  document.getElementById('profilePage').style.display = 'block';
+}
+
+// Mở chat screen
+function openChat(){
+  document.getElementById('profilePage').style.display = 'none';
   document.getElementById('chatScreen').style.display = 'flex';
   document.getElementById('chatMessages').innerHTML = '';
-
-  // Tin nhắn mở đầu theo cốt truyện
+  updateAffection();
+  // Tin nhắn mở đầu
   addCharMsg('Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!');
 }
 
-// Gửi tin nhắn
+// Gửi chat
 function sendChat(){
   let input = document.getElementById('chatInput');
   let msg = input.value.trim();
   if(!msg) return;
-
   addUserMsg(msg);
   input.value = '';
 
-  // Trả lời char đơn giản theo cốt truyện
-  setTimeout(() => {
-    addCharMsg(generateReply(msg));
-  }, 500);
+  // Thay đổi hảo cảm + phản hồi char
+  if(msg.toLowerCase().includes('xin lỗi') || msg.toLowerCase().includes('thích')){
+    affection = Math.min(100, affection + 5);
+  } else if(msg.toLowerCase().includes('ghét') || msg.toLowerCase().includes('chọc')){
+    affection = Math.max(0, affection - 5);
+  }
+  updateAffection();
+
+  setTimeout(() => addCharMsg(generateReply(msg)), 500);
 }
 
 // Thêm tin nhắn người dùng
@@ -261,7 +352,7 @@ function scrollChat(){
   chat.scrollTop = chat.scrollHeight;
 }
 
-// Trả lời demo theo cốt truyện / tính cách
+// Trả lời đơn giản theo cốt truyện / tính cách
 function generateReply(userMsg){
   userMsg = userMsg.toLowerCase();
   if(userMsg.includes("chạy") || userMsg.includes("tiết")){
