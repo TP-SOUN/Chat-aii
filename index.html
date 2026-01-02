@@ -22,7 +22,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 .profile-header { position:sticky; top:0; background:#fff8f0; z-index:10; text-align:center; padding:15px 0; border-bottom:1px solid #ddd; }
 .profile-header img { width:120px; height:120px; border-radius:50%; }
 .profile-header h2 { margin:10px 0 0; }
-.profile-content { padding:15px; overflow-y:auto; max-height:calc(100vh - 70px - 70px); }
+.profile-content { padding:15px; overflow-y:auto; max-height:calc(100vh - 70px); }
 .profile-content p { margin:8px 0; line-height:1.4; font-size:14px; }
 .profile-content .speech { color:#1e90ff; background:#d2b48c; padding:3px 6px; border-radius:5px; display:inline-block; }
 .profile-content .scene { font-style:italic; background:#f5f5dc; padding:3px 6px; border-radius:5px; display:inline-block; }
@@ -53,9 +53,8 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 .chat-input button { padding:6px 12px; border-radius:6px; border:none; background:#ff5b8a; color:#fff; cursor:pointer; }
 
 /* Navigation Bar */
-.navbar { position:fixed; bottom:0; width:100%; height:60px; background:#fff; border-top:1px solid #ddd; display:flex; justify-content:space-around; align-items:center; font-size:24px; z-index:999; box-shadow:0 -2px 5px rgba(0,0,0,0.1); }
+.navbar { position:fixed; bottom:0; width:100%; height:60px; background:#fff; border-top:1px solid #ddd; display:flex; justify-content:space-around; align-items:center; font-size:24px; z-index:999; }
 .navbar .active { color:#ff5b8a; }
-
 </style>
 </head>
 <body>
@@ -86,11 +85,14 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
     <h2>Trung Tư Viễn</h2>
   </div>
   <div class="profile-content" id="profileContent">
-    <p class="speech">"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"</p>
-    <p class="scene">*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*</p>
-    <p class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</p>
-    <p class="scene">*Hành lang tầng hai rộn ràng, tiếng học sinh rì rầm vang cả dãy lớp…*</p>
     <p class="history"><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Thầy Tư Viễn (Toán) nghiêm khắc, rất nạnh nùng, còn bạn (thầy Booyin – Thể dục) lại năng động, hay trêu chọc. Ban đầu hai người khắc khẩu, thường cãi nhau vì chuyện dạy học, nhưng dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.</p>
+
+    <p class="scene">*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*</p>
+    <p class="speech">"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"</p>
+
+    <p class="scene">*Hành lang tầng hai rộn ràng, tiếng học sinh rì rầm vang cả dãy lớp…*</p>
+    <p class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</p>
+
     <p><strong>Tuổi:</strong> 26</p>
     <p><strong>Giới tính:</strong> Nam - Bottom</p>
     <p><strong>Nghề nghiệp:</strong> Giáo viên Toán trường THPT XXX</p>
@@ -125,52 +127,48 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 </div>
 
 <script>
-// Hảo cảm
-let affection = 50;
+let affection=50;
 function getAffectionIcon(score){
-  if(score < -100) return '👿';
-  if(score < -20) return '💢';
-  if(score < 0) return '😐';
-  if(score < 20) return '🙂';
-  if(score < 100) return '🧑‍🤝‍🧑';
-  if(score < 500) return '💗';
-  if(score < 2000) return '🌹';
+  if(score<-100) return '👿';
+  if(score<-20) return '💢';
+  if(score<0) return '😐';
+  if(score<20) return '🙂';
+  if(score<100) return '🧑‍🤝‍🧑';
+  if(score<500) return '💗';
+  if(score<2000) return '🌹';
   return '💍';
 }
 function updateAffection(){
-  if(affection < -150) affection=-150;
-  if(affection > 2500) affection=2500;
-  document.getElementById('affectionFill').style.width = Math.min(100,(affection/25))+'%';
+  if(affection<-150) affection=-150;
+  if(affection>2500) affection=2500;
+  document.getElementById('affectionFill').style.width=Math.min(100,(affection/25))+'%';
   document.getElementById('affectionPercent').textContent=affection;
   document.getElementById('affectionIcon').textContent=getAffectionIcon(affection);
 }
 
-// Open profile
 function openProfile(){
   document.getElementById('homePage').style.display='none';
   document.getElementById('profilePage').style.display='block';
 }
 
-// Open chat
 function openChat(){
   document.getElementById('profilePage').style.display='none';
   document.getElementById('chatScreen').style.display='flex';
   document.getElementById('chatMessages').innerHTML='';
   updateAffection();
-  // Push toàn bộ intro
+  // Push intro
+  addCharMsg('Lịch sử: Hai thầy từng là đồng nghiệp ở trường XXX. Thầy Tư Viễn (Toán) nghiêm khắc, rất nạnh nùng, còn bạn (thầy Booyin – Thể dục) lại năng động, hay trêu chọc. Ban đầu hai người khắc khẩu, thường cãi nhau vì chuyện dạy học, nhưng dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.','');
   addCharMsg('"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"','*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*');
   addCharMsg('"Thầy Toán mà thấy thì xác định, mau lên!"','*Hành lang tầng hai rộn ràng…*');
-  addCharMsg('Lịch sử: Hai thầy từng là đồng nghiệp ở trường XXX. Thầy Tư Viễn (Toán) nghiêm khắc, rất nạnh nùng, còn bạn (thầy Booyin – Thể dục) lại năng động, hay trêu chọc. Ban đầu hai người khắc khẩu, thường cãi nhau vì chuyện dạy học, nhưng dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.','');
 }
 
-// Chat functions
 function sendChat(){
   let input=document.getElementById('chatInput');
   let msg=input.value.trim();
   if(!msg) return;
   addUserMsg(msg);
   input.value='';
-  // Handle affection + scene
+  // Tạo cảnh tự động + hảo cảm
   let charScene='';
   if(msg.toLowerCase().includes('xin lỗi')||msg.toLowerCase().includes('thích')){
     affection=Math.min(2500,affection+20);
