@@ -42,8 +42,8 @@ body, html { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; bac
 .message { margin:5px 0; padding:6px 10px; border-radius:10px; max-width:70%; word-break:break-word; }
 .user-msg { background:#000; color:#fff; font-weight:bold; align-self:flex-end; }
 .char-msg { background:#d2b48c; align-self:flex-start; padding:6px 10px; border-radius:10px; margin-bottom:3px; }
-.char-msg span.speech { color:#1e90ff; }
-.char-msg span.action { color:#8b4513; } /* cảnh */
+.char-msg span.speech { color:#1e90ff; } /* lời nói "..." */
+.char-msg span.action { color:#8b4513; } /* cảnh *...* */
 
 /* Chat Input */
 .chat-input { display:flex; padding:10px; gap:5px; position:sticky; bottom:0; background:#fff0f5; }
@@ -102,13 +102,13 @@ body, html { margin:0; padding:0; font-family:Arial,sans-serif; height:100%; bac
 <!-- Bottom Bar -->
 <div class="bottom-bar">
   <div class="active" onclick="switchTab('home',this)">🏠<br>Home</div>
-  <div onclick="switchTab('chat',this)">💬<br>Tin nhắn</div>
-  <div onclick="alert('Tính năng thêm nhân vật chưa làm')">➕<br>Thêm AI</div>
+  <div onclick="switchTab('chat',this)">💬<br>Chat</div>
+  <div onclick="alert('Thêm nhân vật chưa làm')">➕<br>Thêm AI</div>
   <div onclick="alert('Profile user chưa làm')">👤<br>User</div>
 </div>
 
 <script>
-// Profile text với cảnh và lời nói đầu
+// Profile và chat text nguyên xi
 const profileText = `"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!" <span class="action">*đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy {{user}} bắt chạy thêm mấy vòng để đủ chỉ tiêu  chúng nó phóng vào lớp cứ sợ Tư Viễn thấy rồi trách phạt*</span> <span class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</span>
 
 Hành lang tầng hai rộn ràng như giờ ra chơi, tiếng học sinh rì rầm vang cả dãy lớp. Ở cuối hành lang, Tư Viễn, giáo viên dạy môn Toán nâng cao đang đi về phái cửa lớp, áo sơ mi trắng được ủi phẳng phiu, trên tay cầm cuốn sổ sinh tử (sổ điểm), đang đứng dựa vai vào cửa phòng học, ánh mắt lạnh tanh như vừa bước từ tủ lạnh ra:))).
@@ -143,6 +143,7 @@ function getHCRank(val){
   return '💍 Kết hôn';
 }
 
+// Chuyển tab bottom bar
 function switchTab(pageId,el){
   document.querySelectorAll('.page').forEach(p=>p.style.display='none');
   document.getElementById(pageId).style.display='flex';
@@ -150,11 +151,13 @@ function switchTab(pageId,el){
   if(el) el.classList.add('active');
 }
 
+// Mở profile
 function openProfile(name){
   switchTab('profile',document.querySelector('.bottom-bar div.active'));
   document.getElementById('profileContent').innerHTML=profileText;
 }
 
+// Mở chat
 function openChat(){
   switchTab('chat',document.querySelector('.bottom-bar div.active'));
   const chatDiv=document.getElementById('chatMessages');
@@ -166,10 +169,12 @@ function openChat(){
   updateHC();
 }
 
+// Update hảo cảm
 function updateHC(){
   document.getElementById('chatHC').textContent=getHCRank(hcValue);
 }
 
+// Gửi tin nhắn user
 function sendChat(){
   const input=document.getElementById('chatInput');
   const val=input.value.trim();
@@ -181,6 +186,8 @@ function sendChat(){
   input.value='';
   hcValue+=10; // demo +10 mỗi tin nhắn
   updateHC();
+  // Scroll xuống cuối
+  document.getElementById('chatMessages').scrollTop=document.getElementById('chatMessages').scrollHeight;
 }
 </script>
 
