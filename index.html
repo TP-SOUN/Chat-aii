@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doki Chat Demo - Trung Tư Viễn</title>
+<title>Doki Chat - Trung Tư Viễn</title>
 <style>
 body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 
@@ -22,14 +22,14 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 .profile-header { position:sticky; top:0; background:#fff8f0; z-index:10; text-align:center; padding:15px 0; border-bottom:1px solid #ddd; }
 .profile-header img { width:120px; height:120px; border-radius:50%; }
 .profile-header h2 { margin:10px 0 0; }
-.profile-content { padding:15px; overflow-y:auto; max-height:calc(100vh - 70px - 60px); }
+.profile-content { padding:15px; overflow-y:auto; max-height:calc(100vh - 70px - 70px); }
 .profile-content p { margin:8px 0; line-height:1.4; font-size:14px; }
 .profile-content .speech { color:#1e90ff; background:#d2b48c; padding:3px 6px; border-radius:5px; display:inline-block; }
 .profile-content .scene { font-style:italic; background:#f5f5dc; padding:3px 6px; border-radius:5px; display:inline-block; }
 .profile-content .history { background:#fffaf0; padding:3px 6px; border-radius:5px; display:block; }
 
-/* Profile button */
-.profile-button { position:sticky; bottom:0; width:100%; text-align:center; background:#fff8f0; padding:10px 0; border-top:1px solid #ddd; }
+/* Profile button sticky */
+.profile-button { position:fixed; bottom:0; width:100%; background:#fff8f0; padding:10px 0; border-top:1px solid #ddd; text-align:center; z-index:999; }
 .profile-button button { padding:10px 20px; border:none; border-radius:8px; background:#ff5b8a; color:#fff; font-size:16px; cursor:pointer; }
 
 /* Chat screen */
@@ -86,14 +86,11 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
     <h2>Trung Tư Viễn</h2>
   </div>
   <div class="profile-content" id="profileContent">
-    <!-- Lời nói đầu -->
     <p class="speech">"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"</p>
     <p class="scene">*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*</p>
     <p class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</p>
     <p class="scene">*Hành lang tầng hai rộn ràng, tiếng học sinh rì rầm vang cả dãy lớp…*</p>
-    <!-- Lịch sử nhân vật -->
-    <p class="history"><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.</p>
-    <!-- Thông tin công khai -->
+    <p class="history"><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Thầy Tư Viễn (Toán) nghiêm khắc, rất nạnh nùng, còn bạn (thầy Booyin – Thể dục) lại năng động, hay trêu chọc. Ban đầu hai người khắc khẩu, thường cãi nhau vì chuyện dạy học, nhưng dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.</p>
     <p><strong>Tuổi:</strong> 26</p>
     <p><strong>Giới tính:</strong> Nam - Bottom</p>
     <p><strong>Nghề nghiệp:</strong> Giáo viên Toán trường THPT XXX</p>
@@ -127,19 +124,9 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
   </div>
 </div>
 
-<!-- Navbar -->
-<div class="navbar">
-  <div class="active">🏠</div>
-  <div>💬</div>
-  <div>＋</div>
-  <div>🔍</div>
-  <div>👤</div>
-</div>
-
 <script>
 // Hảo cảm
 let affection = 50;
-
 function getAffectionIcon(score){
   if(score < -100) return '👿';
   if(score < -20) return '💢';
@@ -150,7 +137,6 @@ function getAffectionIcon(score){
   if(score < 2000) return '🌹';
   return '💍';
 }
-
 function updateAffection(){
   if(affection < -150) affection=-150;
   if(affection > 2500) affection=2500;
@@ -159,32 +145,32 @@ function updateAffection(){
   document.getElementById('affectionIcon').textContent=getAffectionIcon(affection);
 }
 
-// Mở profile
+// Open profile
 function openProfile(){
   document.getElementById('homePage').style.display='none';
   document.getElementById('profilePage').style.display='block';
 }
 
-// Mở chat
+// Open chat
 function openChat(){
   document.getElementById('profilePage').style.display='none';
   document.getElementById('chatScreen').style.display='flex';
   document.getElementById('chatMessages').innerHTML='';
   updateAffection();
   // Push toàn bộ intro
-  addCharMsg('"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"','*Đám học sinh nhoi nhoi chạy nhanh vào lớp…*');
+  addCharMsg('"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"','*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*');
   addCharMsg('"Thầy Toán mà thấy thì xác định, mau lên!"','*Hành lang tầng hai rộn ràng…*');
-  addCharMsg('Lịch sử: Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần thành “oan gia quen mặt”.','');
+  addCharMsg('Lịch sử: Hai thầy từng là đồng nghiệp ở trường XXX. Thầy Tư Viễn (Toán) nghiêm khắc, rất nạnh nùng, còn bạn (thầy Booyin – Thể dục) lại năng động, hay trêu chọc. Ban đầu hai người khắc khẩu, thường cãi nhau vì chuyện dạy học, nhưng dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.','');
 }
 
-// Gửi chat
+// Chat functions
 function sendChat(){
   let input=document.getElementById('chatInput');
   let msg=input.value.trim();
   if(!msg) return;
   addUserMsg(msg);
   input.value='';
-  // Xử lý hảo cảm + cảnh
+  // Handle affection + scene
   let charScene='';
   if(msg.toLowerCase().includes('xin lỗi')||msg.toLowerCase().includes('thích')){
     affection=Math.min(2500,affection+20);
@@ -197,7 +183,6 @@ function sendChat(){
   setTimeout(()=>addCharMsg(generateReply(msg),charScene),500);
 }
 
-// User msg
 function addUserMsg(msg){
   let div=document.createElement('div');
   div.className='message user-msg';
@@ -206,7 +191,6 @@ function addUserMsg(msg){
   scrollChat();
 }
 
-// Char msg
 function addCharMsg(msg,scene){
   let div=document.createElement('div');
   div.className='message char-msg';
@@ -216,13 +200,11 @@ function addCharMsg(msg,scene){
   scrollChat();
 }
 
-// Scroll
 function scrollChat(){
   let chat=document.getElementById('chatMessages');
   chat.scrollTop=chat.scrollHeight;
 }
 
-// Reply cơ bản
 function generateReply(userMsg){
   userMsg=userMsg.toLowerCase();
   if(userMsg.includes("chạy")||userMsg.includes("tiết")) return '"Chạy nhanh lên! Tiết học sắp bắt đầu rồi đó!"';
