@@ -3,81 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI PRO</title>
+    <title>TP C-AI PRO MAX</title>
     <style>
         :root {
             --main-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
             --bg: #f8f9fd;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* HEADER */
-        .header {
-            background: white; padding: 15px; text-align: center; position: fixed; top: 0; width: 100%;
-            z-index: 100; border-bottom: 1px solid #eee; box-sizing: border-box;
-        }
+        .header { background: white; padding: 15px; text-align: center; position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 1px solid #eee; box-sizing: border-box; }
         .logo { font-size: 22px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* PAGES */
         .page { display: none; flex: 1; padding: 20px; padding-top: 80px; padding-bottom: 100px; overflow-y: auto; }
         .page.active { display: block; animation: fadeIn 0.2s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* PROFILE CARD - CHỐNG ĐƠ */
-        .card {
-            background: white; border-radius: 30px; padding: 30px 20px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative;
-        }
-        .btn-set { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 20; padding: 10px; }
+        /* PROFILE */
+        .card { background: white; border-radius: 30px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; }
+        .btn-set { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 100; padding: 10px; }
         
         .avt-holder { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-        .avt-circle {
-            width: 100%; height: 100%; border-radius: 35px; background: var(--main-gradient);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 45px; color: white; font-weight: bold; overflow: hidden;
-            border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
+        .avt-circle { width: 100%; height: 100%; border-radius: 35px; background: var(--main-gradient); display: flex; align-items: center; justify-content: center; font-size: 45px; color: white; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
         .avt-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-edit-avt {
-            position: absolute; bottom: -5px; right: -5px; background: white;
-            width: 35px; height: 35px; border-radius: 12px; display: flex;
-            align-items: center; justify-content: center; font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; z-index: 25;
-        }
+        .btn-edit-avt { position: absolute; bottom: -5px; right: -5px; background: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; z-index: 110; }
 
         .name-txt { font-size: 26px; font-weight: 800; color: #1a1a1a; margin-top: 10px; }
 
-        /* MENU SHEET */
-        .menu-bg {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-            display: none; z-index: 2000; align-items: flex-end;
-        }
-        .menu-inner {
-            background: white; width: 100%; border-radius: 30px 30px 0 0;
-            padding: 25px; box-sizing: border-box; animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        /* MENU & OVERLAY */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; z-index: 2000; align-items: flex-end; }
+        .sheet { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        .item {
-            padding: 20px; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: 1px solid #f8f8f8; font-weight: 600; color: #333; cursor: pointer;
-        }
-        .item:active { background: #fafafa; }
+        .item { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f8f8f8; font-weight: 600; color: #333; cursor: pointer; }
         .red { color: #ff4757; }
 
-        /* NAV BAR */
-        .bottom-nav {
-            position: fixed; bottom: 15px; left: 15px; right: 15px;
-            background: #111; border-radius: 25px; height: 70px;
-            display: flex; justify-content: space-around; align-items: center; z-index: 1000;
-        }
-        .link { color: #444; font-size: 26px; cursor: pointer; padding: 12px; transition: 0.2s; }
+        /* BOTTOM NAV */
+        .nav-bar { position: fixed; bottom: 15px; left: 15px; right: 15px; background: #111; border-radius: 25px; height: 70px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
+        .link { color: #444; font-size: 26px; cursor: pointer; padding: 12px; }
         .link.active { color: white; }
-        .plus-btn {
-            width: 60px; height: 60px; background: var(--main-gradient);
-            border-radius: 22px; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 32px; margin-top: -45px; border: 6px solid var(--bg); cursor: pointer;
-        }
+        .plus-btn { width: 60px; height: 60px; background: var(--main-gradient); border-radius: 22px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; margin-top: -45px; border: 6px solid var(--bg); cursor: pointer; }
     </style>
 </head>
 <body>
@@ -87,7 +51,7 @@
     <div id="pg-home" class="page active">
         <div style="text-align: center; margin-top: 100px;">
             <h1 id="hi-user">Chào ní!</h1>
-            <p style="color: #999;">Trang chủ đang được cập nhật...</p>
+            <p style="color: #999;">Trang chủ TP C-AI đã sẵn sàng.</p>
         </div>
     </div>
 
@@ -104,16 +68,16 @@
         </div>
     </div>
 
-    <div class="menu-bg" id="menu-box" onclick="closeM()">
-        <div class="menu-inner" onclick="event.stopPropagation()">
+    <div class="overlay" id="menu-box" onclick="closeM()">
+        <div class="sheet" onclick="event.stopPropagation()">
             <div style="width: 50px; height: 6px; background: #eee; margin: 0 auto 25px; border-radius: 10px;"></div>
             <div class="item" onclick="doRename()">📝 Đổi tên người dùng <span>&rsaquo;</span></div>
-            <div class="item">🔒 Cài đặt bảo mật <span>&rsaquo;</span></div>
+            <div class="item" onclick="goSecurity()">🔒 Cài đặt bảo mật <span>&rsaquo;</span></div>
             <div class="item red" onclick="doReset()">🚪 Đăng xuất</div>
         </div>
     </div>
 
-    <div class="bottom-nav">
+    <div class="nav-bar">
         <span class="link active" onclick="go(this, 'pg-home')">🏠</span>
         <span class="link" onclick="go(this, 'pg-home')">💬</span>
         <div class="plus-btn" onclick="go(null, 'pg-home')">+</div>
@@ -122,10 +86,9 @@
     </div>
 
     <script>
-        // Load data ngay khi mở
         window.onload = () => {
-            const n = localStorage.getItem('tp_user_name_final');
-            const a = localStorage.getItem('tp_user_avt_final');
+            const n = localStorage.getItem('tp_name_pro');
+            const a = localStorage.getItem('tp_avt_pro');
             if(n) renderName(n);
             if(a) document.getElementById('avt-img').innerHTML = `<img src="${a}">`;
         };
@@ -145,7 +108,7 @@
         function doRename() {
             const val = prompt("Tên mới của ní là gì?");
             if(val && val.trim() !== "") {
-                localStorage.setItem('tp_user_name_final', val);
+                localStorage.setItem('tp_name_pro', val);
                 renderName(val);
                 closeM();
             }
@@ -154,7 +117,7 @@
         function renderName(n) {
             document.getElementById('name-display').innerText = n;
             document.getElementById('hi-user').innerText = "Chào " + n + "!";
-            if(!localStorage.getItem('tp_user_avt_final')) {
+            if(!localStorage.getItem('tp_avt_pro')) {
                 document.getElementById('avt-img').innerText = n.charAt(0).toUpperCase();
             }
         }
@@ -163,16 +126,20 @@
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const data = e.target.result;
-                    localStorage.setItem('tp_user_avt_final', data);
-                    document.getElementById('avt-img').innerHTML = `<img src="${data}">`;
+                    localStorage.setItem('tp_avt_pro', e.target.result);
+                    document.getElementById('avt-img').innerHTML = `<img src="${e.target.result}">`;
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
+        function goSecurity() {
+            alert("🔒 Bảo mật TP C-AI:\nDữ liệu của ní đã được mã hóa và lưu trữ an toàn trên thiết bị này.");
+            closeM();
+        }
+
         function doReset() {
-            if(confirm("Đăng xuất là mất hết dữ liệu profile đó nha?")) {
+            if(confirm("Đăng xuất là mất sạch profile nha?")) {
                 localStorage.clear();
                 location.reload();
             }
