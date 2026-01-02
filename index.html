@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doki Chat Demo</title>
+<title>Doki Chat Demo - Trung Tư Viễn</title>
 <style>
 body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 
@@ -27,6 +27,8 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 .profile-content .speech { color:#1e90ff; background:#d2b48c; padding:3px 6px; border-radius:5px; display:inline-block; }
 .profile-content .scene { font-style:italic; background:#f5f5dc; padding:3px 6px; border-radius:5px; display:inline-block; }
 .profile-content .history { background:#fffaf0; padding:3px 6px; border-radius:5px; display:block; }
+
+/* Profile button */
 .profile-button { position:sticky; bottom:0; width:100%; text-align:center; background:#fff8f0; padding:10px 0; border-top:1px solid #ddd; }
 .profile-button button { padding:10px 20px; border:none; border-radius:8px; background:#ff5b8a; color:#fff; font-size:16px; cursor:pointer; }
 
@@ -40,7 +42,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 
 /* Chat messages */
 .chat-messages { flex:1; padding:10px; overflow-y:auto; font-size:14px; display:flex; flex-direction:column; }
-.message { margin:5px 0; padding:6px 10px; border-radius:10px; max-width:70%; }
+.message { margin:5px 0; padding:6px 10px; border-radius:10px; max-width:70%; word-break:break-word; }
 .user-msg { background:#000; font-weight:bold; color:#fff; align-self:flex-end; }
 .char-msg { background:#d2b48c; color:#1e90ff; align-self:flex-start; padding:6px 10px; border-radius:10px; margin-bottom:3px; }
 .char-msg .scene { font-style:italic; color:#555; background:#f5f5dc; display:block; margin-top:3px; padding:3px 6px; border-radius:5px; }
@@ -53,6 +55,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
 /* Navigation Bar */
 .navbar { position:fixed; bottom:0; width:100%; height:60px; background:#fff; border-top:1px solid #ddd; display:flex; justify-content:space-around; align-items:center; font-size:24px; z-index:999; box-shadow:0 -2px 5px rgba(0,0,0,0.1); }
 .navbar .active { color:#ff5b8a; }
+
 </style>
 </head>
 <body>
@@ -82,17 +85,24 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
     <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
     <h2>Trung Tư Viễn</h2>
   </div>
-  <div class="profile-content">
+  <div class="profile-content" id="profileContent">
+    <!-- Lời nói đầu -->
     <p class="speech">"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"</p>
     <p class="scene">*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*</p>
     <p class="speech">"Thầy Toán mà thấy thì xác định, mau lên!"</p>
     <p class="scene">*Hành lang tầng hai rộn ràng, tiếng học sinh rì rầm vang cả dãy lớp…*</p>
-    <p class="history"><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần trở thành “oan gia quen mặt”.</p>
+    <!-- Lịch sử nhân vật -->
+    <p class="history"><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần trở thành “oan gia quen mặt”. Những lần ở lại trường muộn sau giờ họp khiến khoảng cách giữa hai người mờ dần, từ đối đầu thành quan tâm, từ trêu chọc thành mập mờ.</p>
+    <!-- Thông tin công khai -->
     <p><strong>Tuổi:</strong> 26</p>
     <p><strong>Giới tính:</strong> Nam - Bottom</p>
     <p><strong>Nghề nghiệp:</strong> Giáo viên Toán trường THPT XXX</p>
-    <p><strong>Ngoại hình:</strong> Cao 1m70, gầy, da trắng, tóc đen hơi rối, thường đeo kính.</p>
+    <p><strong>Ngoại hình:</strong> Cao 1m70, gầy, da trắng, tóc đen hơi rối, thường đeo kính gọng bạc.</p>
     <p><strong>Sở thích:</strong> Cà phê đen, đọc sách buổi tối, chấm bài im lặng.</p>
+    <p><strong>Tính cách:</strong> Nghiêm khắc, ít nói, giữ khoảng cách, dạy học rất nguyên tắc.</p>
+    <p><strong>Thói quen:</strong> Gõ nhẹ bút lên bàn khi suy nghĩ, chỉnh cổ tay áo khi căng thẳng.</p>
+    <p><strong>Điểm yếu:</strong> Dễ bối rối khi bị trêu, đặc biệt với thầy Thể dục.</p>
+    <p><strong>Quan hệ với {{user}}:</strong> Đồng nghiệp thân thiết, từ khắc khẩu dần mập mờ.</p>
   </div>
   <div class="profile-button">
     <button onclick="openChat()">Chat với nhân vật</button>
@@ -108,7 +118,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
       <div id="affectionFill" class="affection-fill"></div>
     </div>
     <span class="affection-icon" id="affectionIcon">🙂</span>
-    <span id="affectionPercent" style="margin-left:5px;">50%</span>
+    <span id="affectionPercent" style="margin-left:5px;">50</span>
   </div>
   <div id="chatMessages" class="chat-messages"></div>
   <div class="chat-input">
@@ -117,7 +127,7 @@ body { margin:0; font-family:Arial,sans-serif; background:#fff0f5; }
   </div>
 </div>
 
-<!-- Navigation Bar -->
+<!-- Navbar -->
 <div class="navbar">
   <div class="active">🏠</div>
   <div>💬</div>
@@ -142,97 +152,84 @@ function getAffectionIcon(score){
 }
 
 function updateAffection(){
-  // giới hạn -150 → 2500
-  if(affection < -150) affection = -150;
-  if(affection > 2500) affection = 2500;
-  document.getElementById('affectionFill').style.width = Math.min(100, (affection/25)) + '%';
-  document.getElementById('affectionPercent').textContent = affection;
-  document.getElementById('affectionIcon').textContent = getAffectionIcon(affection);
+  if(affection < -150) affection=-150;
+  if(affection > 2500) affection=2500;
+  document.getElementById('affectionFill').style.width = Math.min(100,(affection/25))+'%';
+  document.getElementById('affectionPercent').textContent=affection;
+  document.getElementById('affectionIcon').textContent=getAffectionIcon(affection);
 }
 
 // Mở profile
 function openProfile(){
-  document.getElementById('homePage').style.display = 'none';
-  document.getElementById('profilePage').style.display = 'block';
+  document.getElementById('homePage').style.display='none';
+  document.getElementById('profilePage').style.display='block';
 }
 
 // Mở chat
 function openChat(){
-  document.getElementById('profilePage').style.display = 'none';
-  document.getElementById('chatScreen').style.display = 'flex';
-  document.getElementById('chatMessages').innerHTML = '';
+  document.getElementById('profilePage').style.display='none';
+  document.getElementById('chatScreen').style.display='flex';
+  document.getElementById('chatMessages').innerHTML='';
   updateAffection();
-  // Push intro: lời nói + cảnh + lịch sử
-  addCharMsg('"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"', '*Đám học sinh nhoi nhoi chạy nhanh vào lớp vì bị thầy bắt luyện thêm mấy vòng…*');
-  addCharMsg('"Thầy Toán mà thấy thì xác định, mau lên!"', '*Hành lang tầng hai rộn ràng, tiếng học sinh rì rầm vang cả dãy lớp…*');
-  addCharMsg('Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần trở thành “oan gia quen mặt”.', '');
+  // Push toàn bộ intro
+  addCharMsg('"Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"','*Đám học sinh nhoi nhoi chạy nhanh vào lớp…*');
+  addCharMsg('"Thầy Toán mà thấy thì xác định, mau lên!"','*Hành lang tầng hai rộn ràng…*');
+  addCharMsg('Lịch sử: Hai thầy từng là đồng nghiệp ở trường XXX. Ban đầu khắc khẩu, dần thành “oan gia quen mặt”.','');
 }
 
 // Gửi chat
 function sendChat(){
-  let input = document.getElementById('chatInput');
-  let msg = input.value.trim();
+  let input=document.getElementById('chatInput');
+  let msg=input.value.trim();
   if(!msg) return;
   addUserMsg(msg);
-  input.value = '';
-
-  // thay đổi hảo cảm + cảnh
-  let charScene = '';
-  if(msg.toLowerCase().includes('xin lỗi') || msg.toLowerCase().includes('thích')){
-    affection = Math.min(2500, affection + 20);
-    charScene = '*Tư Viễn mỉm cười nhẹ, ánh mắt dịu lại*';
-  } else if(msg.toLowerCase().includes('ghét') || msg.toLowerCase().includes('chọc')){
-    affection = Math.max(-150, affection - 20);
-    charScene = '*Tư Viễn nhíu mày khó chịu*';
-  } else {
-    affection = affection; // giữ nguyên
-    charScene = '*Tư Viễn im lặng quan sát*';
-  }
+  input.value='';
+  // Xử lý hảo cảm + cảnh
+  let charScene='';
+  if(msg.toLowerCase().includes('xin lỗi')||msg.toLowerCase().includes('thích')){
+    affection=Math.min(2500,affection+20);
+    charScene='*Tư Viễn mỉm cười nhẹ, ánh mắt dịu lại*';
+  } else if(msg.toLowerCase().includes('ghét')||msg.toLowerCase().includes('chọc')){
+    affection=Math.max(-150,affection-20);
+    charScene='*Tư Viễn nhíu mày khó chịu*';
+  } else charScene='*Tư Viễn im lặng quan sát*';
   updateAffection();
-
-  setTimeout(() => addCharMsg(generateReply(msg), charScene), 500);
+  setTimeout(()=>addCharMsg(generateReply(msg),charScene),500);
 }
 
-// Tin nhắn user
+// User msg
 function addUserMsg(msg){
-  let div = document.createElement('div');
-  div.className = 'message user-msg';
-  div.textContent = msg;
+  let div=document.createElement('div');
+  div.className='message user-msg';
+  div.textContent=msg;
   document.getElementById('chatMessages').appendChild(div);
   scrollChat();
 }
 
-// Tin nhắn char
-function addCharMsg(msg, scene){
-  let div = document.createElement('div');
-  div.className = 'message char-msg';
-  div.innerHTML = `<span class="speech">${msg}</span>`;
-  if(scene) div.innerHTML += `<span class="scene">${scene}</span>`;
+// Char msg
+function addCharMsg(msg,scene){
+  let div=document.createElement('div');
+  div.className='message char-msg';
+  div.innerHTML=`<span class="speech">${msg}</span>`;
+  if(scene) div.innerHTML+=`<span class="scene">${scene}</span>`;
   document.getElementById('chatMessages').appendChild(div);
   scrollChat();
 }
 
-// Scroll chat
+// Scroll
 function scrollChat(){
-  let chat = document.getElementById('chatMessages');
-  chat.scrollTop = chat.scrollHeight;
+  let chat=document.getElementById('chatMessages');
+  chat.scrollTop=chat.scrollHeight;
 }
 
-// Trả lời char cơ bản
+// Reply cơ bản
 function generateReply(userMsg){
-  userMsg = userMsg.toLowerCase();
-  if(userMsg.includes("chạy") || userMsg.includes("tiết")){
-    return '"Chạy nhanh lên! Tiết học sắp bắt đầu rồi đó!"';
-  }
-  if(userMsg.includes("xin lỗi")){
-    return '"Được rồi, lần sau cẩn thận hơn nhé."';
-  }
-  if(userMsg.includes("thầy") || userMsg.includes("trò chuyện")){
-    return '"Tôi đang quan sát học sinh, đừng làm phiền."';
-  }
+  userMsg=userMsg.toLowerCase();
+  if(userMsg.includes("chạy")||userMsg.includes("tiết")) return '"Chạy nhanh lên! Tiết học sắp bắt đầu rồi đó!"';
+  if(userMsg.includes("xin lỗi")) return '"Được rồi, lần sau cẩn thận hơn nhé."';
+  if(userMsg.includes("thầy")||userMsg.includes("trò chuyện")) return '"Tôi đang quan sát học sinh, đừng làm phiền."';
   return '"Hừ… tôi không biết phải trả lời sao."';
 }
-
 </script>
 </body>
 </html>
