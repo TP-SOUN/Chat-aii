@@ -11,151 +11,186 @@
         }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        .header { background: white; padding: 15px; text-align: center; position: fixed; top: 0; width: 100%; z-index: 100; border-bottom: 1px solid #eee; box-sizing: border-box; }
-        .logo { font-size: 22px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* LOGIN SCREEN */
+        #login-screen { position: fixed; inset: 0; background: white; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .login-logo { font-size: 45px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 40px; }
+        .btn-gg { width: 100%; max-width: 300px; padding: 15px; border-radius: 15px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; font-weight: 700; cursor: pointer; background: white; }
 
-        .page { display: none; flex: 1; padding: 20px; padding-top: 80px; padding-bottom: 100px; overflow-y: auto; }
-        .page.active { display: block; animation: fadeIn 0.2s ease; }
+        /* MAIN APP */
+        #app { display: none; flex-direction: column; height: 100vh; }
+        .header { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; font-weight: 900; color: #4A00E0; z-index: 100; }
+
+        .page { flex: 1; padding: 20px; padding-bottom: 160px; overflow-y: auto; display: none; }
+        .page.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* PROFILE CARD */
+        /* PROFILE SECTION */
         .card { background: white; border-radius: 30px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; }
-        .btn-set { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 100; padding: 10px; color: #ccc; }
+        .btn-set { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 200; padding: 10px; color: #ccc; }
         
-        .avt-holder { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-        .avt-circle { width: 100%; height: 100%; border-radius: 35px; background: var(--main-gradient); display: flex; align-items: center; justify-content: center; font-size: 45px; color: white; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .avt-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-edit-avt { position: absolute; bottom: -5px; right: -5px; background: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; z-index: 110; }
+        .avt-box { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
+        .avt-img { width: 100%; height: 100%; border-radius: 35px; background: var(--main-gradient); display: flex; align-items: center; justify-content: center; font-size: 45px; color: white; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .avt-img img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-edit-avt { position: absolute; bottom: -5px; right: -5px; background: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; z-index: 210; }
 
-        .name-txt { font-size: 26px; font-weight: 800; color: #1a1a1a; margin-top: 10px; }
+        /* CHAT SECTION */
+        #chat-list { display: flex; flex-direction: column; gap: 12px; }
+        .msg { padding: 12px 16px; border-radius: 18px; max-width: 80%; font-size: 14px; line-height: 1.5; }
+        .msg.me { background: var(--main-gradient); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg.ai { background: white; color: #333; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        /* OVERLAY & SHEET */
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; z-index: 2000; align-items: flex-end; }
-        .sheet { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; animation: slideUp 0.3s ease; max-height: 85vh; overflow-y: auto; }
+        .chat-input-area { position: fixed; bottom: 85px; left: 15px; right: 15px; display: flex; gap: 10px; background: transparent; }
+        .chat-input-area input { flex: 1; padding: 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .btn-send { background: var(--main-gradient); color: white; border: none; padding: 0 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+
+        /* OVERLAY MENU */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; z-index: 3000; align-items: flex-end; }
+        .sheet { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        
-        .item { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f8f8f8; font-weight: 600; color: #333; cursor: pointer; }
-        .red { color: #ff4757; }
+        .item { padding: 20px; display: flex; justify-content: space-between; border-bottom: 1px solid #f8f8f8; font-weight: 600; cursor: pointer; }
 
         /* BOTTOM NAV */
-        .nav-bar { position: fixed; bottom: 15px; left: 15px; right: 15px; background: #111; border-radius: 25px; height: 70px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
-        .link { color: #444; font-size: 26px; cursor: pointer; padding: 12px; }
-        .link.active { color: white; }
-        .plus-btn { width: 60px; height: 60px; background: var(--main-gradient); border-radius: 22px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; margin-top: -45px; border: 6px solid var(--bg); cursor: pointer; }
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; height: 75px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
+        .link { color: #555; font-size: 26px; cursor: pointer; transition: 0.3s; }
+        .link.active { color: white; transform: scale(1.2); }
     </style>
 </head>
 <body>
 
-    <div class="header"><div class="logo">TP C-AI</div></div>
-
-    <div id="pg-home" class="page active">
-        <div style="text-align: center; margin-top: 100px;">
-            <h1 id="hi-user">Chào ní!</h1>
-            <p style="color: #999;">Trang chủ TP C-AI sẵn sàng rồi nè.</p>
+    <div id="login-screen">
+        <div class="login-logo">TP C-AI</div>
+        <div class="btn-gg" onclick="startLogin()">
+            <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" width="20" style="margin-right:10px"> Đăng nhập bằng Google
         </div>
     </div>
 
-    <div id="pg-profile" class="page">
-        <div class="card">
-            <div class="btn-set" onclick="openM('menu-main')">⚙️</div>
-            <div class="avt-holder">
-                <div class="avt-circle" id="avt-img">U</div>
-                <label for="up-avt" class="btn-edit-avt">✏️</label>
-                <input type="file" id="up-avt" hidden accept="image/*" onchange="processAvt(this)">
-            </div>
-            <div class="name-txt" id="name-display">Người dùng</div>
-            <div style="font-size: 13px; color: #bbb; margin-top: 5px;">Thành viên TP C-AI</div>
-        </div>
-    </div>
+    <div id="app">
+        <div class="header">TP C-AI</div>
 
-    <div class="overlay" id="menu-main" onclick="closeM('menu-main')">
-        <div class="sheet" onclick="event.stopPropagation()">
-            <div style="width: 50px; height: 6px; background: #eee; margin: 0 auto 20px; border-radius: 10px;"></div>
-            <div class="item" onclick="doRename()">📝 Đổi tên người dùng <span>&rsaquo;</span></div>
-            <div class="item" onclick="closeM('menu-main'); openM('menu-terms')">📜 Thỏa thuận người dùng <span>&rsaquo;</span></div>
-            <div class="item" onclick="goSecurity()">🔒 Cài đặt bảo mật <span>&rsaquo;</span></div>
-            <div class="item red" onclick="doReset()">🚪 Đăng xuất</div>
-        </div>
-    </div>
-
-    <div class="overlay" id="menu-terms" onclick="closeM('menu-terms')">
-        <div class="sheet" onclick="event.stopPropagation()">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h3 style="margin:0">Thỏa thuận người dùng</h3>
-                <span onclick="closeM('menu-terms')" style="font-size:30px;">&times;</span>
-            </div>
-            <div style="font-size:14px; color:#666; line-height:1.6;">
-                <p>1. Bạn chịu trách nhiệm về nội dung do mình tạo ra.</p>
-                <p>2. Dữ liệu được bảo mật và lưu cục bộ trên thiết bị.</p>
-                <p>3. Không sử dụng app vào mục đích vi phạm pháp luật.</p>
-                <button onclick="closeM('menu-terms')" style="width:100%; background:var(--main-gradient); color:white; border:none; padding:15px; border-radius:15px; margin-top:20px; font-weight:bold;">Tôi đồng ý</button>
+        <div id="pg-chat" class="page active">
+            <div id="chat-list"></div>
+            <div class="chat-input-area">
+                <input type="text" id="msg-input" placeholder="Hỏi TP C-AI gì đi ní...">
+                <button class="btn-send" onclick="send()">Gửi</button>
             </div>
         </div>
-    </div>
 
-    <div class="nav-bar">
-        <span class="link active" onclick="go(this, 'pg-home')">🏠</span>
-        <span class="link" onclick="go(this, 'pg-home')">💬</span>
-        <div class="plus-btn" onclick="go(null, 'pg-home')">+</div>
-        <span class="link" onclick="go(this, 'pg-home')">🧭</span>
-        <span class="link" onclick="go(this, 'pg-profile')">👤</span>
+        <div id="pg-profile" class="page">
+            <div class="card">
+                <div class="btn-set" onclick="openMenu()">⚙️</div>
+                <div class="avt-box">
+                    <div class="avt-img" id="ui-avt">U</div>
+                    <label for="f-avt" class="btn-edit-avt">✏️</label>
+                    <input type="file" id="f-avt" hidden accept="image/*" onchange="changeAvt(this)">
+                </div>
+                <h2 id="ui-name" style="margin:0">Người dùng</h2>
+                <p style="color:#aaa; font-size:12px; margin-top:5px;">Verified Account</p>
+            </div>
+        </div>
+
+        <div class="overlay" id="menu-box" onclick="closeMenu()">
+            <div class="sheet" onclick="event.stopPropagation()">
+                <div style="width:50px; height:5px; background:#eee; margin:0 auto 20px; border-radius:10px;"></div>
+                <div class="item" onclick="rename()">📝 Đổi tên người dùng <span>&rsaquo;</span></div>
+                <div class="item" onclick="alert('🔒 Bảo mật đã được kích hoạt!')">🔒 Cài đặt bảo mật <span>&rsaquo;</span></div>
+                <div class="item" style="color:#ff4757" onclick="logout()">🚪 Đăng xuất</div>
+            </div>
+        </div>
+
+        <div class="nav">
+            <span class="link active" onclick="tab(this, 'pg-chat')">💬</span>
+            <span class="link" onclick="tab(this, 'pg-profile')">👤</span>
+        </div>
     </div>
 
     <script>
+        // KIỂM TRA DỮ LIỆU CŨ KHI MỞ APP
         window.onload = () => {
-            const n = localStorage.getItem('tp_final_name');
-            const a = localStorage.getItem('tp_final_avt');
-            if(n) render(n);
-            if(a) document.getElementById('avt-img').innerHTML = `<img src="${a}">`;
+            if(localStorage.getItem('logged')) {
+                renderAll();
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('app').style.display = 'flex';
+            }
         };
 
-        function go(el, id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            if(el) {
-                document.querySelectorAll('.link').forEach(l => l.classList.remove('active'));
-                el.classList.add('active');
+        function startLogin() {
+            const n = prompt("Tên của ní để Google đăng ký nè:");
+            if(n) {
+                localStorage.setItem('logged', 'true');
+                localStorage.setItem('u_name', n);
+                localStorage.setItem('u_chats', JSON.stringify([{type:'ai', text:'Chào '+n+'! Tui có thể giúp gì cho ní?'}]));
+                location.reload();
             }
         }
 
-        function openM(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeM(id) { document.getElementById(id).style.display = 'none'; }
+        function renderAll() {
+            const name = localStorage.getItem('u_name') || "Ní";
+            const avt = localStorage.getItem('u_avt');
+            const chats = JSON.parse(localStorage.getItem('u_chats') || "[]");
 
-        function doRename() {
-            const val = prompt("Tên mới của ní là gì?");
-            if(val && val.trim() !== "") {
-                localStorage.setItem('tp_final_name', val);
-                render(val);
-                closeM('menu-main');
+            document.getElementById('ui-name').innerText = name;
+            if(avt) {
+                document.getElementById('ui-avt').innerHTML = `<img src="${avt}">`;
+            } else {
+                document.getElementById('ui-avt').innerText = name.charAt(0).toUpperCase();
+            }
+
+            const list = document.getElementById('chat-list');
+            list.innerHTML = "";
+            chats.forEach(c => {
+                const d = document.createElement('div');
+                d.className = `msg ${c.type}`;
+                d.innerText = c.text;
+                list.appendChild(d);
+            });
+            document.getElementById('pg-chat').scrollTop = document.getElementById('pg-chat').scrollHeight;
+        }
+
+        function send() {
+            const inp = document.getElementById('msg-input');
+            const txt = inp.value.trim();
+            if(txt) {
+                let chats = JSON.parse(localStorage.getItem('u_chats') || "[]");
+                chats.push({type:'me', text: txt});
+                chats.push({type:'ai', text: "TP C-AI đang suy nghĩ về: " + txt});
+                localStorage.setItem('u_chats', JSON.stringify(chats));
+                inp.value = "";
+                renderAll();
             }
         }
 
-        function render(n) {
-            document.getElementById('name-display').innerText = n;
-            document.getElementById('hi-user').innerText = "Chào " + n + "!";
-            if(!localStorage.getItem('tp_final_avt')) {
-                document.getElementById('avt-img').innerText = n.charAt(0).toUpperCase();
+        function rename() {
+            const n = prompt("Nhập tên mới:");
+            if(n) {
+                localStorage.setItem('u_name', n);
+                renderAll();
+                closeMenu();
             }
         }
 
-        function processAvt(input) {
-            if (input.files && input.files[0]) {
+        function changeAvt(input) {
+            if(input.files && input.files[0]) {
                 const r = new FileReader();
                 r.onload = (e) => {
-                    localStorage.setItem('tp_final_avt', e.target.result);
-                    document.getElementById('avt-img').innerHTML = `<img src="${e.target.result}">`;
+                    localStorage.setItem('u_avt', e.target.result);
+                    renderAll();
                 };
                 r.readAsDataURL(input.files[0]);
             }
         }
 
-        function goSecurity() {
-            alert("🔒 Dữ liệu đã được mã hóa an toàn!");
-            closeM('menu-main');
+        function tab(el, id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.link').forEach(l => l.classList.remove('active'));
+            el.classList.add('active');
         }
 
-        function doReset() {
-            if(confirm("Đăng xuất là mất hết dữ liệu profile nha?")) {
+        function openMenu() { document.getElementById('menu-box').style.display = 'flex'; }
+        function closeMenu() { document.getElementById('menu-box').style.display = 'none'; }
+
+        function logout() {
+            if(confirm("Đăng xuất là xóa sạch lịch sử chat đó nhen?")) {
                 localStorage.clear();
                 location.reload();
             }
