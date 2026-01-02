@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI ENERGY</title>
+    <title>TP C-AI HOME FULL</title>
     <style>
         :root {
             --primary: #8E2DE2;
@@ -15,124 +15,116 @@
 
         /* PAGES */
         .page { flex: 1; padding: 15px; padding-bottom: 100px; overflow-y: auto; display: none; }
-        .page.active { display: block; }
+        .page.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* PROFILE SECTION */
-        .user-header { display: flex; align-items: center; gap: 15px; padding: 20px 10px; }
-        .avt-main { width: 75px; height: 75px; border-radius: 20px; background: #eee; overflow: hidden; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .avt-main img { width: 100%; height: 100%; object-fit: cover; }
-        .u-name { font-size: 20px; font-weight: 800; margin: 0; }
+        /* HOME UI - MỚI NHẤT */
+        .home-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .banner { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 25px; color: white; margin-bottom: 25px; position: relative; overflow: hidden; }
+        .banner h3 { margin: 0; font-size: 22px; position: relative; z-index: 2; }
+        .banner p { margin: 10px 0 0; font-size: 13px; opacity: 0.9; position: relative; z-index: 2; }
+        .banner::after { content: '⚡'; position: absolute; right: -10px; bottom: -20px; font-size: 100px; opacity: 0.1; }
+
+        .section-title { font-size: 18px; font-weight: 800; color: #333; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
         
-        /* THANH TIA SÉT (THAY TRÁI TIM) */
-        .energy-bar { 
-            background: linear-gradient(90deg, #fff9db, #fff3bf);
-            border-radius: 15px; padding: 15px; margin: 15px 0;
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; border: 1px solid #ffe066;
-        }
-        .eb-left { display: flex; align-items: center; gap: 10px; color: #f08c00; font-weight: bold; }
+        /* CÁC SLOT NHÂN VẬT ĐỀ XUẤT */
+        .char-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .char-slot { background: #f8f9fa; border: 2px dashed #ddd; border-radius: 20px; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #bbb; cursor: pointer; transition: 0.3s; }
+        .char-slot:hover { border-color: var(--primary); color: var(--primary); background: #f3f0ff; }
 
-        /* TRANG NHIỆM VỤ TIA SÉT */
-        .mission-header { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+        /* PROFILE & ENERGY (GIỮ NGUYÊN) */
+        .energy-bar { background: #fff9db; border-radius: 15px; padding: 15px; margin: 15px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 1px solid #ffe066; color: #f08c00; font-weight: bold; }
         .energy-count-card { background: #fff5f5; border-radius: 15px; padding: 20px; margin: 15px; text-align: center; }
-        .energy-val { font-size: 30px; font-weight: 900; color: var(--lightning); display: flex; align-items: center; justify-content: center; gap: 10px; }
-        
-        .section-label { font-size: 14px; font-weight: 700; color: #ff8787; margin: 20px 15px 10px; }
-        .mission-item { background: var(--card-bg); border-radius: 15px; padding: 15px; margin: 0 15px 10px; display: flex; justify-content: space-between; align-items: center; }
-        .m-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
-        .m-desc { font-size: 12px; color: #888; }
-        .m-reward { color: var(--lightning); font-weight: bold; font-size: 14px; margin-top: 5px; }
-        .btn-go { background: white; border: 1px solid #eee; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; }
 
-        /* BOTTOM NAV */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 70px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; }
-        .nav-i { color: #ccc; font-size: 24px; cursor: pointer; }
+        /* NAV BAR */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
+        .nav-i { color: #ccc; font-size: 26px; cursor: pointer; }
         .nav-i.active { color: #333; }
+        .add-btn { font-size: 35px; color: #ccc; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="pg-profile" class="page active">
+    <div id="pg-home" class="page active">
+        <div class="home-header">
+            <span style="font-weight: 900; font-size: 22px; color: var(--primary);">TP C-AI</span>
+            <span style="font-size: 22px;">🔍</span>
+        </div>
+
+        <div class="banner">
+            <h3>Chào ní, Trùm Móc!</h3>
+            <p>Hôm nay ní muốn tạo ra siêu phẩm AI nào không? Năng lượng tia sét đã sẵn sàng!</p>
+        </div>
+
+        <div class="section-title">✨ Nhân vật đề xuất</div>
+        
+        <div class="char-grid">
+            <div class="char-slot" onclick="alert('Lát nữa ní tạo xong nó hiện ở đây nè!')">
+                <span style="font-size: 30px;">+</span>
+                <span style="font-size: 12px; font-weight: bold;">Đợi ní tạo...</span>
+            </div>
+            <div class="char-slot" onclick="alert('Chỗ này cũng dành cho ní luôn!')">
+                <span style="font-size: 30px;">🎭</span>
+                <span style="font-size: 12px; font-weight: bold;">Sắp xuất hiện</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="pg-chat" class="page"><h2 style="padding:10px">Tin nhắn</h2></div>
+
+    <div id="pg-explore" class="page"><h2 style="padding:10px">Khám phá</h2></div>
+
+    <div id="pg-profile" class="page">
         <div style="text-align: right; padding: 10px;">⚙️</div>
-        <div class="user-header">
-            <div class="avt-main" id="u-avt">U</div>
-            <div class="u-info">
-                <h2 class="u-name" id="u-name">Trùm Móc</h2>
-                <div style="font-size: 12px; color: #aaa;">ID: 20260102</div>
+        <div style="display: flex; align-items: center; gap: 15px; padding: 10px;">
+            <div style="width:70px; height:70px; border-radius:20px; background:#eee; display:flex; align-items:center; justify-content:center; font-size:30px; color:white; font-weight:bold; background: var(--primary);" id="u-avt">U</div>
+            <div>
+                <h2 style="margin:0" id="u-name">Trùm Móc</h2>
+                <span style="font-size:12px; color:#aaa">ID: 20260102</span>
             </div>
         </div>
 
-        <div class="energy-bar" onclick="showEnergyPage()">
-            <div class="eb-left"><span>⚡</span> Năng lượng tia sét</div>
-            <div style="color: #f08c00;">123 ⚡ ></div>
+        <div class="energy-bar" onclick="showEnergy()">
+            <span>⚡ Năng lượng tia sét</span>
+            <span>123 ⚡ ❯</span>
         </div>
 
-        <div style="display: flex; justify-content: center; gap: 40px; margin-top: 20px; border-bottom: 1px solid #eee;">
-            <div style="padding: 10px; color: #ff8787; border-bottom: 2px solid #ff8787; font-weight: bold;">Nhân Vật</div>
-            <div style="padding: 10px; color: #ccc; font-weight: bold;">Bộ Sưu Tập</div>
+        <div style="display:flex; justify-content:center; gap:30px; border-bottom:1px solid #eee; margin-top:20px">
+            <div style="color:var(--primary); border-bottom:2px solid var(--primary); padding:10px; font-weight:bold">Nhân Vật</div>
+            <div style="color:#ccc; padding:10px; font-weight:bold">Bộ Sưu Tập</div>
         </div>
-        <div style="text-align: center; padding: 50px; color: #ddd;">Trống trơn nhen ní...</div>
     </div>
 
     <div id="pg-energy" class="page">
-        <div class="mission-header">
-            <span onclick="hideEnergyPage()" style="cursor:pointer; font-size: 20px; margin-right: 15px;">❮</span>
-            <span style="font-weight: 800; font-size: 18px;">Năng lượng của tôi</span>
-        </div>
-
+        <div style="padding: 15px; font-size: 20px; font-weight: 800;" onclick="hideEnergy()">❮ Năng lượng của tôi</div>
         <div class="energy-count-card">
-            <div style="font-size: 14px; color: #ff8787; margin-bottom: 10px;">Năng lượng hiện có</div>
-            <div class="energy-val">⚡ 123</div>
+            <div style="color:#ff8787">Tia sét hiện có</div>
+            <div style="font-size: 35px; font-weight: 900; color: var(--lightning)">⚡ 123</div>
         </div>
-
-        <div class="section-label">Nhiệm Vụ Hàng Ngày</div>
-        <div class="mission-item">
+        <div style="padding:15px; font-weight:bold; color:#ff8787">Nhiệm vụ</div>
+        <div style="margin: 15px; background:#f8f9fa; padding:15px; border-radius:15px; display:flex; justify-content:space-between; align-items:center">
             <div>
-                <div class="m-title">Đăng nhập mỗi ngày</div>
-                <div class="m-desc">Nhận tia sét miễn phí khi vào app</div>
-                <div class="m-reward">⚡ +50</div>
+                <b>Xem quảng cáo</b><br>
+                <span style="font-size:12px; color:var(--lightning)">+5 ⚡ / lượt</span>
             </div>
-            <button class="btn-go" style="color: #ccc;">Đã nhận</button>
-        </div>
-
-        <div class="mission-item">
-            <div>
-                <div class="m-title">Xem quảng cáo</div>
-                <div class="m-desc">Hỗ trợ tui bằng cách xem clip ngắn</div>
-                <div class="m-reward">⚡ +5 / lượt</div>
-            </div>
-            <button class="btn-go" onclick="alert('Đang tải quảng cáo...')">Xem ❯</button>
-        </div>
-
-        <div class="section-label">Nhiệm Vụ Đặc Biệt</div>
-        <div class="mission-item">
-            <div>
-                <div class="m-title">Mời bạn bè</div>
-                <div class="m-desc">Nhập mã mời để cả hai cùng nhận quà</div>
-                <div class="m-reward">⚡ +100</div>
-            </div>
-            <button class="btn-go" onclick="alert('Mã của ní: MJKJ7ZRZ')">Mời ❯</button>
+            <button style="border:none; background:#fff; padding:8px 15px; border-radius:10px; font-weight:bold">Xem ❯</button>
         </div>
     </div>
 
-    <div id="pg-home" class="page"><h2 style="text-align:center">Home</h2></div>
-    <div id="pg-chat" class="page"><h2 style="text-align:center">Chat</h2></div>
-    <div id="pg-explore" class="page"><h2 style="text-align:center">Khám phá</h2></div>
-
     <div class="nav">
-        <span class="nav-i" onclick="tab(this, 'pg-home')">🏠</span>
+        <span class="nav-i active" onclick="tab(this, 'pg-home')">🏠</span>
         <span class="nav-i" onclick="tab(this, 'pg-chat')">💬</span>
-        <span style="font-size:35px; color:#ccc; cursor:pointer">+</span>
+        <span class="add-btn">+</span>
         <span class="nav-i" onclick="tab(this, 'pg-explore')">🧭</span>
-        <span class="nav-i active" onclick="tab(this, 'pg-profile')">👤</span>
+        <span class="nav-i" onclick="tab(this, 'pg-profile')">👤</span>
     </div>
 
     <script>
-        function showEnergyPage() {
+        function showEnergy() {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('pg-energy').classList.add('active');
         }
-        function hideEnergyPage() {
+        function hideEnergy() {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('pg-profile').classList.add('active');
         }
