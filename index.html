@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI PRO MAX</title>
+    <title>TP C-AI PRO MAX - Discovery</title>
     <style>
         :root {
             --main-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
@@ -11,171 +11,134 @@
         }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* LOGIN SCREEN */
-        #login-screen { position: fixed; inset: 0; background: white; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .login-logo { font-size: 45px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 40px; }
-        .btn-gg { width: 100%; max-width: 300px; padding: 15px; border-radius: 15px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; font-weight: 700; cursor: pointer; background: white; }
+        /* HEADER & SEARCH */
+        .header { background: white; padding: 15px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 20px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 10px; }
+        .search-bar { background: #f1f3f6; border-radius: 15px; padding: 10px 15px; display: flex; align-items: center; }
+        .search-bar input { border: none; background: transparent; outline: none; margin-left: 10px; width: 100%; font-size: 14px; }
 
-        /* MAIN APP */
-        #app { display: none; flex-direction: column; height: 100vh; }
-        .header { background: white; padding: 15px; text-align: center; border-bottom: 1px solid #eee; font-weight: 900; color: #4A00E0; z-index: 100; }
-
-        .page { flex: 1; padding: 20px; padding-bottom: 160px; overflow-y: auto; display: none; }
+        /* PAGES */
+        .page { flex: 1; padding: 15px; padding-bottom: 100px; overflow-y: auto; display: none; }
         .page.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* PROFILE SECTION */
-        .card { background: white; border-radius: 30px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; }
-        .btn-set { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 200; padding: 10px; color: #ccc; }
-        
-        .avt-box { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-        .avt-img { width: 100%; height: 100%; border-radius: 35px; background: var(--main-gradient); display: flex; align-items: center; justify-content: center; font-size: 45px; color: white; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .avt-img img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-edit-avt { position: absolute; bottom: -5px; right: -5px; background: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; z-index: 210; }
+        /* DISCOVERY GRID */
+        .section-title { font-size: 18px; font-weight: 800; margin: 15px 0 10px; color: #333; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .ai-card { background: white; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .ai-card:active { transform: scale(0.95); border-color: #8E2DE2; }
+        .ai-avt { width: 65px; height: 65px; border-radius: 20px; margin: 0 auto 10px; overflow: hidden; background: #eee; }
+        .ai-avt img { width: 100%; height: 100%; object-fit: cover; }
+        .ai-name { font-weight: 700; font-size: 14px; color: #1a1a1a; }
 
-        /* CHAT SECTION */
-        #chat-list { display: flex; flex-direction: column; gap: 12px; }
-        .msg { padding: 12px 16px; border-radius: 18px; max-width: 80%; font-size: 14px; line-height: 1.5; }
-        .msg.me { background: var(--main-gradient); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-        .msg.ai { background: white; color: #333; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        /* PROFILE CARD */
+        .profile-card { background: white; border-radius: 30px; padding: 40px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; margin-top: 20px; }
+        .btn-settings { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 500; color: #ccc; }
+        .u-avt-holder { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
+        .u-avt-img { width: 100%; height: 100%; border-radius: 35px; background: var(--main-gradient); display: flex; align-items: center; justify-content: center; font-size: 45px; color: white; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .u-avt-img img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-edit { position: absolute; bottom: -5px; right: -5px; background: white; width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; z-index: 510; }
 
-        .chat-input-area { position: fixed; bottom: 85px; left: 15px; right: 15px; display: flex; gap: 10px; background: transparent; }
-        .chat-input-area input { flex: 1; padding: 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-send { background: var(--main-gradient); color: white; border: none; padding: 0 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-
-        /* OVERLAY MENU */
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; z-index: 3000; align-items: flex-end; }
-        .sheet { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .item { padding: 20px; display: flex; justify-content: space-between; border-bottom: 1px solid #f8f8f8; font-weight: 600; cursor: pointer; }
-
-        /* BOTTOM NAV */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; height: 75px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
-        .link { color: #555; font-size: 26px; cursor: pointer; transition: 0.3s; }
-        .link.active { color: white; transform: scale(1.2); }
+        /* NAV BAR */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; height: 75px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; }
+        .link { color: #555; font-size: 26px; cursor: pointer; }
+        .link.active { color: white; }
     </style>
 </head>
 <body>
 
-    <div id="login-screen">
-        <div class="login-logo">TP C-AI</div>
-        <div class="btn-gg" onclick="startLogin()">
-            <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" width="20" style="margin-right:10px"> Đăng nhập bằng Google
+    <div class="header">
+        <div class="logo">TP C-AI</div>
+        <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" id="search-input" placeholder="Tìm kiếm AI..." oninput="handleSearch(this.value)">
         </div>
     </div>
 
-    <div id="app">
-        <div class="header">TP C-AI</div>
-
-        <div id="pg-chat" class="page active">
-            <div id="chat-list"></div>
-            <div class="chat-input-area">
-                <input type="text" id="msg-input" placeholder="Hỏi TP C-AI gì đi ní...">
-                <button class="btn-send" onclick="send()">Gửi</button>
+    <div id="pg-discovery" class="page active">
+        <div class="section-title">Nhân vật đề xuất</div>
+        <div class="grid" id="ai-grid">
             </div>
-        </div>
+    </div>
 
-        <div id="pg-profile" class="page">
-            <div class="card">
-                <div class="btn-set" onclick="openMenu()">⚙️</div>
-                <div class="avt-box">
-                    <div class="avt-img" id="ui-avt">U</div>
-                    <label for="f-avt" class="btn-edit-avt">✏️</label>
-                    <input type="file" id="f-avt" hidden accept="image/*" onchange="changeAvt(this)">
-                </div>
-                <h2 id="ui-name" style="margin:0">Người dùng</h2>
-                <p style="color:#aaa; font-size:12px; margin-top:5px;">Verified Account</p>
+    <div id="pg-profile" class="page">
+        <div class="profile-card">
+            <div class="btn-settings" onclick="doRename()">⚙️</div>
+            <div class="u-avt-holder">
+                <div class="u-avt-img" id="display-avt">U</div>
+                <label for="input-avt" class="btn-edit">✏️</label>
+                <input type="file" id="input-avt" hidden accept="image/*" onchange="updateAvt(this)">
             </div>
+            <h2 id="display-name" style="margin:0">Người dùng</h2>
+            <p style="color:#bbb; font-size:13px; margin-top:5px;">Hạng: Kim cương</p>
+            <button onclick="logout()" style="margin-top:30px; border:none; color:red; background:none; font-weight:bold; cursor:pointer;">Đăng xuất</button>
         </div>
+    </div>
 
-        <div class="overlay" id="menu-box" onclick="closeMenu()">
-            <div class="sheet" onclick="event.stopPropagation()">
-                <div style="width:50px; height:5px; background:#eee; margin:0 auto 20px; border-radius:10px;"></div>
-                <div class="item" onclick="rename()">📝 Đổi tên người dùng <span>&rsaquo;</span></div>
-                <div class="item" onclick="alert('🔒 Bảo mật đã được kích hoạt!')">🔒 Cài đặt bảo mật <span>&rsaquo;</span></div>
-                <div class="item" style="color:#ff4757" onclick="logout()">🚪 Đăng xuất</div>
-            </div>
-        </div>
-
-        <div class="nav">
-            <span class="link active" onclick="tab(this, 'pg-chat')">💬</span>
-            <span class="link" onclick="tab(this, 'pg-profile')">👤</span>
-        </div>
+    <div class="nav">
+        <span class="link active" onclick="tab(this, 'pg-discovery')">🧭</span>
+        <span class="link" onclick="tab(this, 'pg-discovery')">💬</span>
+        <span class="link" onclick="tab(this, 'pg-profile')">👤</span>
     </div>
 
     <script>
-        // KIỂM TRA DỮ LIỆU CŨ KHI MỞ APP
+        const aiList = [
+            { name: "Sát thủ bóng đêm", avt: "https://i.pinimg.com/736x/22/0c/36/220c3609805b63063544d67310df6661.jpg" },
+            { name: "Tiểu thư đỏng đảnh", avt: "https://i.pinimg.com/736x/8d/6e/f1/8d6ef194cc238384f5f5905d436a57c5.jpg" },
+            { name: "Thầy giáo hắc ám", avt: "https://i.pinimg.com/736x/32/3b/68/323b680190533036e651213f01908612.jpg" },
+            { name: "Bạn gái AI", avt: "https://i.pinimg.com/736x/e4/c7/24/e4c7247716912384a51e6587c4a1708f.jpg" }
+        ];
+
         window.onload = () => {
-            if(localStorage.getItem('logged')) {
-                renderAll();
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('app').style.display = 'flex';
-            }
+            renderAI(aiList);
+            refreshProfile();
         };
 
-        function startLogin() {
-            const n = prompt("Tên của ní để Google đăng ký nè:");
-            if(n) {
-                localStorage.setItem('logged', 'true');
-                localStorage.setItem('u_name', n);
-                localStorage.setItem('u_chats', JSON.stringify([{type:'ai', text:'Chào '+n+'! Tui có thể giúp gì cho ní?'}]));
-                location.reload();
-            }
-        }
-
-        function renderAll() {
-            const name = localStorage.getItem('u_name') || "Ní";
-            const avt = localStorage.getItem('u_avt');
-            const chats = JSON.parse(localStorage.getItem('u_chats') || "[]");
-
-            document.getElementById('ui-name').innerText = name;
-            if(avt) {
-                document.getElementById('ui-avt').innerHTML = `<img src="${avt}">`;
-            } else {
-                document.getElementById('ui-avt').innerText = name.charAt(0).toUpperCase();
-            }
-
-            const list = document.getElementById('chat-list');
-            list.innerHTML = "";
-            chats.forEach(c => {
-                const d = document.createElement('div');
-                d.className = `msg ${c.type}`;
-                d.innerText = c.text;
-                list.appendChild(d);
+        function renderAI(data) {
+            const grid = document.getElementById('ai-grid');
+            grid.innerHTML = "";
+            data.forEach(item => {
+                grid.innerHTML += `
+                    <div class="ai-card" onclick="alert('Đang kết nối chat với ${item.name}...')">
+                        <div class="ai-avt"><img src="${item.avt}"></div>
+                        <div class="ai-name">${item.name}</div>
+                    </div>
+                `;
             });
-            document.getElementById('pg-chat').scrollTop = document.getElementById('pg-chat').scrollHeight;
         }
 
-        function send() {
-            const inp = document.getElementById('msg-input');
-            const txt = inp.value.trim();
-            if(txt) {
-                let chats = JSON.parse(localStorage.getItem('u_chats') || "[]");
-                chats.push({type:'me', text: txt});
-                chats.push({type:'ai', text: "TP C-AI đang suy nghĩ về: " + txt});
-                localStorage.setItem('u_chats', JSON.stringify(chats));
-                inp.value = "";
-                renderAll();
+        function handleSearch(val) {
+            const filtered = aiList.filter(a => a.name.toLowerCase().includes(val.toLowerCase()));
+            renderAI(filtered);
+        }
+
+        function refreshProfile() {
+            const n = localStorage.getItem('u_name') || "Người dùng";
+            const a = localStorage.getItem('u_avt');
+            document.getElementById('display-name').innerText = n;
+            if(a) {
+                document.getElementById('display-avt').innerHTML = `<img src="${a}">`;
+            } else {
+                document.getElementById('display-avt').innerText = n.charAt(0).toUpperCase();
             }
         }
 
-        function rename() {
-            const n = prompt("Nhập tên mới:");
-            if(n) {
-                localStorage.setItem('u_name', n);
-                renderAll();
-                closeMenu();
+        function doRename() {
+            const newName = prompt("Ní muốn đổi tên thành gì?");
+            if(newName) {
+                localStorage.setItem('u_name', newName);
+                refreshProfile();
             }
         }
 
-        function changeAvt(input) {
+        function updateAvt(input) {
             if(input.files && input.files[0]) {
-                const r = new FileReader();
-                r.onload = (e) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
                     localStorage.setItem('u_avt', e.target.result);
-                    renderAll();
-                };
-                r.readAsDataURL(input.files[0]);
+                    refreshProfile();
+                }
+                reader.readAsDataURL(input.files[0]);
             }
         }
 
@@ -186,11 +149,8 @@
             el.classList.add('active');
         }
 
-        function openMenu() { document.getElementById('menu-box').style.display = 'flex'; }
-        function closeMenu() { document.getElementById('menu-box').style.display = 'none'; }
-
         function logout() {
-            if(confirm("Đăng xuất là xóa sạch lịch sử chat đó nhen?")) {
+            if(confirm("Xóa sạch dữ liệu để đăng xuất nhen ní?")) {
                 localStorage.clear();
                 location.reload();
             }
