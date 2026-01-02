@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI PRO</title>
+    <title>TP C-AI PRO MAX</title>
     <style>
         :root {
             --main-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
@@ -20,32 +20,32 @@
         .page.active { display: block; animation: fadeIn 0.2s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* THANH ĐIỀU HƯỚNG TRÊN CÙNG (BIẾN HÌNH) */
-        .top-row { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; height: 45px; }
-        
+        /* TOP NAV (🔍 & Đề xuất) */
+        .top-row { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; height: 45px; }
         .search-container { display: flex; align-items: center; transition: all 0.3s ease; }
-        .search-icon-btn { font-size: 22px; cursor: pointer; padding: 5px; display: block; }
-        .search-input-box { display: none; background: #f1f3f6; border-radius: 12px; padding: 8px 15px; width: 0; opacity: 0; transition: all 0.3s ease; }
-        
-        /* Khi kích hoạt tìm kiếm */
+        .search-icon-btn { font-size: 24px; cursor: pointer; }
+        .search-input-box { display: none; background: #f1f3f6; border-radius: 12px; padding: 8px 15px; width: 0; opacity: 0; }
         .search-active .search-icon-btn { display: none; }
         .search-active .search-input-box { display: flex; width: 100%; opacity: 1; flex: 1; }
-        .search-input-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 15px; }
-
+        .search-input-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 15px; margin-left: 8px; }
         .btn-suggest { font-weight: 800; color: #333; font-size: 18px; cursor: pointer; white-space: nowrap; }
 
         /* PROFILE CARD */
         .profile-card { background: white; border-radius: 30px; padding: 40px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; }
-        .btn-settings { position: absolute; top: 20px; right: 20px; font-size: 26px; cursor: pointer; z-index: 100; color: #ddd; padding: 10px; }
+        .btn-settings { position: absolute; top: 20px; right: 20px; font-size: 26px; cursor: pointer; z-index: 100; color: #ddd; padding: 5px; }
         .u-avt-holder { position: relative; width: 120px; height: 120px; margin: 0 auto 20px; }
-        .u-avt-img { width: 100%; height: 100%; border-radius: 40px; background: var(--main-gradient); display: flex; align-items: center; justify-content: center; font-size: 50px; color: white; overflow: hidden; border: 4px solid white; }
+        .u-avt-img { width: 100%; height: 100%; border-radius: 40px; background: var(--main-gradient); display: flex; align-items: center; justify-content: center; font-size: 50px; color: white; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .u-avt-img img { width: 100%; height: 100%; object-fit: cover; }
         .btn-edit { position: absolute; bottom: -5px; right: -5px; background: white; width: 42px; height: 42px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; z-index: 150; }
 
-        /* NAV BAR */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; height: 75px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
-        .link { color: #444; font-size: 28px; cursor: pointer; transition: 0.3s; padding: 10px; }
-        .link.active { color: white; transform: translateY(-3px); }
+        /* BOTTOM NAV BAR */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; height: 80px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; padding: 0 10px; }
+        .link { color: #555; font-size: 28px; cursor: pointer; transition: 0.3s; position: relative; }
+        .link.active { color: white; }
+        
+        /* NÚT DẤU CỘNG Ở GIỮA */
+        .btn-add { background: var(--main-gradient); width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; font-weight: bold; transform: translateY(-20px); box-shadow: 0 10px 20px rgba(142, 45, 226, 0.4); cursor: pointer; }
+        .btn-add:active { transform: translateY(-15px) scale(0.9); }
     </style>
 </head>
 <body>
@@ -54,8 +54,8 @@
         <div class="logo">TP C-AI</div>
     </div>
 
-    <div id="pg-home" class="page active">
-        <div class="top-row" id="top-row">
+    <div id="pg-explore" class="page active">
+        <div class="top-row">
             <div class="search-container" id="search-container">
                 <span class="search-icon-btn" onclick="toggleSearch()">🔍</span>
                 <div class="search-input-box" id="search-box">
@@ -67,8 +67,8 @@
         </div>
 
         <div style="text-align: center; margin-top: 100px; color: #ddd;">
-            <div style="font-size: 60px; margin-bottom: 20px;">🏠</div>
-            <p>Bấm vào 🔍 để tìm nhân vật nhen ní!</p>
+            <div style="font-size: 60px; margin-bottom: 20px;">🧭</div>
+            <p>Khám phá thế giới AI của ní nhen!</p>
         </div>
     </div>
 
@@ -86,21 +86,20 @@
     </div>
 
     <div class="nav">
-        <span class="link active" onclick="tab(this, 'pg-home')">🏠</span>
-        <span class="link" onclick="tab(this, 'pg-home')">💬</span>
+        <span class="link active" onclick="tab(this, 'pg-explore')">🧭</span>
+        <div class="btn-add" onclick="alert('Tính năng tạo nhân vật sắp ra mắt!')">+</div>
         <span class="link" onclick="tab(this, 'pg-profile')">👤</span>
     </div>
 
     <script>
         window.onload = () => { loadUserData(); };
 
-        // HIỆU ỨNG KÍNH LÚP
+        // SEARCH
         function toggleSearch() {
             document.getElementById('search-container').classList.add('search-active');
             document.getElementById('suggest-txt').style.display = 'none';
             document.getElementById('search-input').focus();
         }
-
         function closeSearch() {
             const input = document.getElementById('search-input');
             if (input.value === "") {
@@ -109,21 +108,18 @@
             }
         }
 
-        // DỮ LIỆU NGƯỜI DÙNG
+        // USER DATA
         function loadUserData() {
             const n = localStorage.getItem('tp_name') || "Người dùng";
             const a = localStorage.getItem('tp_avt');
             document.getElementById('ui-name').innerText = n;
             const box = document.getElementById('ui-avt');
-            if(a) {
-                box.innerHTML = `<img src="${a}">`;
-            } else {
-                box.innerHTML = n.charAt(0).toUpperCase();
-            }
+            if(a) { box.innerHTML = `<img src="${a}">`; }
+            else { box.innerHTML = n.charAt(0).toUpperCase(); }
         }
 
         function changeName() {
-            const n = prompt("Ní muốn đổi tên thành gì?");
+            const n = prompt("Ní muốn tên gì nè?");
             if(n && n.trim() !== "") {
                 localStorage.setItem('tp_name', n.trim());
                 loadUserData();
