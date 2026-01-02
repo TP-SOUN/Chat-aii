@@ -97,55 +97,69 @@ header {
   padding-bottom: 70px;
 }
 
-/* Popup char */
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  width: 90%;
-  max-width: 350px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  z-index: 1000;
-  transition: transform 0.3s ease-in-out;
-}
-
-.popup.active {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.popup h2 {
-  margin: 0 0 10px;
-  font-size: 18px;
-  text-align: center;
-}
-
-.popup p {
-  font-size: 13px;
-  margin-bottom: 5px;
-}
-
-/* Chat box */
-.chat-box {
-  margin-top: 10px;
-  display: flex;
+/* Màn hình chat riêng (Doki style) */
+.chat-screen {
+  display: none;
   flex-direction: column;
+  height: 100vh;
+  background: #fff0f5;
+}
+
+.chat-header {
+  background: #ff5b8a;
+  color: #fff;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 6px 10px;
+  border-radius: 10px;
+  max-width: 70%;
+}
+
+.user-msg {
+  background: #add8ff;
+  align-self: flex-end;
+}
+
+.char-msg {
+  background: #ffb6c1;
+  align-self: flex-start;
+}
+
+.chat-input {
+  display: flex;
+  padding: 10px;
   gap: 5px;
 }
 
-.chat-box input {
+.chat-input input {
+  flex: 1;
   padding: 6px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  width: 100%;
 }
 
-.chat-box button {
-  margin-top: 5px;
-  padding: 6px;
+.chat-input button {
+  padding: 6px 12px;
   border-radius: 6px;
   border: none;
   background: #ff5b8a;
@@ -153,55 +167,39 @@ header {
   cursor: pointer;
 }
 
-/* Close button */
-.popup .close-btn {
-  display: block;
-  margin: 10px auto 0;
-  background: #ff5b8a;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 5px 12px;
-  cursor: pointer;
-}
 </style>
 </head>
 <body>
 
-<header>TP C.AI Demo</header>
-
-<div class="content-wrapper container">
+<!-- Home Page -->
+<div id="homePage" class="content-wrapper container">
   <div class="grid">
     <!-- Card char Trung Tư Viễn -->
-    <div class="card" onclick="openPopup()">
+    <div class="card" onclick="openChat()">
       <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
       <h3>Trung Tư Viễn</h3>
       <div class="tags">
-        <span class="tag">Nam</span>
-        <span class="tag">Giáo viên Toán</span>
-        <span class="tag">Nghiêm khắc</span>
+        <span class="tag">Male</span>
+        <span class="tag">BL</span>
+        <span class="tag">Học đường</span>
+        <span class="tag">Từ ghét thành …</span>
+        <span class="tag">Đồng nghiệp</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Popup thông tin char -->
-<div class="popup" id="charPopup">
-  <h2>Trung Tư Viễn</h2>
-  <p><strong>Giới tính:</strong> Nam</p>
-  <p><strong>Nghề nghiệp:</strong> Giáo viên Toán trường XXX</p>
-  <p><strong>Lịch sử:</strong> Hai thầy từng là đồng nghiệp, ban đầu khắc khẩu nhưng dần trở thành “oan gia quen mặt”.</p>
-  <p><strong>Tin nhắn đầu:</strong> "Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!"</p>
-  <p><strong>Tính cách:</strong> Lạnh lùng với người khác, nghiêm túc, ít nói.</p>
-
-  <!-- Chat box -->
-  <div class="chat-box">
-    <input type="text" id="userMsg" placeholder="Nhập tin nhắn...">
-    <button onclick="sendMsg()">Gửi</button>
-    <div id="chatLog" style="margin-top:5px;font-size:12px;max-height:120px;overflow-y:auto;"></div>
+<!-- Chat Screen -->
+<div id="chatScreen" class="chat-screen">
+  <div class="chat-header">
+    <img src="https://i.pravatar.cc/150?img=5" alt="Trung Tư Viễn">
+    Trung Tư Viễn
   </div>
-
-  <button class="close-btn" onclick="closePopup()">Đóng</button>
+  <div id="chatMessages" class="chat-messages"></div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Nhập tin nhắn...">
+    <button onclick="sendChat()">Gửi</button>
+  </div>
 </div>
 
 <!-- Navigation Bar -->
@@ -214,39 +212,56 @@ header {
 </div>
 
 <script>
-// Mở / đóng popup
-function openPopup() {
-  document.getElementById('charPopup').classList.add('active');
-}
-function closePopup() {
-  document.getElementById('charPopup').classList.remove('active');
-  document.getElementById('chatLog').innerHTML = ''; // reset chat
+// Mở màn hình chat riêng
+function openChat(){
+  document.getElementById('homePage').style.display = 'none';
+  document.getElementById('chatScreen').style.display = 'flex';
+  document.getElementById('chatMessages').innerHTML = '';
+
+  // Tin nhắn mở đầu theo cốt truyện
+  addCharMsg('Chạy nhanh lên! Tiết đầu tiên sắp bắt đầu rồi đó!');
 }
 
-// Chat JS cơ bản
-function sendMsg() {
-  let input = document.getElementById('userMsg');
+// Gửi tin nhắn
+function sendChat(){
+  let input = document.getElementById('chatInput');
   let msg = input.value.trim();
   if(!msg) return;
-  
-  let log = document.getElementById('chatLog');
-  let userDiv = document.createElement('div');
-  userDiv.textContent = "Bạn: " + msg;
-  userDiv.style.color = "#0000ff";
-  log.appendChild(userDiv);
-  
-  // Trả lời theo cốt truyện đơn giản
-  let replyDiv = document.createElement('div');
-  replyDiv.style.color = "#ff1493";
-  replyDiv.style.marginLeft = "10px";
-  replyDiv.textContent = "Tư Viễn: " + generateReply(msg);
-  log.appendChild(replyDiv);
-  
-  log.scrollTop = log.scrollHeight;
+
+  addUserMsg(msg);
   input.value = '';
+
+  // Trả lời char đơn giản theo cốt truyện
+  setTimeout(() => {
+    addCharMsg(generateReply(msg));
+  }, 500);
 }
 
-// Trả lời demo đơn giản theo cốt truyện / tính cách
+// Thêm tin nhắn người dùng
+function addUserMsg(msg){
+  let div = document.createElement('div');
+  div.className = 'message user-msg';
+  div.textContent = msg;
+  document.getElementById('chatMessages').appendChild(div);
+  scrollChat();
+}
+
+// Thêm tin nhắn char
+function addCharMsg(msg){
+  let div = document.createElement('div');
+  div.className = 'message char-msg';
+  div.textContent = msg;
+  document.getElementById('chatMessages').appendChild(div);
+  scrollChat();
+}
+
+// Scroll chat xuống cuối
+function scrollChat(){
+  let chat = document.getElementById('chatMessages');
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// Trả lời demo theo cốt truyện / tính cách
 function generateReply(userMsg){
   userMsg = userMsg.toLowerCase();
   if(userMsg.includes("chạy") || userMsg.includes("tiết")){
