@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Aii</title>
+</head>
+<body>
+  <h2>Chat AI (test)</h2>
+
+  <input id="msg" placeholder="Nhập gì đó..." />
+  <button onclick="send()">Gửi</button>
+
+  <p id="res"></p>
+
+  <script>
+    function send() {
+      const text = document.getElementById("msg").value;
+      document.getElementById("res").innerText =
+        "AI nói: " + text;
+    }
+  </script>
+</body>
+</html>
