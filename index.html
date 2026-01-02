@@ -18,9 +18,9 @@
         .page.active { display: block; animation: fadeIn 0.2s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* PROFILE */
+        /* PROFILE CARD */
         .card { background: white; border-radius: 30px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; }
-        .btn-set { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 100; padding: 10px; }
+        .btn-set { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 100; padding: 10px; color: #ccc; }
         
         .avt-holder { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
         .avt-circle { width: 100%; height: 100%; border-radius: 35px; background: var(--main-gradient); display: flex; align-items: center; justify-content: center; font-size: 45px; color: white; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
@@ -29,9 +29,9 @@
 
         .name-txt { font-size: 26px; font-weight: 800; color: #1a1a1a; margin-top: 10px; }
 
-        /* MENU & OVERLAY */
+        /* OVERLAY & SHEET */
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; z-index: 2000; align-items: flex-end; }
-        .sheet { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; animation: slideUp 0.3s ease; }
+        .sheet { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; animation: slideUp 0.3s ease; max-height: 85vh; overflow-y: auto; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
         .item { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f8f8f8; font-weight: 600; color: #333; cursor: pointer; }
@@ -51,13 +51,13 @@
     <div id="pg-home" class="page active">
         <div style="text-align: center; margin-top: 100px;">
             <h1 id="hi-user">Chào ní!</h1>
-            <p style="color: #999;">Trang chủ TP C-AI đã sẵn sàng.</p>
+            <p style="color: #999;">Trang chủ TP C-AI sẵn sàng rồi nè.</p>
         </div>
     </div>
 
     <div id="pg-profile" class="page">
         <div class="card">
-            <div class="btn-set" onclick="openM()">⚙️</div>
+            <div class="btn-set" onclick="openM('menu-main')">⚙️</div>
             <div class="avt-holder">
                 <div class="avt-circle" id="avt-img">U</div>
                 <label for="up-avt" class="btn-edit-avt">✏️</label>
@@ -68,12 +68,28 @@
         </div>
     </div>
 
-    <div class="overlay" id="menu-box" onclick="closeM()">
+    <div class="overlay" id="menu-main" onclick="closeM('menu-main')">
         <div class="sheet" onclick="event.stopPropagation()">
-            <div style="width: 50px; height: 6px; background: #eee; margin: 0 auto 25px; border-radius: 10px;"></div>
+            <div style="width: 50px; height: 6px; background: #eee; margin: 0 auto 20px; border-radius: 10px;"></div>
             <div class="item" onclick="doRename()">📝 Đổi tên người dùng <span>&rsaquo;</span></div>
+            <div class="item" onclick="closeM('menu-main'); openM('menu-terms')">📜 Thỏa thuận người dùng <span>&rsaquo;</span></div>
             <div class="item" onclick="goSecurity()">🔒 Cài đặt bảo mật <span>&rsaquo;</span></div>
             <div class="item red" onclick="doReset()">🚪 Đăng xuất</div>
+        </div>
+    </div>
+
+    <div class="overlay" id="menu-terms" onclick="closeM('menu-terms')">
+        <div class="sheet" onclick="event.stopPropagation()">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="margin:0">Thỏa thuận người dùng</h3>
+                <span onclick="closeM('menu-terms')" style="font-size:30px;">&times;</span>
+            </div>
+            <div style="font-size:14px; color:#666; line-height:1.6;">
+                <p>1. Bạn chịu trách nhiệm về nội dung do mình tạo ra.</p>
+                <p>2. Dữ liệu được bảo mật và lưu cục bộ trên thiết bị.</p>
+                <p>3. Không sử dụng app vào mục đích vi phạm pháp luật.</p>
+                <button onclick="closeM('menu-terms')" style="width:100%; background:var(--main-gradient); color:white; border:none; padding:15px; border-radius:15px; margin-top:20px; font-weight:bold;">Tôi đồng ý</button>
+            </div>
         </div>
     </div>
 
@@ -87,9 +103,9 @@
 
     <script>
         window.onload = () => {
-            const n = localStorage.getItem('tp_name_pro');
-            const a = localStorage.getItem('tp_avt_pro');
-            if(n) renderName(n);
+            const n = localStorage.getItem('tp_final_name');
+            const a = localStorage.getItem('tp_final_avt');
+            if(n) render(n);
             if(a) document.getElementById('avt-img').innerHTML = `<img src="${a}">`;
         };
 
@@ -102,44 +118,44 @@
             }
         }
 
-        function openM() { document.getElementById('menu-box').style.display = 'flex'; }
-        function closeM() { document.getElementById('menu-box').style.display = 'none'; }
+        function openM(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeM(id) { document.getElementById(id).style.display = 'none'; }
 
         function doRename() {
             const val = prompt("Tên mới của ní là gì?");
             if(val && val.trim() !== "") {
-                localStorage.setItem('tp_name_pro', val);
-                renderName(val);
-                closeM();
+                localStorage.setItem('tp_final_name', val);
+                render(val);
+                closeM('menu-main');
             }
         }
 
-        function renderName(n) {
+        function render(n) {
             document.getElementById('name-display').innerText = n;
             document.getElementById('hi-user').innerText = "Chào " + n + "!";
-            if(!localStorage.getItem('tp_avt_pro')) {
+            if(!localStorage.getItem('tp_final_avt')) {
                 document.getElementById('avt-img').innerText = n.charAt(0).toUpperCase();
             }
         }
 
         function processAvt(input) {
             if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    localStorage.setItem('tp_avt_pro', e.target.result);
+                const r = new FileReader();
+                r.onload = (e) => {
+                    localStorage.setItem('tp_final_avt', e.target.result);
                     document.getElementById('avt-img').innerHTML = `<img src="${e.target.result}">`;
-                }
-                reader.readAsDataURL(input.files[0]);
+                };
+                r.readAsDataURL(input.files[0]);
             }
         }
 
         function goSecurity() {
-            alert("🔒 Bảo mật TP C-AI:\nDữ liệu của ní đã được mã hóa và lưu trữ an toàn trên thiết bị này.");
-            closeM();
+            alert("🔒 Dữ liệu đã được mã hóa an toàn!");
+            closeM('menu-main');
         }
 
         function doReset() {
-            if(confirm("Đăng xuất là mất sạch profile nha?")) {
+            if(confirm("Đăng xuất là mất hết dữ liệu profile nha?")) {
                 localStorage.clear();
                 location.reload();
             }
