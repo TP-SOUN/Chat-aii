@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI CHAT EDITION</title>
+    <title>TP C-AI CLEAN EDITION</title>
     <style>
         :root { --primary: #8E2DE2; --lightning: #f1c40f; --bg: #ffffff; --pink: #ff7675; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
@@ -12,24 +12,25 @@
 
         /* NAV BAR */
         .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
-        .n-btn { color: #ccc; font-size: 24px; cursor: pointer; padding: 10px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
+        .n-btn { color: #ccc; font-size: 24px; cursor: pointer; padding: 10px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; -webkit-tap-highlight-color: transparent; }
         .n-btn.active { color: var(--primary); }
         .n-btn span { font-size: 10px; font-weight: bold; margin-top: 2px; }
         
-        /* DẤU CỘNG */
-        .add-btn { font-size: 40px; color: #333; cursor: pointer; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 50%; transition: 0.3s; }
+        /* NÚT DẤU CỘNG (+) */
+        .add-btn { font-size: 40px; color: #333; cursor: pointer; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 50%; transition: 0.3s; }
         .add-btn:active { transform: scale(0.8) rotate(90deg); }
 
-        /* LIST CHAT */
-        .chat-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f8f8f8; cursor: pointer; }
-        .chat-avt { width: 50px; height: 50px; background: #eee; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        /* EMPTY STATE */
+        .empty-box { text-align: center; color: #ddd; margin-top: 150px; }
+        .empty-box i { font-size: 50px; display: block; margin-bottom: 10px; }
 
-        /* ENERGY & PROFILE */
+        /* PROFILE & MISSION */
         .avt-box { width: 80px; height: 80px; border-radius: 25px; background: var(--primary); overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 35px; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer; }
         .avt-box img { width: 100%; height: 100%; object-fit: cover; }
         .m-item { background: #f8f9fa; border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .m-btn { background: #fff; border: 1px solid #eee; padding: 10px 18px; border-radius: 12px; font-weight: 800; cursor: pointer; }
         .m-btn.off { background: #eee; color: #bbb; cursor: not-allowed; }
+
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; display: none; z-index: 10001; }
     </style>
 </head>
@@ -38,36 +39,23 @@
 
     <div id="pg-home" class="page active">
         <h2>🏠 Khám phá</h2>
-        <div style="text-align:center; color:#ddd; margin-top:100px;">
-            <p>Chào ní! Bắt đầu tạo bot hoặc chọn một bot để chat nhen.</p>
-        </div>
+        <div class="empty-box"><i>🔍</i><p>Chưa có bot nào được đề xuất</p></div>
     </div>
 
     <div id="pg-chat" class="page">
         <h2>💬 Tin nhắn</h2>
-        <div class="chat-item" onclick="alert('Mở chat với Bot AI...')">
-            <div class="chat-avt">🤖</div>
-            <div>
-                <b>Trợ lý AI</b><br>
-                <small style="color:#aaa">Ní ơi, nhắn gì đi chứ...</small>
-            </div>
-        </div>
-        <div class="chat-item" onclick="alert('Mở chat với Người yêu ảo...')">
-            <div class="chat-avt">💖</div>
-            <div>
-                <b>Người yêu ảo</b><br>
-                <small style="color:#aaa">Hôm nay ní khỏe không?</small>
-            </div>
+        <div class="empty-box">
+            <i>💬</i>
+            <p>Danh sách tin nhắn trống nhen ní!<br><small>Bấm dấu (+) để tạo bot và bắt đầu chat.</small></p>
         </div>
     </div>
 
     <div id="pg-create" class="page">
         <div onclick="goPage('pg-home')" style="font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
         <h2>➕ Tạo bot mới</h2>
-        <div style="background:#f9f9f9; padding:20px; border-radius:20px; border:2px dashed #ddd; text-align:center">
-            <p>Nhập thông tin Bot vào đây nhen...</p>
-            <input type="text" placeholder="Tên Bot..." style="width:90%; padding:12px; border-radius:10px; border:1px solid #eee">
-            <button class="m-btn" style="width:100%; margin-top:15px; background:var(--primary); color:#fff; border:none">Xác nhận tạo</button>
+        <div style="background:#f9f9f9; padding:25px; border-radius:25px; border:2px dashed #ddd; text-align:center; margin-top:20px">
+            <input type="text" id="bot-name" placeholder="Tên Bot muốn tạo..." style="width:90%; padding:15px; border-radius:12px; border:1px solid #eee; font-size:16px">
+            <button class="m-btn" style="width:100%; margin-top:20px; background:var(--primary); color:#fff; border:none; padding:15px" onclick="createBot()">XÁC NHẬN ĐÚC BOT</button>
         </div>
     </div>
 
@@ -81,8 +69,8 @@
             </div>
         </div>
         <div style="background:#fff9db; padding:20px; border-radius:20px; margin-top:20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer" onclick="goPage('pg-energy')">
-            <b style="color:#f08c00">⚡ Sét hiện có: <span id="p-val">123</span></b>
-            <span>❯</span>
+            <b style="color:#f08c00">⚡ Năng lượng: <span id="p-val">123</span></b>
+            <span>Nhận thêm ❯</span>
         </div>
     </div>
 
@@ -90,22 +78,22 @@
         <div onclick="goPage('pg-profile')" style="font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
         <h3 style="margin-top:20px">Nhiệm vụ nhận Sét</h3>
         <div class="m-item">
-            <div><b>Điểm danh</b><br><small>+50 ⚡ (1/1)</small></div>
+            <div><b>Điểm danh</b><br><small>+50 ⚡ (Hằng ngày)</small></div>
             <button class="m-btn" id="btn-checkin" onclick="checkin()">Nhận</button>
         </div>
         <div class="m-item">
-            <div><b>Quảng cáo</b><br><small id="ads-txt">+5 ⚡ (0/20)</small></div>
+            <div><b>Xem Quảng cáo</b><br><small id="ads-txt">+5 ⚡ (0/20)</small></div>
             <button class="m-btn" id="btn-ads" onclick="watchAds()">Xem</button>
         </div>
         <div class="m-item">
-            <div><b>Mời bạn</b><br><small>Nhập mã mời (+100 ⚡)</small></div>
-            <button class="m-btn" onclick="alert('Mã mời của ní: TP-AI666')">Mời</button>
+            <div><b>Mời bạn bè</b><br><small>Nhập mã mời (+100 ⚡)</small></div>
+            <button class="m-btn" onclick="alert('Mã của bạn: TP-MOC2026')">Mời</button>
         </div>
     </div>
 
     <div class="nav">
         <div class="n-btn active" onclick="nav(this, 'pg-home')">🏠<span>Home</span></div>
-        <div class="n-btn" onclick="nav(this, 'pg-chat')">💬<span>Chat</span></div>
+        <div class="n-btn" onclick="nav(this, 'pg-chat')">💬<span>Tin nhắn</span></div>
         <div class="add-btn" onclick="nav(this, 'pg-create')">+</div>
         <div class="n-btn" onclick="nav(this, 'pg-profile')">👤<span>Tôi</span></div>
     </div>
@@ -128,6 +116,13 @@
             if(ads >= 20) lock('btn-ads', 'Hết lượt');
             if(localStorage.getItem('tp_check') === new Date().toDateString()) lock('btn-checkin', 'Đã nhận');
             localStorage.setItem('tp_e', energy);
+        }
+
+        function createBot() {
+            const name = document.getElementById('bot-name').value;
+            if(!name) return toast("Ní nhập tên bot đã!");
+            toast("Đang đúc bot: " + name);
+            setTimeout(() => { goPage('pg-chat'); document.getElementById('bot-name').value = ""; }, 1000);
         }
 
         function lock(id, txt) { const b = document.getElementById(id); b.innerText = txt; b.classList.add('off'); b.onclick = null; }
