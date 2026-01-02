@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI PLUS EDITION</title>
+    <title>TP C-AI CHAT EDITION</title>
     <style>
         :root { --primary: #8E2DE2; --lightning: #f1c40f; --bg: #ffffff; --pink: #ff7675; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
@@ -12,86 +12,102 @@
 
         /* NAV BAR */
         .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
-        .n-btn { color: #ccc; font-size: 26px; cursor: pointer; padding: 10px; transition: 0.3s; }
-        .n-btn.active { color: #333; }
+        .n-btn { color: #ccc; font-size: 24px; cursor: pointer; padding: 10px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; }
+        .n-btn.active { color: var(--primary); }
+        .n-btn span { font-size: 10px; font-weight: bold; margin-top: 2px; }
         
-        /* NÚT DẤU CỘNG */
-        .add-btn { font-size: 45px; color: #333; cursor: pointer; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .add-btn:active { transform: scale(0.8) rotate(90deg); color: var(--primary); }
+        /* DẤU CỘNG */
+        .add-btn { font-size: 40px; color: #333; cursor: pointer; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 50%; transition: 0.3s; }
+        .add-btn:active { transform: scale(0.8) rotate(90deg); }
 
-        /* AVATAR BOX */
-        .avt-box { width: 80px; height: 80px; border-radius: 25px; background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 35px; font-weight: bold; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; }
+        /* LIST CHAT */
+        .chat-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f8f8f8; cursor: pointer; }
+        .chat-avt { width: 50px; height: 50px; background: #eee; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+
+        /* ENERGY & PROFILE */
+        .avt-box { width: 80px; height: 80px; border-radius: 25px; background: var(--primary); overflow: hidden; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 35px; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer; }
         .avt-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* CÁC THÀNH PHẦN KHÁC */
         .m-item { background: #f8f9fa; border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .m-btn { background: #fff; border: 1px solid #eee; padding: 10px 18px; border-radius: 12px; font-weight: 800; cursor: pointer; }
         .m-btn.off { background: #eee; color: #bbb; cursor: not-allowed; }
-        
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; display: none; z-index: 10001; }
-        
-        /* TRANG TẠO NHÂN VẬT */
-        .create-box { background: #f0f0f0; border-radius: 20px; padding: 20px; margin-top: 20px; text-align: center; border: 2px dashed #ccc; }
     </style>
 </head>
 <body>
     <div id="toast"></div>
 
     <div id="pg-home" class="page active">
-        <h2 style="margin:0">🔍 Khám phá</h2>
-        <p style="color:#aaa">Chào mừng ní quay trở lại!</p>
-        <div style="margin-top:100px; text-align:center; color:#ddd">
-            <p>Chưa có nhân vật nào...</p>
-            <p>Bấm dấu <b>(+)</b> bên dưới để tạo nhen!</p>
+        <h2>🏠 Khám phá</h2>
+        <div style="text-align:center; color:#ddd; margin-top:100px;">
+            <p>Chào ní! Bắt đầu tạo bot hoặc chọn một bot để chat nhen.</p>
+        </div>
+    </div>
+
+    <div id="pg-chat" class="page">
+        <h2>💬 Tin nhắn</h2>
+        <div class="chat-item" onclick="alert('Mở chat với Bot AI...')">
+            <div class="chat-avt">🤖</div>
+            <div>
+                <b>Trợ lý AI</b><br>
+                <small style="color:#aaa">Ní ơi, nhắn gì đi chứ...</small>
+            </div>
+        </div>
+        <div class="chat-item" onclick="alert('Mở chat với Người yêu ảo...')">
+            <div class="chat-avt">💖</div>
+            <div>
+                <b>Người yêu ảo</b><br>
+                <small style="color:#aaa">Hôm nay ní khỏe không?</small>
+            </div>
         </div>
     </div>
 
     <div id="pg-create" class="page">
-        <div onclick="goPage('pg-home')" style="padding:10px; font-weight:bold; cursor:pointer; color:var(--pink)">❮ Hủy bỏ</div>
-        <h2>Tạo nhân vật mới</h2>
-        <div class="create-box">
-            <div style="font-size:50px">👤</div>
-            <input type="text" placeholder="Tên nhân vật AI..." style="width:90%; padding:12px; border-radius:10px; border:1px solid #ddd; margin-top:10px">
-            <button class="m-btn" style="width:100%; margin-top:15px; background:var(--primary); color:#fff; border:none" onclick="alert('Đang đúc nhân vật...'); goPage('pg-home')">Đúc nhân vật</button>
+        <div onclick="goPage('pg-home')" style="font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
+        <h2>➕ Tạo bot mới</h2>
+        <div style="background:#f9f9f9; padding:20px; border-radius:20px; border:2px dashed #ddd; text-align:center">
+            <p>Nhập thông tin Bot vào đây nhen...</p>
+            <input type="text" placeholder="Tên Bot..." style="width:90%; padding:12px; border-radius:10px; border:1px solid #eee">
+            <button class="m-btn" style="width:100%; margin-top:15px; background:var(--primary); color:#fff; border:none">Xác nhận tạo</button>
         </div>
     </div>
 
     <div id="pg-profile" class="page">
         <div style="display:flex; align-items:center; gap:15px">
-            <div class="avt-box" id="u-avt" onclick="triggerUpload()">U</div>
-            <input type="file" id="f-upload" hidden accept="image/*" onchange="doUpload(this)">
+            <div class="avt-box" id="u-avt" onclick="document.getElementById('f-up').click()">U</div>
+            <input type="file" id="f-up" hidden accept="image/*" onchange="uploadImg(this)">
             <div>
-                <h2 id="u-name" style="margin:0" onclick="doRename()">Trùm Móc ✎</h2>
-                <small style="color:#aaa">Bấm vào tên hoặc ảnh để đổi</small>
+                <h2 id="u-name" style="margin:0" onclick="rename()">Trùm Móc ✎</h2>
+                <small style="color:#aaa">Bấm để sửa cá nhân</small>
             </div>
         </div>
-        <div style="background:#fff9db; padding:20px; border-radius:20px; margin-top:25px; display:flex; justify-content:space-between; align-items:center; cursor:pointer" onclick="goPage('pg-energy')">
-            <b style="color:#f08c00">⚡ Năng lượng: <span id="p-val">123</span></b>
+        <div style="background:#fff9db; padding:20px; border-radius:20px; margin-top:20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer" onclick="goPage('pg-energy')">
+            <b style="color:#f08c00">⚡ Sét hiện có: <span id="p-val">123</span></b>
             <span>❯</span>
         </div>
     </div>
 
     <div id="pg-energy" class="page">
-        <div onclick="goPage('pg-profile')" style="padding:10px; font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
+        <div onclick="goPage('pg-profile')" style="font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
         <h3 style="margin-top:20px">Nhiệm vụ nhận Sét</h3>
         <div class="m-item">
             <div><b>Điểm danh</b><br><small>+50 ⚡ (1/1)</small></div>
-            <button class="m-btn" id="btn-daily" onclick="claimDaily()">Nhận</button>
+            <button class="m-btn" id="btn-checkin" onclick="checkin()">Nhận</button>
         </div>
         <div class="m-item">
-            <div><b>Xem quảng cáo</b><br><small id="ads-txt">+5 ⚡ (0/20)</small></div>
-            <button class="m-btn" id="btn-ads" onclick="claimAds()">Xem</button>
+            <div><b>Quảng cáo</b><br><small id="ads-txt">+5 ⚡ (0/20)</small></div>
+            <button class="m-btn" id="btn-ads" onclick="watchAds()">Xem</button>
         </div>
         <div class="m-item">
-            <div><b>Mời bạn bè</b><br><small id="inv-txt">+100 ⚡ (0/10)</small></div>
-            <button class="m-btn" onclick="alert('Mã của ní: TP-ABC123')">Mời</button>
+            <div><b>Mời bạn</b><br><small>Nhập mã mời (+100 ⚡)</small></div>
+            <button class="m-btn" onclick="alert('Mã mời của ní: TP-AI666')">Mời</button>
         </div>
     </div>
 
     <div class="nav">
-        <div class="n-btn active" onclick="navTab(this, 'pg-home')">🏠</div>
-        <div class="add-btn" onclick="navTab(this, 'pg-create')">+</div>
-        <div class="n-btn" onclick="navTab(this, 'pg-profile')">👤</div>
+        <div class="n-btn active" onclick="nav(this, 'pg-home')">🏠<span>Home</span></div>
+        <div class="n-btn" onclick="nav(this, 'pg-chat')">💬<span>Chat</span></div>
+        <div class="add-btn" onclick="nav(this, 'pg-create')">+</div>
+        <div class="n-btn" onclick="nav(this, 'pg-profile')">👤<span>Tôi</span></div>
     </div>
 
     <script>
@@ -110,30 +126,30 @@
             
             document.getElementById('ads-txt').innerText = `+5 ⚡ (${ads}/20)`;
             if(ads >= 20) lock('btn-ads', 'Hết lượt');
-            if(localStorage.getItem('tp_check') === new Date().toDateString()) lock('btn-daily', 'Đã nhận');
+            if(localStorage.getItem('tp_check') === new Date().toDateString()) lock('btn-checkin', 'Đã nhận');
             localStorage.setItem('tp_e', energy);
         }
 
         function lock(id, txt) { const b = document.getElementById(id); b.innerText = txt; b.classList.add('off'); b.onclick = null; }
         function toast(m) { const t = document.getElementById('toast'); t.innerText = m; t.style.display = 'block'; setTimeout(()=> t.style.display = 'none', 2000); }
 
-        function doRename() { const n = prompt("Tên mới:", localStorage.getItem('tp_u') || "Trùm Móc"); if(n) { localStorage.setItem('tp_u', n); render(); } }
-        function triggerUpload() { document.getElementById('f-upload').click(); }
-        function doUpload(el) { if(el.files && el.files[0]) { const r = new FileReader(); r.onload = e => { localStorage.setItem('tp_a', e.target.result); render(); }; r.readAsDataURL(el.files[0]); } }
-
-        function claimDaily() { localStorage.setItem('tp_check', new Date().toDateString()); energy += 50; render(); toast("Đã nhận 50 ⚡!"); }
-        function claimAds() { 
-            const b = document.getElementById('btn-ads'); b.onclick = null; b.innerText = "...";
-            toast("Đang tải QC...");
-            setTimeout(() => { ads++; localStorage.setItem('tp_ads', ads); energy += 5; render(); toast("Nhận 5 ⚡!"); if(ads < 20) { b.onclick = claimAds; b.innerText = "Xem"; } }, 1500);
-        }
-
-        function navTab(el, id) {
+        function nav(el, id) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
             document.getElementById(id).style.display = 'block';
-            document.querySelectorAll('.n-btn, .add-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
+            document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
+            if(el.classList.contains('n-btn')) el.classList.add('active');
         }
+
+        function rename() { const n = prompt("Tên mới:", localStorage.getItem('tp_u') || "Trùm Móc"); if(n) { localStorage.setItem('tp_u', n); render(); } }
+        function uploadImg(el) { if(el.files && el.files[0]) { const r = new FileReader(); r.onload = e => { localStorage.setItem('tp_a', e.target.result); render(); }; r.readAsDataURL(el.files[0]); } }
+        
+        function checkin() { localStorage.setItem('tp_check', new Date().toDateString()); energy += 50; render(); toast("Đã nhận 50 ⚡!"); }
+        function watchAds() { 
+            const b = document.getElementById('btn-ads'); b.onclick = null; b.innerText = "...";
+            toast("Đang tải QC...");
+            setTimeout(() => { ads++; localStorage.setItem('tp_ads', ads); energy += 5; render(); toast("Nhận 5 ⚡!"); if(ads < 20) { b.onclick = watchAds; b.innerText = "Xem"; } }, 1500);
+        }
+
         function goPage(id) { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
     </script>
 </body>
