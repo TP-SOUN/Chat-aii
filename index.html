@@ -3,186 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI</title>
+    <title>TP C-AI PRO</title>
     <style>
         :root {
             --main-gradient: linear-gradient(135deg, #8E2DE2, #4A00E0);
-            --bg-body: #f8f9fd;
+            --bg: #f8f9fd;
         }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg-body); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* TOP NAVIGATION */
-        .top-nav {
-            display: flex; align-items: center; justify-content: center; padding: 15px;
-            background: white; position: fixed; top: 0; width: 100%; z-index: 100; box-sizing: border-box;
-            border-bottom: 1px solid #eee;
+        /* HEADER */
+        .header {
+            background: white; padding: 15px; text-align: center; position: fixed; top: 0; width: 100%;
+            z-index: 100; border-bottom: 1px solid #eee; box-sizing: border-box;
         }
-        .brand-logo { font-size: 22px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo { font-size: 22px; font-weight: 900; background: var(--main-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* PAGE CONTENT */
+        /* PAGES */
         .page { display: none; flex: 1; padding: 20px; padding-top: 80px; padding-bottom: 100px; overflow-y: auto; }
-        .page.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page.active { display: block; animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* PROFILE CARD */
-        .profile-card {
+        /* PROFILE CARD - CHỐNG ĐƠ */
+        .card {
             background: white; border-radius: 30px; padding: 30px 20px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative;
         }
-        .settings-btn { position: absolute; top: 20px; right: 20px; font-size: 22px; cursor: pointer; color: #ccc; padding: 5px; }
+        .btn-set { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; z-index: 20; padding: 10px; }
         
-        .avatar-container { position: relative; width: 100px; height: 100px; margin: 0 auto 15px; }
-        .avatar-box {
-            width: 100%; height: 100%; border-radius: 30px; background: var(--main-gradient);
+        .avt-holder { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
+        .avt-circle {
+            width: 100%; height: 100%; border-radius: 35px; background: var(--main-gradient);
             display: flex; align-items: center; justify-content: center;
-            font-size: 40px; color: white; font-weight: bold; overflow: hidden;
-            border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            font-size: 45px; color: white; font-weight: bold; overflow: hidden;
+            border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .edit-badge {
+        .avt-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-edit-avt {
             position: absolute; bottom: -5px; right: -5px; background: white;
-            width: 30px; height: 30px; border-radius: 10px; display: flex;
-            align-items: center; justify-content: center; font-size: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer;
+            width: 35px; height: 35px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; z-index: 25;
         }
 
-        .user-name { font-size: 24px; font-weight: 800; color: #1a1a1a; margin-top: 10px; }
+        .name-txt { font-size: 26px; font-weight: 800; color: #1a1a1a; margin-top: 10px; }
 
-        /* BOTTOM SHEET MENU */
-        .overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        /* MENU SHEET */
+        .menu-bg {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
             display: none; z-index: 2000; align-items: flex-end;
         }
-        .sheet {
+        .menu-inner {
             background: white; width: 100%; border-radius: 30px 30px 0 0;
-            padding: 20px; box-sizing: border-box; transform: translateY(0);
-            animation: slideUp 0.3s ease-out;
+            padding: 25px; box-sizing: border-box; animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        .sheet-item {
-            padding: 18px; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: 1px solid #f9f9f9; font-weight: 600; color: #333; cursor: pointer;
+        .item {
+            padding: 20px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid #f8f8f8; font-weight: 600; color: #333; cursor: pointer;
         }
-        .sheet-item:active { background: #f5f5f5; }
-        .logout-text { color: #ff4757; margin-top: 10px; border: none; }
+        .item:active { background: #fafafa; }
+        .red { color: #ff4757; }
 
-        /* NAVIGATION BAR */
-        .nav-bar {
+        /* NAV BAR */
+        .bottom-nav {
             position: fixed; bottom: 15px; left: 15px; right: 15px;
-            background: #1a1a1a; border-radius: 25px; height: 65px;
+            background: #111; border-radius: 25px; height: 70px;
             display: flex; justify-content: space-around; align-items: center; z-index: 1000;
         }
-        .nav-link { color: #555; font-size: 24px; cursor: pointer; padding: 10px; transition: 0.3s; }
-        .nav-link.active { color: white; }
-        .center-btn {
-            width: 55px; height: 55px; background: var(--main-gradient);
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 30px; margin-top: -40px; border: 5px solid var(--bg-body);
-            cursor: pointer;
+        .link { color: #444; font-size: 26px; cursor: pointer; padding: 12px; transition: 0.2s; }
+        .link.active { color: white; }
+        .plus-btn {
+            width: 60px; height: 60px; background: var(--main-gradient);
+            border-radius: 22px; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 32px; margin-top: -45px; border: 6px solid var(--bg); cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="top-nav"><div class="brand-logo">TP C-AI</div></div>
+    <div class="header"><div class="logo">TP C-AI</div></div>
 
-    <div id="home-page" class="page active">
-        <div style="text-align: center; margin-top: 100px; color: #ccc;">
-            <h3>Chào mừng ní đến với TP C-AI!</h3>
-            <p>Bấm vào icon 👤 để thiết lập hồ sơ nhé.</p>
+    <div id="pg-home" class="page active">
+        <div style="text-align: center; margin-top: 100px;">
+            <h1 id="hi-user">Chào ní!</h1>
+            <p style="color: #999;">Trang chủ đang được cập nhật...</p>
         </div>
     </div>
 
-    <div id="profile-page" class="page">
-        <div class="profile-card">
-            <div class="settings-btn" onclick="openSettings()">⚙️</div>
-            <div class="avatar-container">
-                <div class="avatar-box" id="avatar-display">U</div>
-                <label for="file-input" class="edit-badge">✏️</label>
-                <input type="file" id="file-input" hidden accept="image/*" onchange="handleFile(this)">
+    <div id="pg-profile" class="page">
+        <div class="card">
+            <div class="btn-set" onclick="openM()">⚙️</div>
+            <div class="avt-holder">
+                <div class="avt-circle" id="avt-img">U</div>
+                <label for="up-avt" class="btn-edit-avt">✏️</label>
+                <input type="file" id="up-avt" hidden accept="image/*" onchange="processAvt(this)">
             </div>
-            <div class="user-name" id="name-display">Người dùng</div>
-            <div style="font-size: 12px; color: #aaa; margin-top: 5px;">ID: TP-2026-PRO</div>
+            <div class="name-txt" id="name-display">Người dùng</div>
+            <div style="font-size: 13px; color: #bbb; margin-top: 5px;">Thành viên TP C-AI</div>
         </div>
     </div>
 
-    <div class="overlay" id="settings-overlay" onclick="closeSettings()">
-        <div class="sheet" onclick="event.stopPropagation()">
-            <div style="width: 40px; height: 5px; background: #eee; margin: 0 auto 20px; border-radius: 10px;"></div>
-            <div class="sheet-item" onclick="triggerRename()">📝 Đổi tên người dùng <span>&rsaquo;</span></div>
-            <div class="sheet-item">🔒 Bảo mật tài khoản <span>&rsaquo;</span></div>
-            <div class="sheet-item">🌗 Giao diện tối <span>&rsaquo;</span></div>
-            <div class="sheet-item logout-text" onclick="doLogout()">🚪 Đăng xuất</div>
+    <div class="menu-bg" id="menu-box" onclick="closeM()">
+        <div class="menu-inner" onclick="event.stopPropagation()">
+            <div style="width: 50px; height: 6px; background: #eee; margin: 0 auto 25px; border-radius: 10px;"></div>
+            <div class="item" onclick="doRename()">📝 Đổi tên người dùng <span>&rsaquo;</span></div>
+            <div class="item">🔒 Cài đặt bảo mật <span>&rsaquo;</span></div>
+            <div class="item red" onclick="doReset()">🚪 Đăng xuất</div>
         </div>
     </div>
 
-    <div class="nav-bar">
-        <span class="nav-link active" onclick="changeTab(this, 'home-page')">🏠</span>
-        <span class="nav-link" onclick="changeTab(this, 'home-page')">💬</span>
-        <div class="center-btn" onclick="changeTab(null, 'home-page')">+</div>
-        <span class="nav-link" onclick="changeTab(this, 'home-page')">🧭</span>
-        <span class="nav-link" onclick="changeTab(this, 'profile-page')">👤</span>
+    <div class="bottom-nav">
+        <span class="link active" onclick="go(this, 'pg-home')">🏠</span>
+        <span class="link" onclick="go(this, 'pg-home')">💬</span>
+        <div class="plus-btn" onclick="go(null, 'pg-home')">+</div>
+        <span class="link" onclick="go(this, 'pg-home')">🧭</span>
+        <span class="link" onclick="go(this, 'pg-profile')">👤</span>
     </div>
 
     <script>
-        // Khởi tạo dữ liệu khi mở app
-        window.onload = function() {
-            const savedName = localStorage.getItem('user_name');
-            const savedAvt = localStorage.getItem('user_avt');
-            if(savedName) applyName(savedName);
-            if(savedAvt) document.getElementById('avatar-display').innerHTML = `<img src="${savedAvt}">`;
+        // Load data ngay khi mở
+        window.onload = () => {
+            const n = localStorage.getItem('tp_user_name_final');
+            const a = localStorage.getItem('tp_user_avt_final');
+            if(n) renderName(n);
+            if(a) document.getElementById('avt-img').innerHTML = `<img src="${a}">`;
         };
 
-        // Chuyển trang
-        function changeTab(el, pageId) {
+        function go(el, id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            
+            document.getElementById(id).classList.add('active');
             if(el) {
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.link').forEach(l => l.classList.remove('active'));
                 el.classList.add('active');
             }
         }
 
-        // Mở/Đóng Cài đặt
-        function openSettings() { document.getElementById('settings-overlay').style.display = 'flex'; }
-        function closeSettings() { document.getElementById('settings-overlay').style.display = 'none'; }
+        function openM() { document.getElementById('menu-box').style.display = 'flex'; }
+        function closeM() { document.getElementById('menu-box').style.display = 'none'; }
 
-        // Đổi tên
-        function triggerRename() {
-            const newName = prompt("Nhập tên mới cho ngầu nè ní:");
-            if(newName && newName.trim() !== "") {
-                localStorage.setItem('user_name', newName);
-                applyName(newName);
-                closeSettings();
+        function doRename() {
+            const val = prompt("Tên mới của ní là gì?");
+            if(val && val.trim() !== "") {
+                localStorage.setItem('tp_user_name_final', val);
+                renderName(val);
+                closeM();
             }
         }
 
-        function applyName(name) {
-            document.getElementById('name-display').innerText = name;
-            // Nếu chưa có ảnh thì lấy chữ cái đầu làm đại diện
-            if(!localStorage.getItem('user_avt')) {
-                document.getElementById('avatar-display').innerText = name.charAt(0).toUpperCase();
+        function renderName(n) {
+            document.getElementById('name-display').innerText = n;
+            document.getElementById('hi-user').innerText = "Chào " + n + "!";
+            if(!localStorage.getItem('tp_user_avt_final')) {
+                document.getElementById('avt-img').innerText = n.charAt(0).toUpperCase();
             }
         }
 
-        // Đổi Avatar
-        function handleFile(input) {
+        function processAvt(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imgData = e.target.result;
-                    localStorage.setItem('user_avt', imgData);
-                    document.getElementById('avatar-display').innerHTML = `<img src="${imgData}">`;
+                reader.onload = (e) => {
+                    const data = e.target.result;
+                    localStorage.setItem('tp_user_avt_final', data);
+                    document.getElementById('avt-img').innerHTML = `<img src="${data}">`;
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        // Đăng xuất
-        function doLogout() {
-            if(confirm("Xóa sạch profile để làm lại từ đầu hả ní?")) {
+        function doReset() {
+            if(confirm("Đăng xuất là mất hết dữ liệu profile đó nha?")) {
                 localStorage.clear();
                 location.reload();
             }
