@@ -1,47 +1,88 @@
-TP C-AI FINAL :root { --main: #f06292; --bg: #f8f9fa; --card: #ffffff; } body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; } .page { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; background: var(--bg); display: none; overflow-y: auto; padding-bottom: 90px; box-sizing: border-box; } .page.active { display: block; } .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; font-weight: bold; font-size: 18px; } .nav { position: fixed; bottom: 0; width: 100%; background: #fff; height: 70px; display: flex; align-items: center; border-top: 1px solid #eee; z-index: 1000; } .n-btn { flex: 1; text-align: center; color: #ccc; cursor: pointer; } .n-btn.active { color: var(--main); } .n-btn span { font-size: 10px; display: block; font-weight: bold; margin-top: 2px; } .add-btn { background: var(--main); color: #fff !important; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4); border: 3px solid #fff; } .card { background: white; margin: 15px; padding: 15px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); } .me-link { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #f9f9f9; cursor: pointer; } input { width: 100%; border: none; background: #fff0f3; border-radius: 12px; padding: 12px; box-sizing: border-box; outline: none; } 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TP C-AI FINAL</title>
+    <style>
+        :root { --main: #f06292; --bg: #f8f9fa; --card: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; }
+        .page { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; background: var(--bg); display: none; overflow-y: auto; padding-bottom: 90px; box-sizing: border-box; }
+        .page.active { display: block; }
+        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; font-weight: bold; font-size: 18px; }
+        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; height: 70px; display: flex; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
+        .n-btn { flex: 1; text-align: center; color: #ccc; cursor: pointer; }
+        .n-btn.active { color: var(--main); }
+        .n-btn span { font-size: 10px; display: block; font-weight: bold; margin-top: 2px; }
+        .add-btn { background: var(--main); color: #fff !important; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4); border: 3px solid #fff; }
+        .card { background: white; margin: 15px; padding: 15px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .me-link { padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #f9f9f9; cursor: pointer; }
+        input { width: 100%; border: none; background: #fff0f3; border-radius: 12px; padding: 12px; box-sizing: border-box; outline: none; }
+    </style>
+</head>
+<body>
 
-TP C-AI
+    <div id="pg-home" class="page active">
+        <div class="header">TP C-AI</div>
+        <div style="padding:20px; text-align:center;">Chào mừng ní đã trở lại!</div>
+    </div>
 
-Chào mừng ní đã trở lại!
+    <div id="pg-chat" class="page">
+        <div class="header">Tin nhắn</div>
+        <div style="text-align:center; margin-top:100px; color:#999;">Chưa có hội thoại nào.</div>
+    </div>
 
-Tin nhắn
+    <div id="pg-create" class="page">
+        <div class="header"><span onclick="goPage('pg-home')" style="color:var(--main); margin-right:15px">❮</span> Tạo Nhân Vật</div>
+        <div class="card"><label><b>Tên nhân vật</b></label><input type="text" placeholder="Nhập tên bot..."></div>
+        <button onclick="alert('Đã đúc!'); goPage('pg-chat')" style="width:90%; margin:20px 5%; padding:15px; background:var(--main); color:white; border:none; border-radius:15px; font-weight:bold;">ĐÚC NGAY</button>
+    </div>
 
-Chưa có hội thoại nào.
+    <div id="pg-me" class="page">
+        <div class="header">Cá nhân</div>
+        
+        <div class="card" style="display:flex; align-items:center; gap:15px;">
+            <div style="width:60px; height:60px; background:var(--main); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:24px;">T</div>
+            <div style="flex:1">
+                <b id="user-name" style="font-size:18px">Trùm C-AI</b>
+                <div onclick="changeName()" style="font-size:12px; color:var(--main); cursor:pointer;">Đổi tên ✎</div>
+            </div>
+        </div>
 
-❮ Tạo Nhân Vật
+        <div style="margin: 0 15px; background: #222; color: white; padding: 20px; border-radius: 20px; display:flex; justify-content:space-between; align-items:center;">
+            <div><small style="opacity:0.7">Tia Sét ⚡</small><div style="font-size:24px; font-weight:bold; color:#ffeaa7;">1,250</div></div>
+            <button onclick="alert('Đang kết nối cổng thanh toán...')" style="background:var(--main); border:none; color:white; padding:10px 20px; border-radius:12px; font-weight:bold;">Nạp</button>
+        </div>
 
-Tên nhân vật
+        <div class="card" style="padding:0">
+            <div class="me-link" onclick="alert('Điều khoản: Không dùng bot để quậy phá nhen ní!')"><span>📝 Chính sách người dùng</span></div>
+            <div class="me-link" onclick="alert('Bảo mật: Dữ liệu của ní được mã hóa 100%')"><span>🛡️ Bảo mật</span></div>
+            <div class="me-link" onclick="alert('TP C-AI Phiên bản 1.0.1')"><span>ℹ️ Về ứng dụng</span></div>
+        </div>
+        <p style="text-align:center; color:#ff4757; font-weight:bold; cursor:pointer;" onclick="location.reload()">Đăng xuất</p>
+    </div>
 
-ĐÚC NGAY 
+    <div class="nav">
+        <div class="n-btn active" onclick="goPage('pg-home', this)">🏠<span>Home</span></div>
+        <div class="n-btn" onclick="goPage('pg-chat', this)">💬<span>Chat</span></div>
+        <div style="flex:1; display:flex; justify-content:center;"><div class="add-btn" onclick="goPage('pg-create', this)">+</div></div>
+        <div class="n-btn" onclick="goPage('pg-me', this)">👤<span>Tôi</span></div>
+    </div>
 
-Cá nhân
+    <script>
+        function goPage(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(el && el.classList.contains('n-btn')) {
+                document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
+                el.classList.add('active');
+            }
+        }
 
-T
-
-Trùm C-AI 
-
-Đổi tên ✎
-
-Tia Sét ⚡
-
-1,250
-
-Nạp 
-
-📝 Chính sách người dùng
-
-🛡️ Bảo mật
-
-ℹ️ Về ứng dụng
-
-Đăng xuất
-
-🏠Home
-
-💬Chat
-
-+
-
-👤Tôi
-
-function goPage(id, el) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); if(el && el.classList.contains('n-btn')) { document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); } } function changeName() { let newName = prompt("Nhập tên mới của ní:", document.getElementById('user-name').innerText); if(newName) document.getElementById('user-name').innerText = newName; } 
+        function changeName() {
+            let newName = prompt("Nhập tên mới của ní:", document.getElementById('user-name').innerText);
+            if(newName) document.getElementById('user-name').innerText = newName;
+        }
+    </script>
+</body>
+</html>
