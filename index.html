@@ -2,83 +2,154 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI DESIGNER MODE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TP C-AI ALL-IN-ONE</title>
     <style>
-        /* 1. KHU VỰC MÀU SẮC - Ní tự thay mã màu ở đây nhen */
-        :root {
-            --mau-chinh: #f06292;    /* Màu chủ đạo (Hồng, Tím, Xanh...) */
-            --mau-nen: #fdfdfd;      /* Màu nền của toàn app */
-            --mau-the: #ffffff;      /* Màu của các khung trắng */
-            --mau-chu: #333333;      /* Màu chữ chính */
-        }
+        :root { --main: #f06292; --bg: #fdfdfd; --card: #ffffff; --pink-bg: #fff0f3; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; }
+        
+        /* Chuyển trang */
+        .page { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; background: var(--bg); display: none; overflow-y: auto; padding-bottom: 80px; box-sizing: border-box; }
+        .page.active { display: block; }
 
-        body { font-family: sans-serif; margin: 0; background: var(--mau-nen); color: var(--mau-chu); }
-        .trang { display: none; padding-bottom: 80px; height: 100vh; overflow-y: auto; }
-        .active { display: block; }
+        /* Header */
+        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .h-title { flex: 1; text-align: center; font-weight: bold; font-size: 18px; color: #333; }
 
-        /* 2. THIẾT KẾ MENU DƯỚI (Ní có thể thêm bớt nút ở đây) */
-        .menu-duoi {
-            position: fixed; bottom: 0; width: 100%; height: 70px;
-            background: #fff; display: flex; align-items: center;
-            border-top: 1px solid #eee; z-index: 100;
-        }
-        .nut-menu { flex: 1; text-align: center; cursor: pointer; color: #ccc; }
-        .nut-menu.active { color: var(--mau-chinh); }
+        /* Menu Dưới */
+        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; height: 70px; display: flex; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
+        .n-btn { flex: 1; text-align: center; color: #bbb; cursor: pointer; }
+        .n-btn.active { color: var(--main); }
+        .n-btn i { font-size: 22px; display: block; font-style: normal; }
+        .n-btn span { font-size: 10px; font-weight: bold; }
+        
+        .add-btn-wrap { flex: 1; display: flex; justify-content: center; }
+        .add-btn { background: var(--main); color: #fff !important; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4); }
 
-        /* Nút cộng nổi bật */
-        .nut-cong {
-            width: 50px; height: 50px; background: #f5f5f5;
-            border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; font-size: 30px; margin-bottom: 20px;
-            border: 1px solid #eee;
-        }
+        /* Card & Input */
+        .card { background: var(--card); margin: 15px; padding: 15px; border-radius: 18px; border: 1px solid #f1f1f1; }
+        .label { font-weight: bold; font-size: 14px; color: #444; margin-bottom: 8px; display: block; }
+        input, textarea { width: 100%; border: none; background: var(--pink-bg); border-radius: 12px; padding: 12px; box-sizing: border-box; outline: none; font-size: 14px; }
+        
+        /* Chọn giọng nói */
+        .voice-list { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
+        .voice-item { min-width: 90px; padding: 12px; border: 1px solid #eee; border-radius: 15px; text-align: center; background: #fff; flex-shrink: 0; }
+        .voice-item.active { border-color: var(--main); background: var(--pink-bg); color: var(--main); font-weight: bold; }
 
-        /* 3. KHU VỰC CÁC THẺ (CARD) - Ní dùng cái này để tạo ô nhập liệu */
-        .khung-nhap {
-            background: var(--mau-the); margin: 15px; padding: 15px;
-            border-radius: 15px; border: 1px solid #f1f1f1;
-        }
+        /* Nút tạo */
+        .btn-final { background: var(--main); color: #fff; border: none; width: 90%; margin: 10px 5%; padding: 15px; border-radius: 15px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(240, 98, 146, 0.2); }
+
+        /* Gọi điện */
+        #pg-call { background: #1a1a1a; color: #fff; text-align: center; z-index: 9999; }
+        .call-avt { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--main); margin: 80px auto 20px; position: relative; }
+        .call-btns { position: absolute; bottom: 80px; width: 100%; display: flex; justify-content: space-around; }
+        .c-btn { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="trang-chu" class="trang active">
-        <h2 style="padding:15px;">🏠 Khám phá</h2>
+    <div id="pg-home" class="page active">
+        <div class="header"><div class="h-title">TP C-AI</div></div>
+        <div style="padding: 20px; text-align: center;">
+            <p>Chào ní! Hôm nay đúc bot gì đây?</p>
+            <button onclick="startCall('Bot Trợ Lý')" style="padding: 12px 25px; border-radius: 25px; border: none; background: var(--main); color: #fff; font-weight: bold;">📞 Gọi thử cho AI</button>
         </div>
-
-    <div id="trang-chat" class="trang">
-        <h2 style="padding:15px;">💬 Tin nhắn</h2>
     </div>
 
-    <div id="trang-tao" class="trang">
-        <h2 style="padding:15px;">➕ Tạo nhân vật</h2>
-        <div class="khung-nhap">
-            <p>Tên Bot:</p>
-            <input type="text" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd;">
-        </div>
-        </div>
-
-    <div id="trang-toi" class="trang">
-        <h2 style="padding:15px;">👤 Cá nhân</h2>
+    <div id="pg-chat" class="page">
+        <div class="header"><div class="h-title">Tin nhắn</div></div>
+        <p style="text-align: center; color: #999; margin-top: 100px;">Chưa có tin nhắn nào.</p>
     </div>
 
-    <div class="menu-duoi">
-        <div class="nut-menu active" onclick="chuyenTrang('trang-chu', this)">🏠</div>
-        <div class="nut-menu" onclick="chuyenTrang('trang-chat', this)">💬</div>
-        <div class="nut-cong" onclick="chuyenTrang('trang-tao', this)">+</div>
-        <div class="nut-menu" onclick="chuyenTrang('trang-toi', this)">👤</div>
+    <div id="pg-create" class="page">
+        <div class="header">
+            <div onclick="goPage('pg-home')" style="color:var(--main); cursor:pointer; font-size: 20px;">❮</div>
+            <div class="h-title">Tạo Nhân Vật</div>
+            <div style="width:20px"></div>
+        </div>
+        
+        <div class="card">
+            <label class="label">Tên nhân vật</label>
+            <input type="text" id="bot-name" placeholder="Nhập tên bot của ní...">
+        </div>
+
+        <div class="card">
+            <label class="label">🎙️ Chọn giọng nói AI</label>
+            <div class="voice-list">
+                <div class="voice-item active" onclick="selVoice(this)"><b>👨 Nam</b><br><small>Trầm ấm</small></div>
+                <div class="voice-item" onclick="selVoice(this)"><b>👩 Nữ</b><br><small>Ngọt ngào</small></div>
+                <div class="voice-item" onclick="selVoice(this)"><b>✨ Cute</b><br><small>Dễ thương</small></div>
+                <div class="voice-item" onclick="selVoice(this)"><b>❄️ Lạnh</b><br><small>Lạnh lùng</small></div>
+            </div>
+            <p style="font-size: 11px; color: #999; margin-top: 8px;">(Ní chọn giọng để bot phát âm thanh khi chat/gọi)</p>
+        </div>
+
+        <div class="card">
+            <label class="label">Tính cách / Lịch sử</label>
+            <textarea placeholder="Mô tả bot của ní tại đây..."></textarea>
+        </div>
+
+        <button class="btn-final" onclick="confirmBot()">✨ ĐÚC NHÂN VẬT</button>
+    </div>
+
+    <div id="pg-me" class="page">
+        <div class="header"><div class="h-title">Tôi</div></div>
+        <div style="padding: 20px;">
+            <div style="background: #fff9db; padding: 15px; border-radius: 15px; color: #f08c00;"><b>⚡ Sét hiện có: 123</b></div>
+        </div>
+    </div>
+
+    <div id="pg-call" class="page">
+        <div class="call-avt">
+            <img src="https://via.placeholder.com/130" style="width: 100%; border-radius: 50%;">
+        </div>
+        <h2 id="call-name-txt">Tên Bot</h2>
+        <p id="call-status">Đang kết nối âm thanh...</p>
+        
+        <div class="call-btns">
+            <div class="c-btn" style="background: #ff4757;" onclick="endCall()">✖</div>
+            <div class="c-btn" style="background: #2ed573;" onclick="alert('Đã bắt máy!')">✔</div>
+        </div>
+    </div>
+
+    <div class="nav">
+        <div class="n-btn active" onclick="goPage('pg-home', this)"><i>🏠</i><span>Khám phá</span></div>
+        <div class="n-btn" onclick="goPage('pg-chat', this)"><i>💬</i><span>Tin nhắn</span></div>
+        <div class="add-btn-wrap">
+            <div class="add-btn" onclick="goPage('pg-create', this)">+</div>
+        </div>
+        <div class="n-btn" onclick="goPage('pg-me', this)"><i>👤</i><span>Tôi</span></div>
     </div>
 
     <script>
-        function chuyenTrang(id, el) {
-            // Ẩn hết các trang
-            document.querySelectorAll('.trang').forEach(t => t.classList.remove('active'));
-            // Hiện trang được chọn
+        function goPage(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            // Đổi màu nút menu
-            document.querySelectorAll('.nut-menu').forEach(n => n.classList.remove('active'));
-            if(el.classList.contains('nut-menu')) el.classList.add('active');
+            if(el && el.classList.contains('n-btn')) {
+                document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
+                el.classList.add('active');
+            }
+        }
+
+        function selVoice(el) {
+            document.querySelectorAll('.voice-item').forEach(v => v.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function confirmBot() {
+            const name = document.getElementById('bot-name').value;
+            if(!name) return alert("Ní chưa nhập tên Bot!");
+            alert("Chúc mừng! " + name + " đã được đúc thành công.");
+            goPage('pg-chat');
+        }
+
+        function startCall(name) {
+            document.getElementById('call-name-txt').innerText = name;
+            document.getElementById('pg-call').style.display = 'block';
+        }
+
+        function endCall() {
+            document.getElementById('pg-call').style.display = 'none';
         }
     </script>
 </body>
