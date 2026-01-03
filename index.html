@@ -1,140 +1,43 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TP C-AI VOICE EDITION</title>
-    <style>
-        :root { --primary: #6c5ce7; --accent: #a29bfe; --pink: #fd79a8; --bg: #f8f9fa; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; }
+<div class="header" style="background:#fff; padding:15px; display:flex; align-items:center; border-bottom:1px solid #eee;">
+    <div onclick="goPage('pg-home')" style="color:#f06292; font-size:20px; cursor:pointer;">❮ Quay lại</div>
+    <div style="flex:1; text-align:center; font-weight:bold;">Đúc Nhân Vật</div>
+</div>
+
+<div style="padding: 15px;">
+    <div class="card" style="background:#fff; border-radius:15px; padding:15px; margin-bottom:15px;">
+        <label>Tên nhân vật<span>*</span></label>
+        <input type="text" id="b-name" placeholder="Nhập tên..." style="width:100%; padding:12px; border-radius:10px; background:#fff0f3; border:none; margin-top:5px;">
+    </div>
+
+    <div class="card" style="background:#fff; border-radius:15px; padding:15px; margin-bottom:15px; border: 1px solid #ffeef2;">
+        <label style="font-weight:bold; color:#333;">🎙️ Giọng nói của AI</label>
+        <p style="font-size:11px; color:#999; margin:5px 0 10px 0;">Chọn giọng để người dùng khác có thể nghe khi chat.</p>
         
-        .page { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; background: var(--bg); display: none; overflow-y: auto; padding-bottom: 80px; box-sizing: border-box; }
-        .page.active { display: block; }
-
-        /* HEADER */
-        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
-        .h-title { flex: 1; text-align: center; font-weight: bold; font-size: 18px; color: #333; }
-
-        /* MENU NAV */
-        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; height: 70px; display: flex; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
-        .n-btn { flex: 1; text-align: center; color: #bbb; transition: 0.3s; cursor: pointer; }
-        .n-btn.active { color: var(--primary); }
-        .n-btn i { font-size: 22px; display: block; }
-        .n-btn span { font-size: 10px; font-weight: bold; }
-        .add-btn { background: var(--primary); color: #fff !important; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); }
-
-        /* TRANG TẠO NHÂN VẬT */
-        .card { background: #fff; margin: 15px; padding: 15px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        input, textarea { width: 100%; border: none; background: #f1f2f6; border-radius: 12px; padding: 15px; box-sizing: border-box; outline: none; margin-top: 10px; }
-        .create-confirm { background: var(--primary); color: #fff; border: none; width: 100%; padding: 15px; border-radius: 15px; font-weight: bold; font-size: 16px; margin-top: 10px; }
-
-        /* GIAO DIỆN GỌI ĐIỆN (CALLING) */
-        #pg-call { background: #2d3436; color: #fff; text-align: center; display: none; z-index: 9999; }
-        .call-avt { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--primary); margin: 80px auto 20px; overflow: hidden; animation: pulse 2s infinite; }
-        .call-btns { display: flex; justify-content: space-around; margin-top: 100px; }
-        .c-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
-        .hangup { background: #ff7675; }
-        .pickup { background: #55efc4; }
-
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(108, 92, 231, 0); } 100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); } }
-    </style>
-</head>
-<body>
-
-    <div id="pg-home" class="page active">
-        <div class="header"><div class="h-title">TP C-AI</div></div>
-        <div style="padding: 20px; text-align: center;">
-            <p>Chào mừng ní quay lại!</p>
-            <button onclick="startCall('Bot Trợ Lý')" style="padding: 10px 20px; border-radius: 20px; border: none; background: var(--primary); color: #fff;">📞 Gọi thử cho AI</button>
+        <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px;">
+            <div class="v-box" onclick="pickVoice(this, 'Nam Trầm')" style="flex:0 0 80px; padding:10px; border:1px solid #eee; border-radius:12px; text-align:center;">
+                <span style="font-size:20px;">👨</span><br><small>Nam Trầm</small>
+            </div>
+            <div class="v-box" onclick="pickVoice(this, 'Nữ Ngọt')" style="flex:0 0 80px; padding:10px; border:1px solid #eee; border-radius:12px; text-align:center;">
+                <span style="font-size:20px;">👩</span><br><small>Nữ Ngọt</small>
+            </div>
+            <div class="v-box" onclick="pickVoice(this, 'Lạnh Lùng')" style="flex:0 0 80px; padding:10px; border:1px solid #eee; border-radius:12px; text-align:center;">
+                <span style="font-size:20px;">❄️</span><br><small>Lạnh Lùng</small>
+            </div>
         </div>
     </div>
 
-    <div id="pg-chat" class="page">
-        <div class="header"><div class="h-title">Tin nhắn</div></div>
-        <p style="text-align: center; color: #999; margin-top: 50px;">Trống trơn...</p>
-    </div>
+    <button onclick="makeBot()" style="width:100%; padding:15px; background:#f06292; color:#fff; border:none; border-radius:15px; font-weight:bold;">XÁC NHẬN TẠO</button>
+</div>
 
-    <div id="pg-create" class="page">
-        <div class="header">
-            <div onclick="goPage('pg-home')" style="cursor:pointer">❮</div>
-            <div class="h-title">Tạo Nhân Vật</div>
-        </div>
-        <div class="card">
-            <label><b>Tên nhân vật</b></label>
-            <input type="text" id="bot-name" placeholder="Ví dụ: Người yêu ảo...">
-            <label style="display:block; margin-top:15px"><b>Tính cách / Giọng nói</b></label>
-            <textarea placeholder="Mô tả cách AI nói chuyện..."></textarea>
-            <button class="create-confirm" onclick="confirmCreate()">XÁC NHẬN TẠO</button>
-        </div>
-    </div>
+<style>
+    .v-box.active { border-color: #f06292 !important; background: #fff0f3 !important; color: #f06292 !important; }
+</style>
 
-    <div id="pg-me" class="page">
-        <div class="header"><div class="h-title">Tôi</div></div>
-        <div style="padding: 20px;">
-            <b>⚡ Tia sét: 123</b>
-            <hr>
-            <p onclick="alert('Mã: GIFT2026')">🎟️ Nhập mã quà tặng</p>
-        </div>
-    </div>
-
-    <div id="pg-call" class="page">
-        <div class="call-avt"><img src="https://via.placeholder.com/120" id="call-img" style="width:100%"></div>
-        <h2 id="call-name">Đang gọi...</h2>
-        <p id="call-status">Đang kết nối âm thanh...</p>
-        
-        <div class="call-btns">
-            <div class="c-btn hangup" onclick="endCall()">✖</div>
-            <div class="c-btn pickup" onclick="pickupCall()">✔</div>
-        </div>
-    </div>
-
-    <div class="nav">
-        <div class="n-btn active" onclick="goPage('pg-home', this)"><i>🏠</i><span>Home</span></div>
-        <div class="n-btn" onclick="goPage('pg-chat', this)"><i>💬</i><span>Chat</span></div>
-        <div class="n-btn add-btn" onclick="goPage('pg-create', this)">+</div>
-        <div class="n-btn" onclick="goPage('pg-me', this)"><i>👤</i><span>Tôi</span></div>
-    </div>
-
-    <script>
-        // Âm thanh giả lập
-        const ringtone = new Audio('https://www.soundjay.com/phone/phone-calling-1.mp3');
-
-        function goPage(id, el) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            if(el) {
-                document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
-                el.classList.add('active');
-            }
-        }
-
-        function confirmCreate() {
-            const name = document.getElementById('bot-name').value;
-            if(!name) return alert("Ní nhập tên đã!");
-            alert("Đã đúc thành công bot: " + name);
-            goPage('pg-chat');
-        }
-
-        // CHỨC NĂNG GỌI ĐIỆN
-        function startCall(name) {
-            document.getElementById('call-name').innerText = name;
-            document.getElementById('pg-call').style.display = 'block';
-            ringtone.loop = true;
-            ringtone.play(); // Phát âm thanh gọi
-        }
-
-        function endCall() {
-            ringtone.pause();
-            ringtone.currentTime = 0;
-            document.getElementById('pg-call').style.display = 'none';
-            alert("Cuộc gọi đã kết thúc.");
-        }
-
-        function pickupCall() {
-            ringtone.pause();
-            document.getElementById('call-status').innerText = "00:01 - Đang đàm thoại...";
-            // Ở đây ní có thể tích hợp API giọng nói thật
-        }
-    </script>
-</body>
-</html>
+<script>
+    function pickVoice(el, type) {
+        document.querySelectorAll('.v-box').forEach(v => v.classList.remove('active'));
+        el.classList.add('active');
+        console.log("Đã chọn giọng: " + type);
+        // Sau này ní đưa file âm thanh vào đây để nghe thử nhen
+    }
+</script>
