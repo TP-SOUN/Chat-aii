@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TP C-AI - CLEAN EDITION</title>
+    <title>TP C-AI SUPER APP</title>
     <style>
-        :root { --main: #f06292; --bg: #ffffff; --card: #f8f9fa; }
+        :root { --main: #f06292; --bg: #f8f9fa; --card: #ffffff; --input: #fff0f3; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; }
         
+        /* Chuyển trang mượt */
         .page { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; background: var(--bg); display: none; overflow-y: auto; padding-bottom: 90px; box-sizing: border-box; }
         .page.active { display: block; }
 
         /* Header */
-        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #f1f1f1; position: sticky; top: 0; z-index: 100; font-weight: bold; font-size: 20px; color: var(--main); }
+        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; font-weight: bold; font-size: 18px; }
 
-        /* Trang chủ trống (Minimalism) */
-        .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 70vh; color: #bbb; padding: 20px; text-align: center; }
-        .empty-icon { font-size: 60px; margin-bottom: 15px; opacity: 0.3; }
+        /* Card & Input */
+        .card { background: white; margin: 15px; padding: 18px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .label { font-weight: bold; font-size: 14px; margin-bottom: 8px; display: block; color: #444; }
+        input, textarea { width: 100%; border: none; background: var(--input); border-radius: 12px; padding: 14px; box-sizing: border-box; outline: none; margin-top: 5px; font-size: 14px; }
+        textarea { resize: none; }
 
         /* Menu Nav */
         .nav { position: fixed; bottom: 0; width: 100%; background: #fff; height: 70px; display: flex; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
@@ -24,85 +27,105 @@
         .n-btn.active { color: var(--main); }
         .n-btn span { font-size: 10px; display: block; font-weight: bold; margin-top: 2px; }
         
-        .add-btn { background: var(--main); color: #fff !important; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(240, 98, 146, 0.4); border: 4px solid #fff; }
+        .add-btn-wrap { flex: 1; display: flex; justify-content: center; }
+        .add-btn { background: var(--main); color: #fff !important; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4); border: 3px solid #fff; }
 
-        /* Card & UI */
-        .card { background: #fdfdfd; margin: 15px; padding: 15px; border-radius: 20px; border: 1px solid #f1f1f1; }
-        input, textarea { width: 100%; border: none; background: #fff0f3; border-radius: 12px; padding: 15px; box-sizing: border-box; outline: none; margin-top: 10px; font-size: 14px; }
-        .me-link { padding: 18px; display: flex; align-items: center; border-bottom: 1px solid #f9f9f9; }
+        /* Voice List */
+        .v-list { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
+        .v-item { flex: 0 0 100px; padding: 12px; border: 1.5px solid #eee; border-radius: 15px; text-align: center; background: white; cursor: pointer; }
+        .v-item.active { border-color: var(--main); background: #fff0f3; color: var(--main); font-weight: bold; }
+        
+        /* Avatar */
+        .avt-box { width: 80px; height: 80px; background: var(--input); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ddd; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="pg-home" class="page active">
         <div class="header">TP C-AI</div>
-        <div class="empty-state">
-            <div class="empty-icon">🤖</div>
-            <b style="color: #444; font-size: 18px;">Chưa có nhân vật nào</b>
-            <p style="font-size: 14px;">Bấm nút (+) bên dưới để đúc con bot đầu tiên của ní!</p>
+        <div style="padding: 50px 20px; text-align: center; color: #bbb;">
+            <div style="font-size: 50px; margin-bottom: 10px;">🤖</div>
+            <b>Chưa có nhân vật nào</b><br>
+            <small>Bấm (+) để tạo ngay!</small>
         </div>
     </div>
 
     <div id="pg-chat" class="page">
         <div class="header">Tin nhắn</div>
-        <div class="empty-state">
-            <div class="empty-icon">💬</div>
-            <p>Hộp thư đang đợi tin nhắn từ bot của ní...</p>
-        </div>
+        <div style="text-align:center; margin-top:100px; color:#999;">Bạn chưa có cuộc trò chuyện nào.</div>
     </div>
 
     <div id="pg-create" class="page">
         <div class="header">
-            <span onclick="goPage('pg-home')" style="color:var(--main); margin-right:15px; font-size: 24px;">❮</span>
-            Tạo Nhân Vật
+            <span onclick="goPage('pg-home')" style="color:var(--main); margin-right:15px; cursor:pointer;">❮</span>
+            Đúc Nhân Vật AI
         </div>
         <div class="card">
-            <label><b>Tên nhân vật</b></label>
-            <input type="text" id="bot-name" placeholder="Ví dụ: Waifu của tui...">
+            <label class="label">Hình ảnh</label>
+            <div class="avt-box" onclick="document.getElementById('f').click()">
+                <img id="p" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:20px;">
+                <span id="s" style="font-size:24px; color:#aaa;">+</span>
+            </div>
+            <input type="file" id="f" hidden onchange="showImg(this)">
         </div>
-        <div style="padding: 0 15px;">
-            <label><b>Giọng nói AI</b></label>
-            <div style="display: flex; gap: 10px; margin-top:10px; overflow-x: auto; padding-bottom: 10px;">
-                <div style="padding: 10px 20px; border: 1px solid var(--main); border-radius: 20px; color: var(--main); background: #fff0f3; font-weight: bold; white-space: nowrap;">Mặc định</div>
-                <div style="padding: 10px 20px; border: 1px solid #eee; border-radius: 20px; white-space: nowrap;">Lạnh lùng</div>
-                <div style="padding: 10px 20px; border: 1px solid #eee; border-radius: 20px; white-space: nowrap;">Dễ thương</div>
+
+        <div class="card">
+            <label class="label">Tên nhân vật</label>
+            <input type="text" placeholder="Nhập tên Bot...">
+        </div>
+
+        <div class="card">
+            <label class="label">Âm thanh</label>
+            <div class="v-list">
+                <div class="v-item active" onclick="setV(this)">Nam Trầm</div>
+                <div class="v-item" onclick="setV(this)">Nữ Ngọt</div>
+                <div class="v-item" onclick="setV(this)">Lạnh Lùng</div>
             </div>
         </div>
+
         <div class="card">
-            <label><b>Tính cách</b></label>
-            <textarea placeholder="Nhập mô tả cho bot..."></textarea>
+            <label class="label">Lời chào đầu tiên</label>
+            <textarea rows="3" placeholder="Bot sẽ chào gì?"></textarea>
         </div>
-        <button onclick="alert('Đã đúc thành công!'); goPage('pg-home')" style="width:90%; margin:20px 5%; padding:18px; background:var(--main); color:white; border:none; border-radius:20px; font-weight:bold; font-size:16px;">✨ BẮT ĐẦU ĐÚC</button>
+        <div class="card">
+            <label class="label">Bối cảnh (Scenario)</label>
+            <textarea rows="3" placeholder="Hoàn cảnh trò chuyện..."></textarea>
+        </div>
+        <div class="card">
+            <label class="label">Lịch sử nhân vật (Lore)</label>
+            <textarea rows="5" placeholder="Tính cách, sở thích, quá khứ..."></textarea>
+        </div>
+
+        <button onclick="alert('Đã đúc thành công!'); goPage('pg-home')" style="width:90%; margin:10px 5% 30px 5%; padding:18px; background:var(--main); color:white; border:none; border-radius:18px; font-weight:bold; font-size:16px;">XÁC NHẬN TẠO</button>
     </div>
 
     <div id="pg-me" class="page">
         <div class="header">Tôi</div>
-        <div class="card" style="display:flex; align-items:center; gap:15px; background: white;">
-            <div id="user-avt" onclick="document.getElementById('file-avt').click()" style="width:70px; height:70px; background:var(--main); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:24px; border: 2px solid #fff; cursor: pointer; overflow: hidden;">T</div>
-            <input type="file" id="file-avt" hidden accept="image/*" onchange="previewAvt(this)">
-            <div style="flex:1">
-                <b id="user-name" style="font-size:18px">Người dùng mới</b>
-                <div onclick="changeName()" style="font-size:12px; color:var(--main); cursor:pointer; margin-top:5px;">Chỉnh sửa tên ✎</div>
+        <div class="card" style="display:flex; align-items:center; gap:15px;">
+            <div id="u-avt" onclick="document.getElementById('u-f').click()" style="width:60px; height:60px; background:var(--main); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:20px; overflow:hidden;">T</div>
+            <input type="file" id="u-f" hidden onchange="previewUser(this)">
+            <div>
+                <b id="u-name">Trùm C-AI</b>
+                <div onclick="editName()" style="font-size:12px; color:var(--main); margin-top:5px;">Sửa tên ✎</div>
             </div>
         </div>
-        <div style="margin: 0 15px; background: #111; color: #fff; padding: 20px; border-radius: 20px; display:flex; justify-content:space-between; align-items:center;">
-            <div><small style="opacity:0.6;">Tia sét ⚡</small><div style="font-size:24px; font-weight:bold; color:#ffeaa7;">1,000</div></div>
-            <button onclick="alert('Nạp đi ní!')" style="background:var(--main); border:none; color:white; padding:10px 15px; border-radius:12px; font-weight:bold;">Nạp</button>
-        </div>
-        <div class="card" style="padding:0; overflow:hidden;">
-            <div class="me-link" onclick="alert('Chính sách bảo mật...')">📝 Chính sách người dùng</div>
-            <div class="me-link" onclick="alert('Bảo mật...')">🛡️ Bảo mật cá nhân</div>
+        <div style="margin: 0 15px; background: #222; color: #fff; padding: 20px; border-radius: 20px; display:flex; justify-content:space-between; align-items:center;">
+            <div><small style="opacity:0.7">Tia sét ⚡</small><div style="font-size:24px; font-weight:bold; color:#ffeaa7;">1,000</div></div>
+            <button onclick="alert('Nạp đi ní!')" style="background:var(--main); border:none; color:white; padding:8px 15px; border-radius:12px; font-weight:bold;">Nạp</button>
         </div>
     </div>
 
     <div class="nav">
-        <div class="n-btn active" onclick="goPage('pg-home', this)">🏠<span>Trang chủ</span></div>
+        <div class="n-btn active" onclick="goPage('pg-home', this)">🏠<span>Home</span></div>
         <div class="n-btn" onclick="goPage('pg-chat', this)">💬<span>Chat</span></div>
-        <div style="flex:1; display:flex; justify-content:center;"><div class="add-btn" onclick="goPage('pg-create', this)">+</div></div>
+        <div class="add-btn-wrap">
+            <div class="add-btn" onclick="goPage('pg-create', this)">+</div>
+        </div>
         <div class="n-btn" onclick="goPage('pg-me', this)">👤<span>Tôi</span></div>
     </div>
 
     <script>
+        // Hàm chuyển trang cực mượt
         function goPage(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -111,15 +134,34 @@
                 el.classList.add('active');
             }
         }
-        function changeName() {
-            let n = prompt("Nhập tên mới:", document.getElementById('user-name').innerText);
-            if(n) document.getElementById('user-name').innerText = n;
+
+        // Preview ảnh Bot
+        function showImg(i) {
+            if (i.files && i.files[0]) {
+                var r = new FileReader();
+                r.onload = function(e) {
+                    document.getElementById('p').src = e.target.result;
+                    document.getElementById('p').style.display = 'block';
+                    document.getElementById('s').style.display = 'none';
+                }
+                r.readAsDataURL(i.files[0]);
+            }
         }
-        function previewAvt(input) {
-            if (input.files && input.files[0]) {
-                const r = new FileReader();
-                r.onload = function(e) { document.getElementById('user-avt').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`; }
-                r.readAsDataURL(input.files[0]);
+
+        // Các hàm phụ trợ
+        function setV(el) {
+            document.querySelectorAll('.v-item').forEach(v => v.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function editName() {
+            let n = prompt("Tên mới:", document.getElementById('u-name').innerText);
+            if(n) document.getElementById('u-name').innerText = n;
+        }
+        function previewUser(i) {
+            if (i.files && i.files[0]) {
+                var r = new FileReader();
+                r.onload = function(e) { document.getElementById('u-avt').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`; }
+                r.readAsDataURL(i.files[0]);
             }
         }
     </script>
