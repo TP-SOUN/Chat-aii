@@ -1,42 +1,57 @@
-<div class="section" style="background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #f1f1f1;">
-    <label class="label">Giọng nói nhân vật<span>*</span></label>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <div class="voice-item" onclick="previewVoice('voice1')" style="flex: 1; min-width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 12px; text-align: center; cursor: pointer;">
-            <span style="display: block; font-size: 20px;">🎙️</span>
-            <small>Trầm ấm</small>
-        </div>
-        <div class="voice-item" onclick="previewVoice('voice2')" style="flex: 1; min-width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 12px; text-align: center; cursor: pointer;">
-            <span style="display: block; font-size: 20px;">🎙️</span>
-            <small>Dễ thương</small>
-        </div>
-        <div class="voice-item" onclick="previewVoice('voice3')" style="flex: 1; min-width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 12px; text-align: center; cursor: pointer;">
-            <span style="display: block; font-size: 20px;">🎙️</span>
-            <small>Lạnh lùng</small>
-        </div>
-    </div>
-    <p style="font-size: 11px; color: #999; margin-top: 10px;">Bấm vào để nghe thử giọng mẫu trước khi chọn nhen ní!</p>
-</div>
-
-<style>
-    /* Style cho cái mục giọng nói */
-    .voice-item.active {
-        border-color: #f06292 !important;
-        background: #fff0f3 !important;
-        color: #f06292 !important;
-        font-weight: bold;
-    }
-</style>
-
-<script>
-    // Hàm để nghe thử giọng
-    function previewVoice(voiceId) {
-        // Xóa active cũ
-        document.querySelectorAll('.voice-item').forEach(v => v.classList.remove('active'));
-        // Thêm active cho cái vừa chọn
-        event.currentTarget.classList.add('active');
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đúc Bot - TP C-AI</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; background: #fdfdfd; padding-bottom: 30px; }
+        .header { display: flex; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; }
+        .back-btn { font-size: 24px; color: #f06292; text-decoration: none; padding-right: 15px; cursor: pointer; }
         
-        // Giả lập phát âm thanh (Lát ní đưa link mp3 vào đây)
-        console.log("Đang phát thử giọng: " + voiceId);
-        // Ví dụ: let audio = new Audio('link_am_thanh.mp3'); audio.play();
-    }
-</script>
+        .container { padding: 15px; }
+        .card { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #f1f1f1; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        label { font-weight: bold; font-size: 14px; display: block; margin-bottom: 8px; }
+        input, textarea { width: 100%; border: none; background: #fff0f3; border-radius: 10px; padding: 12px; box-sizing: border-box; outline: none; }
+        
+        /* Phần chọn giọng - Ní có thể tự sửa ở đây */
+        .voice-list { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
+        .voice-item { min-width: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 12px; text-align: center; background: #fff; }
+        .voice-item.active { border-color: #f06292; background: #fff0f3; color: #f06292; font-weight: bold; }
+
+        .btn-create { width: 100%; padding: 15px; background: #f06292; color: #fff; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="index.html" class="back-btn">❮</a>
+        <b style="flex:1; text-align:center;">Tạo nhân vật</b>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <label>Tên nhân vật</label>
+            <input type="text" placeholder="Tên bot của ní...">
+        </div>
+
+        <div class="card">
+            <label>Chọn giọng nói (Dự kiến)</label>
+            <div class="voice-list">
+                <div class="voice-item active" onclick="selV(this)">Nam</div>
+                <div class="voice-item" onclick="selV(this)">Nữ</div>
+                <div class="voice-item" onclick="selV(this)">Anime</div>
+            </div>
+        </div>
+
+        <button class="btn-create" onclick="alert('Đã đúc thành công!'); window.location.href='index.html'">ĐÚC BOT</button>
+    </div>
+
+    <script>
+        function selV(el) {
+            document.querySelectorAll('.voice-item').forEach(v => v.classList.remove('active'));
+            el.classList.add('active');
+        }
+    </script>
+</body>
+</html>
