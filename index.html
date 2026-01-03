@@ -3,203 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TP C-AI ALL-IN-ONE</title>
+    <title>TP C-AI SUPER APP</title>
     <style>
-        :root { --main: #f06292; --bg: #fdfdfd; --card: #ffffff; --pink-bg: #fff0f3; }
+        :root { --main: #f06292; --bg: #f8f9fa; --card: #ffffff; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; }
         
-        /* Chuyển trang */
-        .page { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; background: var(--bg); display: none; overflow-y: auto; padding-bottom: 80px; box-sizing: border-box; }
+        .page { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; background: var(--bg); display: none; overflow-y: auto; padding-bottom: 90px; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* Header */
-        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .h-title { flex: 1; text-align: center; font-weight: bold; font-size: 18px; color: #333; }
-
-        /* Menu Dưới */
+        /* Menu Nav */
         .nav { position: fixed; bottom: 0; width: 100%; background: #fff; height: 70px; display: flex; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
-        .n-btn { flex: 1; text-align: center; color: #bbb; cursor: pointer; }
+        .n-btn { flex: 1; text-align: center; color: #ccc; cursor: pointer; transition: 0.2s; }
         .n-btn.active { color: var(--main); }
-        .n-btn i { font-size: 22px; display: block; font-style: normal; }
-        .n-btn span { font-size: 10px; font-weight: bold; }
+        .n-btn span { font-size: 10px; display: block; font-weight: bold; margin-top: 2px; }
         
-        .add-btn-wrap { flex: 1; display: flex; justify-content: center; }
-        .add-btn { background: var(--main); color: #fff !important; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4); }
+        .add-btn { background: var(--main); color: #fff !important; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4); border: 3px solid #fff; }
 
-        /* Card & Input */
-        .card { background: var(--card); margin: 15px; padding: 15px; border-radius: 18px; border: 1px solid #f1f1f1; }
-        .label { font-weight: bold; font-size: 14px; color: #444; margin-bottom: 8px; display: block; }
-        input, textarea { width: 100%; border: none; background: var(--pink-bg); border-radius: 12px; padding: 12px; box-sizing: border-box; outline: none; font-size: 14px; }
+        /* Header */
+        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; font-weight: bold; font-size: 18px; }
+
+        /* Card chung */
+        .card { background: white; margin: 15px; padding: 15px; border-radius: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        input, textarea { width: 100%; border: none; background: #fff0f3; border-radius: 12px; padding: 12px; box-sizing: border-box; outline: none; margin-top: 10px; }
         
-        /* Chọn giọng nói */
-        .voice-list { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
-        .voice-item { min-width: 90px; padding: 12px; border: 1px solid #eee; border-radius: 15px; text-align: center; background: #fff; flex-shrink: 0; }
-        .voice-item.active { border-color: var(--main); background: var(--pink-bg); color: var(--main); font-weight: bold; }
-
-        /* Nút tạo */
-        .btn-final { background: var(--main); color: #fff; border: none; width: 90%; margin: 10px 5%; padding: 15px; border-radius: 15px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(240, 98, 146, 0.2); }
-
-        /* Gọi điện */
-        #pg-call { background: #1a1a1a; color: #fff; text-align: center; z-index: 9999; }
-        .call-avt { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--main); margin: 80px auto 20px; position: relative; }
-        .call-btns { position: absolute; bottom: 80px; width: 100%; display: flex; justify-content: space-around; }
-        .c-btn { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; }
+        /* Voice List */
+        .voice-list { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
+        .voice-item { min-width: 80px; padding: 10px; border: 1px solid #eee; border-radius: 12px; text-align: center; background: #fff; flex-shrink: 0; }
+        .voice-item.active { border-color: var(--main); background: #fff0f3; color: var(--main); font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="pg-home" class="page active">
-        <div class="header"><div class="h-title">TP C-AI</div></div>
+        <div class="header">TP C-AI</div>
         <div style="padding: 20px; text-align: center;">
-            <p>Chào ní! Hôm nay đúc bot gì đây?</p>
-            <button onclick="startCall('Bot Trợ Lý')" style="padding: 12px 25px; border-radius: 25px; border: none; background: var(--main); color: #fff; font-weight: bold;">📞 Gọi thử cho AI</button>
+            <div style="background: white; padding: 40px 20px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                <h3 style="margin-top:0">Chào ní! 👋</h3>
+                <p style="color:#666">Hãy đúc một nhân vật và bắt đầu trò chuyện nhé.</p>
+            </div>
         </div>
     </div>
 
     <div id="pg-chat" class="page">
-        <div class="header"><div class="h-title">Tin nhắn</div></div>
-        <p style="text-align: center; color: #999; margin-top: 100px;">Chưa có tin nhắn nào.</p>
+        <div class="header">Tin nhắn</div>
+        <div style="text-align:center; margin-top: 100px; color:#999;">Trống rỗng như ví tiền của ní vậy...</div>
     </div>
 
     <div id="pg-create" class="page">
         <div class="header">
-            <div onclick="goPage('pg-home')" style="color:var(--main); cursor:pointer; font-size: 20px;">❮</div>
-            <div class="h-title">Tạo Nhân Vật</div>
-            <div style="width:20px"></div>
+            <span onclick="goPage('pg-home')" style="color:var(--main); margin-right:20px">❮</span>
+            Tạo Nhân Vật
         </div>
-        
         <div class="card">
-            <label class="label">Tên nhân vật</label>
-            <input type="text" id="bot-name" placeholder="Nhập tên bot của ní...">
+            <label><b>Tên nhân vật</b></label>
+            <input type="text" id="bot-name" placeholder="Ví dụ: Người yêu ảo...">
         </div>
-
         <div class="card">
-            <label class="label">🎙️ Chọn giọng nói AI</label>
+            <label><b>Giọng nói AI</b></label>
             <div class="voice-list">
-                <div class="voice-item active" onclick="selVoice(this)"><b>👨 Nam</b><br><small>Trầm ấm</small></div>
-                <div class="voice-item" onclick="selVoice(this)"><b>👩 Nữ</b><br><small>Ngọt ngào</small></div>
-                <div class="voice-item" onclick="selVoice(this)"><b>✨ Cute</b><br><small>Dễ thương</small></div>
-                <div class="voice-item" onclick="selVoice(this)"><b>❄️ Lạnh</b><br><small>Lạnh lùng</small></div>
+                <div class="voice-item active" onclick="selV(this)">Nam Trầm</div>
+                <div class="voice-item" onclick="selV(this)">Nữ Ngọt</div>
+                <div class="voice-item" onclick="selV(this)">Anime</div>
             </div>
-            <p style="font-size: 11px; color: #999; margin-top: 8px;">(Ní chọn giọng để bot phát âm thanh khi chat/gọi)</p>
         </div>
-
-        <div class="card">
-            <label class="label">Tính cách / Lịch sử</label>
-            <textarea placeholder="Mô tả bot của ní tại đây..."></textarea>
-        </div>
-
-        <button class="btn-final" onclick="confirmBot()">✨ ĐÚC NHÂN VẬT</button>
+        <button onclick="alert('Đã đúc xong!'); goPage('pg-chat')" style="width:90%; margin:10px 5%; padding:15px; background:var(--main); color:white; border:none; border-radius:15px; font-weight:bold;">✨ ĐÚC NGAY</button>
     </div>
 
-       <div id="pg-me" class="page" style="background: #f8f9fa;">
-        <div class="header" style="border:none; background: transparent;">
-            <div class="h-title" style="text-align: left; padding-left: 10px;">Cá nhân</div>
-            <div style="padding-right: 15px; color: var(--main); font-size: 20px;">⚙️</div>
-        </div>
-
-        <div style="padding: 20px; display: flex; align-items: center; gap: 15px; background: white; margin: 0 15px 15px 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-            <div style="width: 70px; height: 70px; background: linear-gradient(45deg, var(--main), #ff8aab); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; font-weight: bold; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                T
-            </div>
-            <div style="flex: 1;">
-                <h2 style="margin: 0; font-size: 20px; color: #333;">Trùm C-AI <span style="font-size: 14px;">✎</span></h2>
-                <p style="margin: 5px 0 0 0; font-size: 12px; color: #999;">ID: 888999 | Thành viên Vàng</p>
-            </div>
-        </div>
-
-        <div style="margin: 0 15px 20px 15px; background: #333; color: white; padding: 20px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; background-image: linear-gradient(to right, #2d3436, #000);">
+    <div id="pg-me" class="page">
+        <div class="header">Cá nhân</div>
+        <div style="padding: 20px; display: flex; align-items: center; gap: 15px; background: white; margin: 15px; border-radius: 20px;">
+            <div style="width:60px; height:60px; background:var(--main); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:24px; font-weight:bold;">T</div>
             <div>
-                <span style="font-size: 13px; opacity: 0.8;">Số dư Tia Sét</span>
-                <div style="font-size: 28px; font-weight: bold; color: #ffeaa7; margin-top: 5px;">⚡ 1,250</div>
-            </div>
-            <button style="background: var(--main); color: white; border: none; padding: 10px 18px; border-radius: 12px; font-weight: bold; font-size: 13px;">Nạp thêm</button>
-        </div>
-
-        <div class="card" style="padding: 5px; border: none;">
-            <div style="display: flex; flex-direction: column;">
-                <div class="me-item" style="padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #f9f9f9;">
-                    <span style="width: 30px; font-size: 18px;">🎁</span>
-                    <span style="flex: 1; font-size: 15px;">Nhập Mã Quà Tặng</span>
-                    <span style="color: #ccc;">❯</span>
-                </div>
-                <div class="me-item" style="padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #f9f9f9;">
-                    <span style="width: 30px; font-size: 18px;">🏆</span>
-                    <span style="flex: 1; font-size: 15px;">Bảng Xếp Hạng Đúc Bot</span>
-                    <span style="color: #ccc;">❯</span>
-                </div>
-                <div class="me-item" style="padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #f9f9f9;">
-                    <span style="width: 30px; font-size: 18px;">🎨</span>
-                    <span style="flex: 1; font-size: 15px;">Cửa Hàng Giao Diện</span>
-                    <span style="color: #ccc;">❯</span>
-                </div>
-                <div class="me-item" style="padding: 15px; display: flex; align-items: center;">
-                    <span style="width: 30px; font-size: 18px;">📞</span>
-                    <span style="flex: 1; font-size: 15px;">Lịch Sử Cuộc Gọi AI</span>
-                    <span style="color: #ccc;">❯</span>
-                </div>
+                <b style="font-size:18px">Trùm C-AI</b>
+                <div style="font-size:12px; color:#999">ID: 123456</div>
             </div>
         </div>
-
-        <p style="text-align: center; color: #ff4757; font-weight: bold; margin-top: 20px; font-size: 14px;">Đăng xuất</p>
-    </div>
-
-        <div style="padding: 20px;">
-            <div style="background: #fff9db; padding: 15px; border-radius: 15px; color: #f08c00;"><b>⚡ Sét hiện có: 123</b></div>
-        </div>
-    </div>
-
-    <div id="pg-call" class="page">
-        <div class="call-avt">
-            <img src="https://via.placeholder.com/130" style="width: 100%; border-radius: 50%;">
-        </div>
-        <h2 id="call-name-txt">Tên Bot</h2>
-        <p id="call-status">Đang kết nối âm thanh...</p>
-        
-        <div class="call-btns">
-            <div class="c-btn" style="background: #ff4757;" onclick="endCall()">✖</div>
-            <div class="c-btn" style="background: #2ed573;" onclick="alert('Đã bắt máy!')">✔</div>
+        <div style="margin: 0 15px; background: #333; color: white; padding: 20px; border-radius: 20px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <small style="opacity:0.7">Tia Sét ⚡</small>
+                <div style="font-size:24px; font-weight:bold; color:#ffeaa7;">1,250</div>
+            </div>
+            <button style="background:var(--main); border:none; color:white; padding:8px 15px; border-radius:10px; font-weight:bold;">Nạp</button>
         </div>
     </div>
 
     <div class="nav">
-        <div class="n-btn active" onclick="goPage('pg-home', this)"><i>🏠</i><span>Khám phá</span></div>
-        <div class="n-btn" onclick="goPage('pg-chat', this)"><i>💬</i><span>Tin nhắn</span></div>
-        <div class="add-btn-wrap">
+        <div class="n-btn active" onclick="goPage('pg-home', this)">🏠<span>Home</span></div>
+        <div class="n-btn" onclick="goPage('pg-chat', this)">💬<span>Chat</span></div>
+        <div style="flex:1; display:flex; justify-content:center;">
             <div class="add-btn" onclick="goPage('pg-create', this)">+</div>
         </div>
-        <div class="n-btn" onclick="goPage('pg-me', this)"><i>👤</i><span>Tôi</span></div>
+        <div class="n-btn" onclick="goPage('pg-me', this)">👤<span>Tôi</span></div>
     </div>
 
     <script>
         function goPage(id, el) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            // Ẩn tất cả trang
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(p => p.classList.remove('active'));
+            
+            // Hiện trang được chọn
+            const target = document.getElementById(id);
+            if(target) target.classList.add('active');
+
+            // Đổi màu icon menu (nếu là nút menu)
             if(el && el.classList.contains('n-btn')) {
                 document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
                 el.classList.add('active');
             }
         }
 
-        function selVoice(el) {
+        function selV(el) {
             document.querySelectorAll('.voice-item').forEach(v => v.classList.remove('active'));
             el.classList.add('active');
-        }
-
-        function confirmBot() {
-            const name = document.getElementById('bot-name').value;
-            if(!name) return alert("Ní chưa nhập tên Bot!");
-            alert("Chúc mừng! " + name + " đã được đúc thành công.");
-            goPage('pg-chat');
-        }
-
-        function startCall(name) {
-            document.getElementById('call-name-txt').innerText = name;
-            document.getElementById('pg-call').style.display = 'block';
-        }
-
-        function endCall() {
-            document.getElementById('pg-call').style.display = 'none';
         }
     </script>
 </body>
