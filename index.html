@@ -1,43 +1,85 @@
-<div class="header" style="background:#fff; padding:15px; display:flex; align-items:center; border-bottom:1px solid #eee;">
-    <div onclick="goPage('pg-home')" style="color:#f06292; font-size:20px; cursor:pointer;">❮ Quay lại</div>
-    <div style="flex:1; text-align:center; font-weight:bold;">Đúc Nhân Vật</div>
-</div>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP C-AI DESIGNER MODE</title>
+    <style>
+        /* 1. KHU VỰC MÀU SẮC - Ní tự thay mã màu ở đây nhen */
+        :root {
+            --mau-chinh: #f06292;    /* Màu chủ đạo (Hồng, Tím, Xanh...) */
+            --mau-nen: #fdfdfd;      /* Màu nền của toàn app */
+            --mau-the: #ffffff;      /* Màu của các khung trắng */
+            --mau-chu: #333333;      /* Màu chữ chính */
+        }
 
-<div style="padding: 15px;">
-    <div class="card" style="background:#fff; border-radius:15px; padding:15px; margin-bottom:15px;">
-        <label>Tên nhân vật<span>*</span></label>
-        <input type="text" id="b-name" placeholder="Nhập tên..." style="width:100%; padding:12px; border-radius:10px; background:#fff0f3; border:none; margin-top:5px;">
-    </div>
+        body { font-family: sans-serif; margin: 0; background: var(--mau-nen); color: var(--mau-chu); }
+        .trang { display: none; padding-bottom: 80px; height: 100vh; overflow-y: auto; }
+        .active { display: block; }
 
-    <div class="card" style="background:#fff; border-radius:15px; padding:15px; margin-bottom:15px; border: 1px solid #ffeef2;">
-        <label style="font-weight:bold; color:#333;">🎙️ Giọng nói của AI</label>
-        <p style="font-size:11px; color:#999; margin:5px 0 10px 0;">Chọn giọng để người dùng khác có thể nghe khi chat.</p>
-        
-        <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px;">
-            <div class="v-box" onclick="pickVoice(this, 'Nam Trầm')" style="flex:0 0 80px; padding:10px; border:1px solid #eee; border-radius:12px; text-align:center;">
-                <span style="font-size:20px;">👨</span><br><small>Nam Trầm</small>
-            </div>
-            <div class="v-box" onclick="pickVoice(this, 'Nữ Ngọt')" style="flex:0 0 80px; padding:10px; border:1px solid #eee; border-radius:12px; text-align:center;">
-                <span style="font-size:20px;">👩</span><br><small>Nữ Ngọt</small>
-            </div>
-            <div class="v-box" onclick="pickVoice(this, 'Lạnh Lùng')" style="flex:0 0 80px; padding:10px; border:1px solid #eee; border-radius:12px; text-align:center;">
-                <span style="font-size:20px;">❄️</span><br><small>Lạnh Lùng</small>
-            </div>
+        /* 2. THIẾT KẾ MENU DƯỚI (Ní có thể thêm bớt nút ở đây) */
+        .menu-duoi {
+            position: fixed; bottom: 0; width: 100%; height: 70px;
+            background: #fff; display: flex; align-items: center;
+            border-top: 1px solid #eee; z-index: 100;
+        }
+        .nut-menu { flex: 1; text-align: center; cursor: pointer; color: #ccc; }
+        .nut-menu.active { color: var(--mau-chinh); }
+
+        /* Nút cộng nổi bật */
+        .nut-cong {
+            width: 50px; height: 50px; background: #f5f5f5;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 30px; margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+
+        /* 3. KHU VỰC CÁC THẺ (CARD) - Ní dùng cái này để tạo ô nhập liệu */
+        .khung-nhap {
+            background: var(--mau-the); margin: 15px; padding: 15px;
+            border-radius: 15px; border: 1px solid #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="trang-chu" class="trang active">
+        <h2 style="padding:15px;">🏠 Khám phá</h2>
         </div>
+
+    <div id="trang-chat" class="trang">
+        <h2 style="padding:15px;">💬 Tin nhắn</h2>
     </div>
 
-    <button onclick="makeBot()" style="width:100%; padding:15px; background:#f06292; color:#fff; border:none; border-radius:15px; font-weight:bold;">XÁC NHẬN TẠO</button>
-</div>
+    <div id="trang-tao" class="trang">
+        <h2 style="padding:15px;">➕ Tạo nhân vật</h2>
+        <div class="khung-nhap">
+            <p>Tên Bot:</p>
+            <input type="text" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd;">
+        </div>
+        </div>
 
-<style>
-    .v-box.active { border-color: #f06292 !important; background: #fff0f3 !important; color: #f06292 !important; }
-</style>
+    <div id="trang-toi" class="trang">
+        <h2 style="padding:15px;">👤 Cá nhân</h2>
+    </div>
 
-<script>
-    function pickVoice(el, type) {
-        document.querySelectorAll('.v-box').forEach(v => v.classList.remove('active'));
-        el.classList.add('active');
-        console.log("Đã chọn giọng: " + type);
-        // Sau này ní đưa file âm thanh vào đây để nghe thử nhen
-    }
-</script>
+    <div class="menu-duoi">
+        <div class="nut-menu active" onclick="chuyenTrang('trang-chu', this)">🏠</div>
+        <div class="nut-menu" onclick="chuyenTrang('trang-chat', this)">💬</div>
+        <div class="nut-cong" onclick="chuyenTrang('trang-tao', this)">+</div>
+        <div class="nut-menu" onclick="chuyenTrang('trang-toi', this)">👤</div>
+    </div>
+
+    <script>
+        function chuyenTrang(id, el) {
+            // Ẩn hết các trang
+            document.querySelectorAll('.trang').forEach(t => t.classList.remove('active'));
+            // Hiện trang được chọn
+            document.getElementById(id).classList.add('active');
+            // Đổi màu nút menu
+            document.querySelectorAll('.nut-menu').forEach(n => n.classList.remove('active'));
+            if(el.classList.contains('nut-menu')) el.classList.add('active');
+        }
+    </script>
+</body>
+</html>
