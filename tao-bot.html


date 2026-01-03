@@ -3,111 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Đúc Bot - TP C-AI</title>
+    <title>Thiết kế Nhân vật - TP C-AI</title>
     <style>
-        :root { --main: #6c5ce7; --bg: #fdfdfd; --pink: #fd79a8; --input: #f8f9ff; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; padding-bottom: 100px; }
+        :root { --main: #f06292; --bg: #fdfdfd; --input: #fff5f7; --text: #444; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: var(--text); padding-bottom: 100px; }
         
+        /* Header */
         .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .back-btn { font-size: 24px; color: var(--main); cursor: pointer; text-decoration: none; margin-right: 15px; }
+        .back-btn { font-size: 24px; color: var(--main); cursor: pointer; text-decoration: none; margin-right: 15px; font-weight: bold; }
         .h-title { flex: 1; font-weight: bold; font-size: 18px; }
 
         .container { padding: 15px; }
-        .group { background: #fff; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid #f1f1f1; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .label { font-weight: bold; font-size: 14px; margin-bottom: 10px; display: block; color: #444; }
-        .label span { color: var(--pink); margin-left: 3px; }
         
+        /* Box nhập liệu */
+        .group { background: #fff; border-radius: 20px; padding: 18px; margin-bottom: 15px; border: 1px solid #f1f1f1; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .label { font-weight: bold; font-size: 14px; margin-bottom: 10px; display: block; color: #555; }
+        .label span { color: var(--main); margin-left: 3px; }
+
         input, textarea {
-            width: 100%; border: 1.5px solid transparent; background: var(--input); border-radius: 12px; padding: 15px; box-sizing: border-box; outline: none; font-size: 14px; transition: 0.3s;
+            width: 100%; border: 1.5px solid transparent; background: var(--input); border-radius: 12px; padding: 14px; box-sizing: border-box; outline: none; font-size: 14px; transition: 0.3s;
         }
+        input:focus, textarea:focus { border-color: var(--main); background: #fff; }
         textarea { resize: none; line-height: 1.6; }
-        input:focus, textarea:focus { border-color: var(--main); background: #fff; box-shadow: 0 0 10px rgba(108, 92, 231, 0.1); }
-        .hint { font-size: 11px; color: #999; margin-top: 8px; display: block; font-style: italic; }
+        .hint { font-size: 11px; color: #999; margin-top: 8px; display: block; line-height: 1.4; }
 
-        /* Chọn giọng nói */
-        .v-list { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
-        .v-item { flex: 0 0 110px; padding: 12px; border: 1.5px solid #eee; border-radius: 15px; text-align: center; cursor: pointer; background: #fff; }
-        .v-item.active { border-color: var(--main); background: #f0edff; color: var(--main); font-weight: bold; }
-
-        /* Avatar */
-        .avt-picker { width: 100px; height: 100px; background: var(--input); border-radius: 25px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; cursor: pointer; overflow: hidden; margin-top: 5px; }
+        /* Chọn Avatar */
+        .avt-picker { width: 90px; height: 90px; background: var(--input); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ddd; cursor: pointer; overflow: hidden; }
         .avt-picker img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* PHẦN ÂM THANH */
+        .v-list { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; }
+        .v-list::-webkit-scrollbar { display: none; }
+        .v-card { flex: 0 0 100px; padding: 12px; border: 1.5px solid #eee; border-radius: 15px; text-align: center; cursor: pointer; background: #fff; font-size: 13px; }
+        .v-card.active { border-color: var(--main); background: #fff0f3; color: var(--main); font-weight: bold; }
 
         /* Nút chốt */
         .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 15px; border-top: 1px solid #eee; box-sizing: border-box; }
-        .btn-create { width: 100%; padding: 18px; background: var(--main); color: white; border: none; border-radius: 20px; font-weight: bold; font-size: 16px; box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3); }
+        .btn-done { width: 100%; padding: 16px; background: var(--main); color: white; border: none; border-radius: 18px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.3); }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <a href="index.html" class="back-btn">❮</a>
+        <div class="back-btn" onclick="history.back()">❮</div>
         <div class="h-title">Đúc Nhân Vật AI</div>
     </div>
 
     <div class="container">
         <div class="group">
             <label class="label">Hình ảnh nhân vật<span>*</span></label>
-            <div class="avt-picker" onclick="document.getElementById('f').click()">
-                <img id="p" style="display:none"> <span id="s" style="font-size:30px; color:#aaa;">+</span>
+            <div class="avt-picker" onclick="document.getElementById('file-in').click()">
+                <img id="img-pre" style="display:none"> <span id="plus" style="font-size:24px; color:#aaa;">+</span>
             </div>
-            <input type="file" id="f" hidden accept="image/*" onchange="previewImg(this)">
+            <input type="file" id="file-in" hidden accept="image/*" onchange="preview(this)">
         </div>
 
         <div class="group">
             <label class="label">Tên nhân vật<span>*</span></label>
-            <input type="text" placeholder="Ví dụ: Người yêu cũ, Boss lạnh lùng...">
+            <input type="text" placeholder="Ví dụ: Anh hàng xóm, Waifu của tui...">
         </div>
 
         <div class="group">
-            <label class="label">Lựa chọn âm thanh<span>*</span></label>
+            <label class="label">Lựa chọn âm thanh (Giọng nói)<span>*</span></label>
             <div class="v-list">
-                <div class="v-item active" onclick="setV(this)">Nam Trầm</div>
-                <div class="v-item" onclick="setV(this)">Nữ Ngọt</div>
-                <div class="v-item" onclick="setV(this)">Anime</div>
-                <div class="v-item" onclick="setV(this)">Lạnh Lùng</div>
+                <div class="v-card active" onclick="setV(this)">Nam Trầm</div>
+                <div class="v-card" onclick="setV(this)">Nữ Ngọt</div>
+                <div class="v-card" onclick="setV(this)">Lạnh Lùng</div>
+                <div class="v-card" onclick="setV(this)">Anime</div>
             </div>
         </div>
 
         <div class="group">
-            <label class="label">Lời chào đầu tiên (Greeting)<span>*</span></label>
-            <textarea rows="3" placeholder="Câu nói đầu tiên khi mở chat..."></textarea>
-            <span class="hint">Nên đặt trong dấu ngoặc kép hoặc thêm hành động: *Mỉm cười* Chào cậu...</span>
+            <label class="label">Bối cảnh & Lời nói đầu tiên<span>*</span></label>
+            <textarea rows="5" placeholder="Mô tả hoàn cảnh và câu chào của Bot tại đây..."></textarea>
+            <span class="hint">Ví dụ: *Bạn đang ngồi trong quán cafe vắng*, Bot từ từ tiến lại gần rồi mỉm cười nói: "Chào anh, em có thể ngồi đây không?"</span>
         </div>
 
         <div class="group">
-            <label class="label">Bối cảnh (Scenario)<span>*</span></label>
-            <textarea rows="4" placeholder="Mô tả hoàn cảnh, quan hệ giữa bạn và Bot..."></textarea>
-            <span class="hint">Ví dụ: Hai người đang đi dạo dưới mưa, cậu là sếp của tôi...</span>
+            <label class="label">Lịch sử & Tính cách (Lore)<span>*</span></label>
+            <textarea rows="7" placeholder="Mô tả chi tiết quá khứ, thói quen, sở thích để Bot thông minh hơn..."></textarea>
+            <span class="hint">Doki gọi đây là Long Description. Hãy viết thật kỹ để Bot có 'hồn'.</span>
         </div>
-
-        <div class="group">
-            <label class="label">Lịch sử nhân vật (Character Lore)<span>*</span></label>
-            <textarea rows="6" placeholder="Mô tả tính cách, sở thích, quá khứ của Bot..."></textarea>
-            <span class="hint">Đây là 'linh hồn' của Bot, hãy viết thật chi tiết nhé!</span>
-        </div>
-
     </div>
 
     <div class="footer">
-        <button class="btn-create" onclick="alert('Đã đúc thành công!'); window.location.href='index.html'">✨ XÁC NHẬN TẠO BOT</button>
+        <button class="btn-done" onclick="saveBot()">✨ XÁC NHẬN ĐÚC BOT</button>
     </div>
 
     <script>
-        function previewImg(input) {
+        function preview(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('p').src = e.target.result;
-                    document.getElementById('p').style.display = 'block';
-                    document.getElementById('s').style.display = 'none';
+                    document.getElementById('img-pre').src = e.target.result;
+                    document.getElementById('img-pre').style.display = 'block';
+                    document.getElementById('plus').style.display = 'none';
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
         function setV(el) {
-            document.querySelectorAll('.v-item').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.v-card').forEach(v => v.classList.remove('active'));
             el.classList.add('active');
+        }
+        function saveBot() {
+            alert("Đã đúc thành công! Nhân vật sẽ hiện trong mục 'Của tôi' ở Hồ sơ.");
+            window.location.href = "index.html";
         }
     </script>
 </body>
