@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Nhân Vật - C-AI</title>
+    <style>
+        :root { --pink-main: #f06292; --pink-light: #fce4ec; --text-gray: #757575; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fdfdfd; margin: 0; padding-bottom: 100px; color: #333; }
+        
+        /* Header */
+        .header { display: flex; align-items: center; padding: 15px; position: sticky; top: 0; background: #fff; z-index: 10; border-bottom: 1px solid #eee; }
+        .back-btn { font-size: 24px; cursor: pointer; color: var(--pink-main); margin-right: 20px; text-decoration: none; }
+        .title { flex: 1; font-weight: bold; text-align: center; font-size: 18px; margin-right: 44px; }
+
+        /* Form Container */
+        .container { padding: 15px; }
+        .section { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); border: 1px solid #f9f9f9; }
+        .label { font-weight: bold; margin-bottom: 10px; display: block; font-size: 15px; }
+        .label span { color: var(--pink-main); }
+        
+        /* Inputs */
+        input[type="text"], textarea { width: 100%; border: none; background: var(--pink-light); border-radius: 12px; padding: 12px; box-sizing: border-box; font-size: 14px; color: #333; outline: none; }
+        textarea { resize: none; height: 100px; }
+        .char-count { text-align: right; font-size: 11px; color: #bbb; margin-top: 5px; }
+
+        /* Avatar Upload */
+        .avt-upload { width: 100px; height: 100px; background: var(--pink-light); border-radius: 50%; margin: 10px auto; position: relative; display: flex; align-items: center; justify-content: center; }
+        .avt-upload img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none; }
+        .edit-icon { position: absolute; bottom: 0; right: 0; background: var(--pink-main); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 2px solid white; cursor: pointer; }
+
+        /* Gender & Privacy Buttons */
+        .btn-group { display: flex; gap: 10px; margin-top: 5px; }
+        .select-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .select-btn.active { border-color: var(--pink-main); color: var(--pink-main); background: var(--pink-light); font-weight: bold; }
+
+        /* Add Tag Button */
+        .add-tag-btn { display: inline-block; padding: 8px 15px; background: var(--pink-main); color: white; border-radius: 8px; font-size: 13px; cursor: pointer; border: none; margin-top: 5px; }
+
+        /* Footer Button */
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px; background: white; border-top: 1px solid #eee; display: flex; align-items: center; gap: 15px; }
+        .view-btn { width: 45px; height: 45px; border-radius: 50%; border: 1px solid #eee; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .create-btn { flex: 1; background: var(--pink-main); color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3); }
+        .create-btn:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="back-btn" onclick="history.back()">❮</div>
+        <div class="title">Tạo nhân vật</div>
+        <div style="width: 24px;"></div> </div>
+
+    <div class="container">
+        <div class="section">
+            <label class="label">Tên<span>*</span></label>
+            <input type="text" id="bot-name" placeholder="Nhập tên nhân vật..." maxlength="40">
+            <div class="char-count">0/40</div>
+        </div>
+
+        <div class="section" style="text-align: center;">
+            <label class="label" style="text-align: left;">Ảnh đại diện<span>*</span></label>
+            <div class="avt-upload">
+                <span style="font-size: 40px; color: var(--pink-main);">👤</span>
+                <img id="preview-avt">
+                <label for="file-avt" class="edit-icon">✎</label>
+                <input type="file" id="file-avt" hidden accept="image/*" onchange="previewImage(this)">
+            </div>
+        </div>
+
+        <div class="section">
+            <label class="label">Giới tính<span>*</span></label>
+            <div class="btn-group">
+                <button class="select-btn active" onclick="selectGender(this)">Nam</button>
+                <button class="select-btn" onclick="selectGender(this)">Nữ</button>
+                <button class="select-btn" onclick="selectGender(this)">Khác</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <label class="label">Lịch sử</label>
+            <textarea placeholder="Tóm tắt lịch sử nhân vật của bạn với bạn. Ví dụ: Quan hệ với bạn, những gì đã xảy ra trước." maxlength="1000"></textarea>
+            <div class="char-count">0/1000</div>
+        </div>
+
+        <div class="section">
+            <label class="label">Tin nhắn đầu tiên<span>*</span></label>
+            <textarea placeholder="Mô tả cảnh đầu tiên hoặc điều đầu tiên nhân vật nói với bạn" maxlength="2000"></textarea>
+            <div class="char-count">0/2000</div>
+        </div>
+
+        <div class="section">
+            <label class="label">Thông tin công khai<span>*</span></label>
+            <textarea placeholder="Nhập mô tả chi tiết về nhân vật và thông tin cơ bản. Ví dụ: Tuổi, Ngoại hình, Nghề nghiệp, MBTI..." maxlength="2000"></textarea>
+            <div class="char-count">0/2000</div>
+        </div>
+
+        <div class="section">
+            <label class="label">Tính cách<span>*</span></label>
+            <textarea placeholder="Mô tả tính cách của nhân vật này. Tính cách là linh hồn của một nhân vật." maxlength="5000"></textarea>
+            <div class="char-count">0/5000</div>
+            <button class="add-tag-btn">+ Chọn tính cách</button>
+        </div>
+
+        <div class="section">
+            <label class="label">Cài đặt công khai<span>*</span></label>
+            <div class="btn-group">
+                <button class="select-btn active" onclick="selectPrivacy(this)">Công khai</button>
+                <button class="select-btn" onclick="selectPrivacy(this)">Riêng tư</button>
+            </div>
+            <p style="font-size: 12px; color: var(--text-gray); margin-top: 10px;">
+                Khi nhân vật được đặt ở chế độ công khai, nó sẽ được hiển thị và có thể chat cho tất cả người dùng.
+            </p>
+        </div>
+
+        <div class="section">
+            <label class="label">Thẻ<span>*</span></label>
+            <button class="add-tag-btn" style="background: #ff7675;">+ Thêm thẻ</button>
+        </div>
+
+        <div class="section">
+            <label class="label">Giới thiệu ngắn<span>*</span></label>
+            <textarea placeholder="Giới thiệu nhân vật của bạn trong một câu" maxlength="100" style="height: 60px;"></textarea>
+            <div class="char-count">0/100</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="view-btn">👁️</div>
+        <button class="create-btn" onclick="createFinal()">Tạo</button>
+    </div>
+
+    <script>
+        function selectGender(btn) {
+            btn.parentElement.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function selectPrivacy(btn) {
+            btn.parentElement.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('preview-avt');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    img.previousElementSibling.style.display = 'none'; // Ẩn icon 👤
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function createFinal() {
+            const name = document.getElementById('bot-name').value;
+            if(!name) return alert("Vui lòng nhập tên Bot!");
+            alert("Chúc mừng! Nhân vật '" + name + "' đã được đúc thành công.");
+            window.location.href = 'index.html'; // Hoặc trang ní muốn quay lại
+        }
+
+        // Tự động đếm ký tự cho tất cả textarea và input
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('input', function() {
+                const countEl = this.parentElement.querySelector('.char-count');
+                if (countEl) {
+                    countEl.innerText = `${this.value.length}/${this.getAttribute('maxlength')}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
