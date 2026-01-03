@@ -3,122 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tạo Bot Pro - TP C-AI</title>
+    <title>Tạo Bot - TP C-AI</title>
     <style>
-        :root { --main: #6c5ce7; --bg: #fdfdfd; --pink: #fd79a8; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; padding-bottom: 100px; }
+        :root { --main: #6c5ce7; --bg: #fdfdfd; --input-bg: #f8f9ff; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); padding-bottom: 100px; color: #333; }
         
+        /* Header */
         .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .back-btn { font-size: 24px; color: var(--main); cursor: pointer; margin-right: 15px; }
+        .back-btn { font-size: 24px; color: var(--main); cursor: pointer; text-decoration: none; margin-right: 15px; }
         .h-title { flex: 1; font-weight: bold; font-size: 18px; }
 
         .container { padding: 15px; }
-        .input-group { background: #fff; border-radius: 15px; padding: 18px; margin-bottom: 15px; border: 1px solid #f1f1f1; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .label { font-weight: bold; font-size: 14px; margin-bottom: 10px; display: block; color: #444; }
-        .label span { color: var(--pink); margin-left: 3px; }
         
+        /* Box nhập liệu */
+        .group { background: #fff; border-radius: 18px; padding: 18px; margin-bottom: 15px; border: 1px solid #f1f1f1; }
+        .label { font-weight: bold; font-size: 14px; margin-bottom: 10px; display: block; color: #444; }
+        .label span { color: #ff7675; }
+
         input, textarea, select {
-            width: 100%; border: none; background: #f8f9ff; border-radius: 12px; padding: 14px; box-sizing: border-box; outline: none; font-size: 14px; border: 1px solid transparent;
+            width: 100%; border: 1px solid transparent; background: var(--input-bg); border-radius: 12px; padding: 14px; box-sizing: border-box; outline: none; font-size: 14px; transition: 0.3s;
         }
-        textarea { resize: none; line-height: 1.5; }
         input:focus, textarea:focus { border-color: var(--main); background: #fff; }
+        textarea { resize: none; }
+        .hint { font-size: 11px; color: #999; margin-top: 6px; display: block; line-height: 1.4; }
 
-        .hint { font-size: 11px; color: #999; margin-top: 6px; display: block; }
+        /* Chọn Avatar */
+        .avt-picker { width: 90px; height: 90px; background: var(--input-bg); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ddd; cursor: pointer; overflow: hidden; }
+        .avt-picker img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Voice List */
-        .voice-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
-        .v-item { flex: 0 0 100px; padding: 12px; border: 1.5px solid #eee; border-radius: 15px; text-align: center; cursor: pointer; }
-        .v-item.active { border-color: var(--main); background: #f0edff; color: var(--main); }
-
-        /* Avatar */
-        .avt-box { width: 90px; height: 90px; background: #f8f9ff; border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ddd; cursor: pointer; overflow: hidden; }
-        .avt-box img { width: 100%; height: 100%; object-fit: cover; }
+        /* PHẦN ÂM THANH */
+        .v-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        .v-list::-webkit-scrollbar { display: none; }
+        .v-card { flex: 0 0 100px; padding: 12px; border: 1.5px solid #eee; border-radius: 15px; text-align: center; cursor: pointer; background: #fff; }
+        .v-card.active { border-color: var(--main); background: #f0edff; color: var(--main); font-weight: bold; }
+        .v-card i { display: block; font-size: 20px; margin-bottom: 5px; font-style: normal; }
 
         /* Footer */
         .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 15px; border-top: 1px solid #eee; box-sizing: border-box; }
-        .btn-create { width: 100%; padding: 16px; background: var(--main); color: white; border: none; border-radius: 16px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3); }
+        .btn-done { width: 100%; padding: 16px; background: var(--main); color: white; border: none; border-radius: 16px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2); }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="back-btn" onclick="history.back()">❮</div>
-        <div class="h-title">Tạo Nhân Vật</div>
+        <a href="index.html" class="back-btn">❮</a>
+        <div class="h-title">Thiết kế Nhân vật</div>
     </div>
 
     <div class="container">
-        <div class="input-group">
+        <div class="group">
             <label class="label">Ảnh đại diện<span>*</span></label>
-            <div class="avt-box" onclick="document.getElementById('f').click()">
-                <img id="p" style="display:none"> <span id="s">+</span>
+            <div class="avt-picker" onclick="document.getElementById('file-in').click()">
+                <img id="img-pre" style="display:none"> <span id="plus">+</span>
             </div>
-            <input type="file" id="f" hidden onchange="showI(this)">
+            <input type="file" id="file-in" hidden accept="image/*" onchange="preview(this)">
         </div>
 
-        <div class="input-group">
+        <div class="group">
             <label class="label">Tên nhân vật<span>*</span></label>
-            <input type="text" placeholder="Tên của Bot...">
+            <input type="text" placeholder="Nhập tên Bot...">
         </div>
 
-        <div class="input-group">
-            <label class="label">Giọng nói nhân vật<span>*</span></label>
-            <div class="voice-list">
-                <div class="v-item active" onclick="setV(this)">👨 Nam Trầm</div>
-                <div class="v-item" onclick="setV(this)">👩 Nữ Ngọt</div>
-                <div class="v-item" onclick="setV(this)">🦊 Anime</div>
-                <div class="v-item" onclick="setV(this)">❄️ Lạnh Lùng</div>
+        <div class="group">
+            <label class="label">Âm thanh (Giọng nói)<span>*</span></label>
+            <div class="v-list">
+                <div class="v-card active" onclick="setV(this)"><i>👨</i>Nam trầm</div>
+                <div class="v-card" onclick="setV(this)"><i>👩</i>Nữ ngọt</div>
+                <div class="v-card" onclick="setV(this)"><i>🦊</i>Anime</div>
+                <div class="v-card" onclick="setV(this)"><i>❄️</i>Lạnh lùng</div>
             </div>
         </div>
 
-        <div class="input-group">
-            <label class="label">Lời chào đầu tiên<span>*</span></label>
-            <textarea rows="3" placeholder="Ví dụ: 'Chào cưng, hôm nay anh đến hơi muộn nhỉ?'"></textarea>
-            <span class="hint">Câu nói đầu tiên khi mở khung chat.</span>
+        <div class="group">
+            <label class="label">Lời nói đầu tiên<span>*</span></label>
+            <textarea rows="3" placeholder="Câu chào khi bắt đầu cuộc trò chuyện..."></textarea>
+            <span class="hint">Ví dụ: *Nhìn em mỉm cười* Chào cưng, hôm nay em muốn đi đâu?</span>
         </div>
 
-        <div class="input-group">
-            <label class="label">Bối cảnh cuộc trò chuyện (Scenario)<span>*</span></label>
-            <textarea rows="4" placeholder="Ví dụ: Hai người đang ngồi trong quán cà phê vào một buổi chiều mưa, mối quan hệ là bạn thân..."></textarea>
-            <span class="hint">Mô tả tình huống hiện tại để Bot nhập vai.</span>
+        <div class="group">
+            <label class="label">Bối cảnh (Scenario)<span>*</span></label>
+            <textarea rows="4" placeholder="Mô tả hoàn cảnh, không gian, thời gian..."></textarea>
+            <span class="hint">Ví dụ: Hai người đang đi dạo dưới trời mưa, che chung một chiếc ô.</span>
         </div>
 
-        <div class="input-group">
-            <label class="label">Lịch sử nhân vật (Character Lore)<span>*</span></label>
-            <textarea rows="6" placeholder="Ví dụ: Anh ấy là một thiếu gia nhà giàu nhưng sống nội tâm, thích mèo, ghét người lừa dối..."></textarea>
-            <span class="hint">Tất cả thông tin về cuộc đời, sở thích, thói quen của Bot.</span>
+        <div class="group">
+            <label class="label">Lịch sử nhân vật (Lore)<span>*</span></label>
+            <textarea rows="6" placeholder="Quá khứ, tính cách, sở thích, bí mật của Bot..."></textarea>
+            <span class="hint">Đây là 'não bộ' của Bot, mô tả càng kỹ Bot càng thông minh.</span>
         </div>
 
-        <div class="input-group">
-            <label class="label">Mẫu câu đối thoại (Example Dialogue)</label>
-            <textarea rows="5" placeholder="<user>: Chào anh!<bot>: Cuối cùng thì em cũng chịu xuất hiện rồi à?"></textarea>
-            <span class="hint">Dạy Bot cách nói chuyện đặc trưng của nó.</span>
-        </div>
-
-        <div class="input-group">
-            <label class="label">Độ sáng tạo (Nhiệt độ)</label>
-            <input type="range" min="0" max="1" step="0.1" value="0.7">
+        <div class="group">
+            <label class="label">Ví dụ đối thoại (Dialogue)<span>*</span></label>
+            <textarea rows="5" placeholder="Dạy Bot cách xưng hô và phong cách nói chuyện..."></textarea>
         </div>
     </div>
 
     <div class="footer">
-        <button class="btn-create" onclick="alert('Đã đúc thành công!'); history.back()">XÁC NHẬN TẠO</button>
+        <button class="btn-done" onclick="saveBot()">XÁC NHẬN TẠO</button>
     </div>
 
     <script>
-        function showI(i) {
-            if (i.files && i.files[0]) {
-                var r = new FileReader();
-                r.onload = function(e) {
-                    document.getElementById('p').src = e.target.result;
-                    document.getElementById('p').style.display = 'block';
-                    document.getElementById('s').style.display = 'none';
+        function preview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('img-pre').src = e.target.result;
+                    document.getElementById('img-pre').style.display = 'block';
+                    document.getElementById('plus').style.display = 'none';
                 }
-                r.readAsDataURL(i.files[0]);
+                reader.readAsDataURL(input.files[0]);
             }
         }
         function setV(el) {
-            document.querySelectorAll('.v-item').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.v-card').forEach(v => v.classList.remove('active'));
             el.classList.add('active');
+        }
+        function saveBot() {
+            alert("Đã lưu nhân vật vào danh sách!");
+            window.location.href = "index.html";
         }
     </script>
 </body>
