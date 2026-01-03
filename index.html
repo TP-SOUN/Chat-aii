@@ -2,176 +2,189 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP C-AI ULTIMATE SYSTEM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TP C-AI SUPER APP</title>
     <style>
-        :root { --primary: #8E2DE2; --lightning: #f1c40f; --bg: #ffffff; --pink: #ff7675; }
+        :root { --pink: #f06292; --pink-light: #fff0f3; --gray: #9e9e9e; --bg: #fdfdfd; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-        .page { flex: 1; padding: 15px; padding-bottom: 90px; overflow-y: auto; display: none; }
+        
+        /* Cấu trúc trang */
+        .page { flex: 1; overflow-y: auto; display: none; padding-bottom: 80px; }
         .page.active { display: block; }
 
-        /* NAV */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
-        .n-btn { color: #ccc; font-size: 24px; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
-        .n-btn.active { color: var(--primary); }
-        .n-btn span { font-size: 10px; font-weight: bold; }
-        .add-btn { font-size: 40px; color: #333; cursor: pointer; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 50%; }
+        /* Header dùng chung */
+        .header { display: flex; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .h-title { flex: 1; text-align: center; font-weight: bold; font-size: 18px; }
 
-        /* LIST & BUTTONS */
-        .m-item { background: #f8f9fa; border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f3f5; }
-        .m-btn { background: #fff; border: 1px solid #eee; padding: 10px 18px; border-radius: 12px; font-weight: 800; cursor: pointer; }
-        .m-btn.off { background: #eee !important; color: #bbb !important; cursor: not-allowed !important; border: none !important; }
+        /* NAV BAR DƯỚI CÙNG */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 70px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
+        .n-btn { color: #ccc; text-align: center; font-size: 20px; cursor: pointer; flex: 1; }
+        .n-btn.active { color: var(--pink); }
+        .n-btn span { font-size: 10px; display: block; font-weight: bold; }
+        .add-btn { font-size: 35px; color: #333; background: #f5f5f5; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; }
 
-        /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px); }
-        .modal { background: #fff; width: 85%; border-radius: 25px; padding: 25px; text-align: center; }
-        .modal input { width: 90%; padding: 12px; border-radius: 12px; border: 2px solid #eee; margin: 10px 0; text-align: center; font-weight: bold; }
+        /* FORM TẠO BOT (THEO ẢNH MẪU) */
+        .card { background: white; border-radius: 15px; padding: 15px; margin: 15px; border: 1px solid #f1f1f1; }
+        .label { font-weight: bold; font-size: 14px; margin-bottom: 10px; display: block; }
+        .label span { color: var(--pink); }
+        input, textarea { width: 100%; border: none; background: var(--pink-light); border-radius: 10px; padding: 12px; box-sizing: border-box; outline: none; font-size: 14px; }
+        textarea { height: 100px; resize: none; }
+        .count { text-align: right; font-size: 11px; color: #bbb; margin-top: 5px; }
+        .sex-group { display: flex; gap: 8px; }
+        .sex-btn { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background: #fff; cursor: pointer; }
+        .sex-btn.active { border-color: var(--pink); color: var(--pink); background: var(--pink-light); font-weight: bold; }
 
-        #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 22px; border-radius: 25px; font-size: 13px; display: none; z-index: 10001; }
+        /* Sét & Nhiệm vụ */
+        .m-item { background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .m-btn { background: #fff; border: 1px solid #eee; padding: 8px 15px; border-radius: 10px; font-weight: bold; font-size: 13px; }
+        #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 8px 15px; border-radius: 20px; display: none; z-index: 2000; }
     </style>
 </head>
 <body>
     <div id="toast"></div>
 
-    <div id="pg-home" class="page active"><h2>🏠 Khám phá</h2></div>
-    <div id="pg-chat" class="page"><h2>💬 Tin nhắn</h2></div>
-    <div id="pg-create" class="page"><h2>➕ Tạo bot</h2></div>
-
-    <div id="pg-profile" class="page">
-        <div style="display:flex; align-items:center; gap:15px">
-            <div id="u-avt" onclick="document.getElementById('f-up').click()" style="width:70px; height:70px; background:var(--primary); border-radius:20px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:30px; overflow:hidden">U</div>
-            <input type="file" id="f-up" hidden accept="image/*" onchange="uploadImg(this)">
-            <h2 id="u-name" onclick="rename()">Trùm Móc ✎</h2>
-        </div>
-        <div style="background:#fff9db; padding:20px; border-radius:20px; margin-top:20px; cursor:pointer" onclick="goPage('pg-energy')">
-            <b>⚡ Tia sét hiện có: <span id="p-val">0</span></b>
-        </div>
+    <div id="pg-home" class="page active">
+        <div class="header"><div class="h-title">Khám phá</div></div>
+        <div style="text-align: center; margin-top: 100px; color: #ccc;">Chưa có nội dung đề xuất</div>
     </div>
 
-    <div id="pg-energy" class="page">
-        <div onclick="goPage('pg-profile')" style="font-weight:bold; cursor:pointer; color:var(--pink)">❮ Quay lại</div>
-        
-        <h3 style="margin-top:20px">Nhiệm vụ hằng ngày</h3>
-        <div class="m-item">
-            <div><b>Điểm danh</b><br><small>+50 ⚡</small></div>
-            <button class="m-btn" id="btn-daily" onclick="claimDaily()">Nhận</button>
-        </div>
-        <div class="m-item">
-            <div><b>Xem Quảng cáo</b><br><small id="ads-txt">+5 ⚡ (0/20)</small></div>
-            <button class="m-btn" id="btn-ads" onclick="watchAds()">Xem</button>
-        </div>
-
-        <h3 style="margin-top:20px">Mời bạn bè</h3>
-        <div class="m-item">
-            <div><b>Nhập mã người khác</b><br><small id="st-input">Nhận 100 ⚡ (1 lần)</small></div>
-            <button class="m-btn" id="btn-input" onclick="openModal('invite')">Nhập</button>
-        </div>
-        <div class="m-item">
-            <div><b>Bạn bè nhập mã mình</b><br><small id="st-share">Đã nhận: 0/10 (+100 ⚡)</small></div>
-            <button class="m-btn" onclick="openModal('invite')">Lấy mã</button>
-        </div>
-
-        <h3 style="margin-top:20px">Đặc biệt</h3>
-        <div class="m-item" style="background:#f0ebff; border:1px dashed var(--primary)">
-            <div><b>Mã Quà Tặng</b><br><small>Nhập Giftcode</small></div>
-            <button class="m-btn" onclick="openModal('gift')">Sử dụng</button>
-        </div>
+    <div id="pg-chat" class="page">
+        <div class="header"><div class="h-title">Tin nhắn</div></div>
+        <div style="text-align: center; margin-top: 100px; color: #ccc;">Bạn chưa có cuộc trò chuyện nào</div>
     </div>
 
-    <div id="md-invite" class="modal-overlay">
-        <div class="modal">
-            <b>Mời Bạn Đồng Hành</b>
-            <div id="box-input-code">
-                <input type="text" id="in-code" placeholder="NHẬP MÃ TP-XXXXXX">
-                <button class="m-btn" style="width:100%; background:var(--primary); color:#fff; border:none" onclick="submitInvite()">Xác nhận</button>
+    <div id="pg-create" class="page">
+        <div class="header">
+            <div onclick="goPage('pg-home')" style="color:var(--pink); font-size:20px; width:30px">❮</div>
+            <div class="h-title">Tạo nhân vật</div>
+            <div style="width:30px">📦</div>
+        </div>
+        <div class="card">
+            <label class="label">Tên<span>*</span></label>
+            <input type="text" id="b-name" placeholder="Nhập tên nhân vật..." maxlength="40">
+            <div class="count">0/40</div>
+        </div>
+        <div class="card" style="text-align: center;">
+            <label class="label" style="text-align:left">Ảnh đại diện<span>*</span></label>
+            <div style="width:90px; height:90px; background:var(--pink-light); border-radius:50%; margin:auto; position:relative; display:flex; align-items:center; justify-content:center">
+                <span id="b-icon" style="font-size:40px; color:var(--pink); opacity:0.3">👤</span>
+                <img id="b-img" style="width:100%; height:100%; border-radius:50%; display:none; object-fit:cover">
+                <label for="f-bot" style="position:absolute; bottom:0; right:0; background:var(--pink); color:#fff; width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid #fff">✎</label>
+                <input type="file" id="f-bot" hidden accept="image/*" onchange="botImg(this)">
             </div>
-            <div style="background:#f8f0ff; padding:15px; border-radius:15px; margin-top:15px; border:1px dashed var(--primary)">
-                <small>Mã mời của ní:</small><br>
-                <b id="my-code-display" style="color:var(--primary); font-size:20px">...</b><br>
-                <button onclick="copyCode()" style="border:none; background:none; color:var(--pink); font-size:12px; font-weight:bold; cursor:pointer">SAO CHÉP</button>
+        </div>
+        <div class="card">
+            <label class="label">Giới tính<span>*</span></label>
+            <div class="sex-group">
+                <div class="sex-btn active" onclick="selSex(this)">Nam</div>
+                <div class="sex-btn" onclick="selSex(this)">Nữ</div>
+                <div class="sex-btn" onclick="selSex(this)">Khác</div>
             </div>
-            <button class="m-btn" style="margin-top:15px; border:none; color:#aaa" onclick="closeModal()">Đóng</button>
+        </div>
+        <div class="card">
+            <label class="label">Lịch sử</label>
+            <textarea placeholder="Tóm tắt lịch sử nhân vật..." maxlength="1000"></textarea>
+            <div class="count">0/1000</div>
+        </div>
+        <div style="padding: 0 15px 30px 15px; display: flex; gap: 10px;">
+            <div style="width:50px; height:50px; border:1px solid #eee; border-radius:50%; display:flex; align-items:center; justify-content:center">👁️</div>
+            <button onclick="makeBot()" style="flex:1; background:var(--pink); color:#fff; border:none; border-radius:12px; font-weight:bold; font-size:16px">Tạo</button>
         </div>
     </div>
 
-    <div id="md-gift" class="modal-overlay">
-        <div class="modal">
-            <b>Nhập Giftcode</b><br>
-            <input type="text" id="in-gift" placeholder="VÍ DỤ: TANTHU">
-            <button class="m-btn" style="width:100%; background:var(--primary); color:#fff; border:none" onclick="submitGift()">Nhận quà</button>
-            <button class="m-btn" style="margin-top:15px; border:none; color:#aaa" onclick="closeModal()">Hủy</button>
+    <div id="pg-me" class="page">
+        <div class="header"><div class="h-title">Tôi</div></div>
+        <div style="padding: 20px; display: flex; align-items: center; gap: 15px;">
+            <div style="width:60px; height:60px; background:var(--pink); border-radius:15px; color:#fff; font-size:25px; display:flex; align-items:center; justify-content:center">U</div>
+            <b style="font-size:18px">Trùm Móc ✎</b>
+        </div>
+        <div style="margin: 0 15px; background: #fff9db; padding: 15px; border-radius: 15px; color: #f08c00;">
+            <b>⚡ Tia sét: <span id="e-val">123</span></b>
+        </div>
+        <div style="padding: 15px;">
+            <h3>Nhận thêm sét</h3>
+            <div class="m-item"><div><b>Điểm danh</b><br><small>+50 ⚡</small></div><button class="m-btn" id="btn-check" onclick="checkIn()">Nhận</button></div>
+            <div class="m-item"><div><b>Quảng cáo</b><br><small id="ads-txt">+5 ⚡ (0/20)</small></div><button class="m-btn" id="btn-ads" onclick="ads()">Xem</button></div>
+            <div class="m-item"><div><b>Giftcode</b><br><small>Nhập mã quà</small></div><button class="m-btn" onclick="gift()">Nhập</button></div>
+            <div class="m-item"><div><b>Mời bạn</b><br><small>Nhận 100 ⚡</small></div><button class="m-btn" onclick="alert('Mã của ní: TP-MOC')">Lấy mã</button></div>
         </div>
     </div>
 
     <div class="nav">
-        <div class="n-btn active" onclick="nav(this, 'pg-home')">🏠<span>Home</span></div>
-        <div class="n-btn" onclick="nav(this, 'pg-chat')">💬<span>Chat</span></div>
-        <div class="add-btn" onclick="nav(this, 'pg-create')">+</div>
-        <div class="n-btn" onclick="nav(this, 'pg-profile')">👤<span>Tôi</span></div>
+        <div class="n-btn active" onclick="goPage('pg-home', this)">🏠<span>Home</span></div>
+        <div class="n-btn" onclick="goPage('pg-chat', this)">💬<span>Chat</span></div>
+        <div class="add-btn" onclick="goPage('pg-create', this)">+</div>
+        <div class="n-btn" onclick="goPage('pg-me', this)">👤<span>Tôi</span></div>
     </div>
 
     <script>
-        let energy = parseInt(localStorage.getItem('tp_e')) || 123;
-        let ads = parseInt(localStorage.getItem('tp_ads')) || 0;
-        let shareCount = parseInt(localStorage.getItem('tp_share')) || 0;
-        let hasIn = localStorage.getItem('tp_has_in') === 'true';
-        let myCode = localStorage.getItem('tp_code') || ('TP-' + Math.random().toString(36).substr(2, 6).toUpperCase());
-        localStorage.setItem('tp_code', myCode);
+        let energy = 123;
+        let adCount = 0;
 
-        const gifts = { "TANTHU": 500, "TPCAI": 100 };
-
-        window.onload = render;
-
-        function render() {
-            document.getElementById('p-val').innerText = energy;
-            document.getElementById('ads-txt').innerText = `+5 ⚡ (${ads}/20)`;
-            document.getElementById('st-share').innerText = `Đã nhận: ${shareCount}/10 (+100 ⚡)`;
-            document.getElementById('my-code-display').innerText = myCode;
-            
-            const name = localStorage.getItem('tp_u') || "Trùm Móc";
-            document.getElementById('u-name').innerText = name + " ✎";
-            const avt = localStorage.getItem('tp_a');
-            if(avt) document.getElementById('u-avt').innerHTML = `<img src="${avt}" style="width:100%;height:100%;object-fit:cover">`;
-            else document.getElementById('u-avt').innerText = name.charAt(0).toUpperCase();
-
-            if(ads >= 20) lock('btn-ads', 'Hết lượt');
-            if(hasIn) { lock('btn-input', 'Xong'); document.getElementById('box-input-code').style.display = 'none'; }
-            if(localStorage.getItem('tp_check') === new Date().toDateString()) lock('btn-daily', 'Đã nhận');
-            localStorage.setItem('tp_e', energy);
+        function goPage(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(el && el.classList.contains('n-btn')) {
+                document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
+                el.classList.add('active');
+            }
         }
 
-        function submitInvite() {
-            const c = document.getElementById('in-code').value.trim().toUpperCase();
-            if(c === myCode) return toast("Không thể tự nhập mã!");
-            if(!c.startsWith("TP-")) return toast("Sai định dạng mã!");
-            energy += 100; hasIn = true;
-            localStorage.setItem('tp_has_in', 'true');
-            if(shareCount < 10) { shareCount++; localStorage.setItem('tp_share', shareCount); energy += 100; }
-            render(); closeModal(); toast("Thành công! +200 ⚡");
+        function selSex(btn) {
+            btn.parentElement.querySelectorAll('.sex-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
 
-        function submitGift() {
-            const g = document.getElementById('in-gift').value.trim().toUpperCase();
-            const used = JSON.parse(localStorage.getItem('tp_used_g') || "[]");
-            if(used.includes(g)) return toast("Mã này đã dùng!");
-            if(gifts[g]) {
-                energy += gifts[g]; used.push(g);
-                localStorage.setItem('tp_used_g', JSON.stringify(used));
-                render(); closeModal(); toast("Nhận quà thành công!");
-            } else toast("Mã không đúng!");
+        function botImg(input) {
+            if (input.files && input.files[0]) {
+                const r = new FileReader();
+                r.onload = e => {
+                    document.getElementById('b-img').src = e.target.result;
+                    document.getElementById('b-img').style.display = 'block';
+                    document.getElementById('b-icon').style.display = 'none';
+                };
+                r.readAsDataURL(input.files[0]);
+            }
         }
 
-        function lock(id, txt) { const b = document.getElementById(id); b.innerText = txt; b.classList.add('off'); b.onclick = null; }
-        function toast(m) { const t = document.getElementById('toast'); t.innerText = m; t.style.display = 'block'; setTimeout(()=> t.style.display = 'none', 2000); }
-        function openModal(type) { document.getElementById('md-' + type).style.display = 'flex'; }
-        function closeModal() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
-        function nav(el, id) { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'block'; document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active')); if(el.classList.contains('n-btn')) el.classList.add('active'); }
-        function goPage(id) { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'block'; }
-        function rename() { const n = prompt("Tên mới:", "Trùm Móc"); if(n) { localStorage.setItem('tp_u', n); render(); } }
-        function uploadImg(el) { if(el.files && el.files[0]) { const r = new FileReader(); r.onload = e => { localStorage.setItem('tp_a', e.target.result); render(); }; r.readAsDataURL(el.files[0]); } }
-        function claimDaily() { localStorage.setItem('tp_check', new Date().toDateString()); energy += 50; render(); toast("Đã nhận 50 ⚡!"); }
-        function watchAds() { const b = document.getElementById('btn-ads'); b.onclick = null; toast("Đang tải QC..."); setTimeout(() => { ads++; localStorage.setItem('tp_ads', ads); energy += 5; render(); if(ads < 20) b.onclick = watchAds; }, 1500); }
-        function copyCode() { navigator.clipboard.writeText(myCode); toast("Đã chép mã!"); }
+        function makeBot() {
+            const n = document.getElementById('b-name').value;
+            if(!n) return showToast("Ní nhập tên bot đã!");
+            showToast("Đã đúc thành công bot: " + n);
+            goPage('pg-chat');
+        }
+
+        function checkIn() { 
+            energy += 50; update(); showToast("+50 ⚡ Thành công!"); 
+            document.getElementById('btn-check').innerText = "Đã nhận";
+            document.getElementById('btn-check').disabled = true;
+        }
+
+        function ads() {
+            if(adCount >= 20) return;
+            showToast("Đang tải quảng cáo...");
+            setTimeout(() => { 
+                adCount++; energy += 5; update(); 
+                showToast("+5 ⚡ Thành công!");
+            }, 1000);
+        }
+
+        function gift() {
+            let code = prompt("Nhập Giftcode:");
+            if(code === "TANTHU") { energy += 500; update(); showToast("+500 ⚡ Tân thủ!"); }
+            else { showToast("Mã không đúng ní ơi!"); }
+        }
+
+        function update() {
+            document.getElementById('e-val').innerText = energy;
+            document.getElementById('ads-txt').innerText = `+5 ⚡ (${adCount}/20)`;
+        }
+
+        function showToast(m) {
+            const t = document.getElementById('toast');
+            t.innerText = m; t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 2000);
+        }
     </script>
 </body>
 </html>
