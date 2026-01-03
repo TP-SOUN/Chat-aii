@@ -2,55 +2,151 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Đúc Bot - TP C-AI</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background: #fdfdfd; padding-bottom: 30px; }
-        .header { display: flex; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; }
-        .back-btn { font-size: 24px; color: #f06292; text-decoration: none; padding-right: 15px; cursor: pointer; }
+        :root { --main: #6c5ce7; --sub: #a29bfe; --pink: #fd79a8; --bg: #fdfdfd; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; }
         
-        .container { padding: 15px; }
-        .card { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #f1f1f1; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        label { font-weight: bold; font-size: 14px; display: block; margin-bottom: 8px; }
-        input, textarea { width: 100%; border: none; background: #fff0f3; border-radius: 10px; padding: 12px; box-sizing: border-box; outline: none; }
-        
-        /* Phần chọn giọng - Ní có thể tự sửa ở đây */
-        .voice-list { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
-        .voice-item { min-width: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 12px; text-align: center; background: #fff; }
-        .voice-item.active { border-color: #f06292; background: #fff0f3; color: #f06292; font-weight: bold; }
+        /* Header chuẩn Doki nhưng màu khác */
+        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .back-btn { font-size: 24px; color: var(--main); text-decoration: none; cursor: pointer; margin-right: 15px; }
+        .h-title { flex: 1; font-weight: bold; font-size: 18px; }
 
-        .btn-create { width: 100%; padding: 15px; background: #f06292; color: #fff; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        .container { padding: 15px; }
+
+        /* Các ô nhập liệu bo góc xịn */
+        .input-group { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #f1f1f1; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .label { font-weight: bold; font-size: 14px; margin-bottom: 10px; display: block; color: #555; }
+        .label span { color: #ff7675; margin-left: 3px; }
+
+        input[type="text"], textarea, select {
+            width: 100%; border: none; background: #f8f9ff; border-radius: 10px; padding: 12px; box-sizing: border-box; outline: none; font-size: 14px; border: 1px solid transparent; transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-color: var(--sub); background: #fff; }
+
+        /* Phần chọn Avatar nhân vật */
+        .avt-picker { width: 80px; height: 80px; background: #eee; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; overflow: hidden; position: relative; border: 2px dashed var(--sub); }
+        .avt-picker img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* PHẦN LỰA CHỌN ÂM THANH (MỚI) */
+        .voice-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+        .voice-card { 
+            flex: 0 0 100px; background: #fff; border: 1.5px solid #eee; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s;
+        }
+        .voice-card.active { border-color: var(--main); background: #f0edff; }
+        .voice-card i { display: block; font-size: 20px; margin-bottom: 5px; }
+        .voice-card b { font-size: 12px; display: block; }
+        .play-preview { font-size: 10px; color: var(--main); margin-top: 5px; display: block; text-decoration: underline; }
+
+        /* Nút xác nhận */
+        .footer-btn { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; padding: 15px; box-sizing: border-box; border-top: 1px solid #eee; }
+        .btn-submit { width: 100%; padding: 15px; background: var(--main); color: white; border: none; border-radius: 15px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3); }
+        
+        /* Hiệu ứng trượt (Slider) giống Doki */
+        .slider-box { display: flex; align-items: center; gap: 10px; }
+        input[type="range"] { flex: 1; accent-color: var(--main); }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <a href="index.html" class="back-btn">❮</a>
-        <b style="flex:1; text-align:center;">Tạo nhân vật</b>
+        <div class="back-btn" onclick="history.back()">❮</div>
+        <div class="h-title">Tạo nhân vật mới</div>
     </div>
 
-    <div class="container">
-        <div class="card">
-            <label>Tên nhân vật</label>
-            <input type="text" placeholder="Tên bot của ní...">
+    <div class="container" style="padding-bottom: 100px;">
+        
+        <div class="input-group">
+            <label class="label">Ảnh đại diện<span>*</span></label>
+            <div class="avt-picker" onclick="document.getElementById('bot-avt').click()">
+                <span id="plus-icon">+</span>
+                <img id="preview-img" style="display:none">
+            </div>
+            <input type="file" id="bot-avt" hidden accept="image/*" onchange="loadImg(this)">
         </div>
 
-        <div class="card">
-            <label>Chọn giọng nói (Dự kiến)</label>
-            <div class="voice-list">
-                <div class="voice-item active" onclick="selV(this)">Nam</div>
-                <div class="voice-item" onclick="selV(this)">Nữ</div>
-                <div class="voice-item" onclick="selV(this)">Anime</div>
+        <div class="input-group">
+            <label class="label">Tên nhân vật<span>*</span></label>
+            <input type="text" placeholder="Ví dụ: Anh hàng xóm, Cô thư ký...">
+        </div>
+
+        <div class="input-group">
+            <label class="label">Giọng nói nhân vật (Âm thanh)<span>*</span></label>
+            <div class="voice-container">
+                <div class="voice-card active" onclick="selectVoice(this, 'nam-tram')">
+                    <i>👨</i><b>Nam Trầm</b>
+                    <span class="play-preview">Nghe thử</span>
+                </div>
+                <div class="voice-card" onclick="selectVoice(this, 'nu-ngot')">
+                    <i>👩</i><b>Nữ Ngọt</b>
+                    <span class="play-preview">Nghe thử</span>
+                </div>
+                <div class="voice-card" onclick="selectVoice(this, 'anime')">
+                    <i>✨</i><b>Anime</b>
+                    <span class="play-preview">Nghe thử</span>
+                </div>
+                <div class="voice-card" onclick="selectVoice(this, 'lanh-lung')">
+                    <i>❄️</i><b>Lạnh Lùng</b>
+                    <span class="play-preview">Nghe thử</span>
+                </div>
             </div>
         </div>
 
-        <button class="btn-create" onclick="alert('Đã đúc thành công!'); window.location.href='index.html'">ĐÚC BOT</button>
+        <div class="input-group">
+            <label class="label">Lời chào đầu tiên<span>*</span></label>
+            <textarea rows="3" placeholder="Nhân vật sẽ nói gì khi bắt đầu cuộc trò chuyện?"></textarea>
+        </div>
+
+        <div class="input-group">
+            <label class="label">Tính cách & Bối cảnh</label>
+            <textarea rows="5" placeholder="Mô tả chi tiết để nhân vật thông minh hơn..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label class="label">Độ sáng tạo (Nhiệt độ): <span id="val">0.7</span></label>
+            <div class="slider-box">
+                <input type="range" min="0" max="1" step="0.1" value="0.7" oninput="document.getElementById('val').innerText = this.value">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label class="label">Chế độ hiển thị</label>
+            <select>
+                <option>Công khai (Mọi người đều thấy)</option>
+                <option>Riêng tư (Chỉ mình tôi)</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="footer-btn">
+        <button class="btn-submit" onclick="submitBot()">✨ ĐÚC NHÂN VẬT</button>
     </div>
 
     <script>
-        function selV(el) {
-            document.querySelectorAll('.voice-item').forEach(v => v.classList.remove('active'));
+        function loadImg(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview-img').src = e.target.result;
+                    document.getElementById('preview-img').style.display = 'block';
+                    document.getElementById('plus-icon').style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function selectVoice(el, type) {
+            document.querySelectorAll('.voice-card').forEach(v => v.classList.remove('active'));
             el.classList.add('active');
+            // Chỗ này ní có thể thêm code phát âm thanh preview thật ở đây
+            console.log("Đã chọn giọng: " + type);
+        }
+
+        function submitBot() {
+            alert("Đang tiến hành đúc nhân vật... Vui lòng chờ trong giây lát!");
+            window.location.href = "index.html";
         }
     </script>
 </body>
