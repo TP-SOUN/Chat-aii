@@ -3,129 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TP C-AI FINAL VERSION</title>
+    <title>TP C-AI SUPER APP</title>
     <style>
         :root { --main: #f06292; --bg: #f8f9fa; --card: #ffffff; --input: #fff0f3; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); height: 100vh; overflow: hidden; }
         
-        /* Pages */
+        /* Chuyển trang mượt */
         .page { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; background: var(--bg); display: none; overflow-y: auto; padding-bottom: 90px; box-sizing: border-box; }
         .page.active { display: block; }
 
-        /* Header & Tabs */
-        .header { background: #fff; padding: 15px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .tabs { display: flex; justify-content: space-around; background: #fff; padding: 5px 0; border-bottom: 1px solid #f1f1f1; }
-        .tab-item { padding: 10px 20px; font-size: 14px; font-weight: bold; color: #aaa; cursor: pointer; border-bottom: 2px solid transparent; }
-        .tab-item.active { color: var(--main); border-bottom-color: var(--main); }
+        /* Header */
+        .header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; font-weight: bold; font-size: 18px; }
 
-        /* Bot Cards */
-        .bot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .bot-card { background: white; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.03); position: relative; }
-        .bot-img { width: 100%; height: 140px; background: #eee; object-fit: cover; }
-        .bot-info { padding: 10px; text-align: center; }
-        .bot-name { font-weight: bold; font-size: 14px; display: block; }
-        .fav-icon { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.3); color: #fff; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-
-        /* Form UI */
-        .card { background: white; margin: 15px; padding: 18px; border-radius: 20px; border: 1px solid #f1f1f1; }
+        /* Card & Input */
+        .card { background: white; margin: 15px; padding: 18px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .label { font-weight: bold; font-size: 14px; margin-bottom: 8px; display: block; color: #444; }
         input, textarea { width: 100%; border: none; background: var(--input); border-radius: 12px; padding: 14px; box-sizing: border-box; outline: none; margin-top: 5px; font-size: 14px; }
-        
-        /* Navigation */
+        textarea { resize: none; }
+
+        /* Menu Nav */
         .nav { position: fixed; bottom: 0; width: 100%; background: #fff; height: 70px; display: flex; align-items: center; border-top: 1px solid #eee; z-index: 1000; }
         .n-btn { flex: 1; text-align: center; color: #ccc; cursor: pointer; }
         .n-btn.active { color: var(--main); }
         .n-btn span { font-size: 10px; display: block; font-weight: bold; margin-top: 2px; }
-        .add-btn { background: var(--main); color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4); border: 3px solid #fff; }
+        
+        .add-btn-wrap { flex: 1; display: flex; justify-content: center; }
+        .add-btn { background: var(--main); color: #fff !important; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(240, 98, 146, 0.4); border: 3px solid #fff; }
+
+        /* Voice List */
+        .v-list { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
+        .v-item { flex: 0 0 100px; padding: 12px; border: 1.5px solid #eee; border-radius: 15px; text-align: center; background: white; cursor: pointer; }
+        .v-item.active { border-color: var(--main); background: #fff0f3; color: var(--main); font-weight: bold; }
+        
+        /* Avatar */
+        .avt-box { width: 80px; height: 80px; background: var(--input); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ddd; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="pg-home" class="page active">
-        <div class="header"><b style="font-size: 20px; color: var(--main);">TP C-AI</b></div>
-        <div class="tabs">
-            <div class="tab-item active" onclick="switchTab('mine', this)">Của tôi</div>
-            <div class="tab-item" onclick="switchTab('fav', this)">Yêu thích</div>
-        </div>
-
-        <div id="bot-list" class="bot-grid">
-            <div class="bot-card">
-                <div class="fav-icon">❤️</div>
-                <div class="bot-img" style="background: url('https://placehold.co/200x200?text=Bot+1') center/cover;"></div>
-                <div class="bot-info"><span class="bot-name">Người Yêu Ảo</span></div>
-            </div>
-            <div class="bot-card">
-                <div class="fav-icon">❤️</div>
-                <div class="bot-img" style="background: url('https://placehold.co/200x200?text=Bot+2') center/cover;"></div>
-                <div class="bot-info"><span class="bot-name">Sếp Lạnh Lùng</span></div>
-            </div>
+        <div class="header">TP C-AI</div>
+        <div style="padding: 50px 20px; text-align: center; color: #bbb;">
+            <div style="font-size: 50px; margin-bottom: 10px;">🤖</div>
+            <b>Chưa có nhân vật nào</b><br>
+            <small>Bấm (+) để tạo ngay!</small>
         </div>
     </div>
 
     <div id="pg-chat" class="page">
-        <div class="header"><b>Tin nhắn</b></div>
-        <div style="text-align:center; margin-top:100px; color:#999;">Trống trơn...</div>
+        <div class="header">Tin nhắn</div>
+        <div style="text-align:center; margin-top:100px; color:#999;">Bạn chưa có cuộc trò chuyện nào.</div>
     </div>
 
     <div id="pg-create" class="page">
         <div class="header">
-            <span onclick="goPage('pg-home')" style="color:var(--main); margin-right:15px; font-size: 20px;">❮</span>
-            <b>Đúc Nhân Vật</b>
+            <span onclick="goPage('pg-home')" style="color:var(--main); margin-right:15px; cursor:pointer;">❮</span>
+            Đúc Nhân Vật AI
         </div>
         <div class="card">
-            <b>Tên nhân vật</b>
-            <input type="text" placeholder="Nhập tên...">
+            <label class="label">Hình ảnh</label>
+            <div class="avt-box" onclick="document.getElementById('f').click()">
+                <img id="p" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:20px;">
+                <span id="s" style="font-size:24px; color:#aaa;">+</span>
+            </div>
+            <input type="file" id="f" hidden onchange="showImg(this)">
+        </div>
+
+        <div class="card">
+            <label class="label">Tên nhân vật</label>
+            <input type="text" placeholder="Nhập tên Bot...">
+        </div>
+
+        <div class="card">
+            <label class="label">Âm thanh</label>
+            <div class="v-list">
+                <div class="v-item active" onclick="setV(this)">Nam Trầm</div>
+                <div class="v-item" onclick="setV(this)">Nữ Ngọt</div>
+                <div class="v-item" onclick="setV(this)">Lạnh Lùng</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <label class="label">Lời chào đầu tiên</label>
+            <textarea rows="3" placeholder="Bot sẽ chào gì?"></textarea>
         </div>
         <div class="card">
-            <b>Lời chào đầu</b>
-            <textarea rows="2" placeholder="Chào cậu..."></textarea>
+            <label class="label">Bối cảnh (Scenario)</label>
+            <textarea rows="3" placeholder="Hoàn cảnh trò chuyện..."></textarea>
         </div>
         <div class="card">
-            <b>Bối cảnh (Scenario)</b>
-            <textarea rows="3" placeholder="Hoàn cảnh..."></textarea>
+            <label class="label">Lịch sử nhân vật (Lore)</label>
+            <textarea rows="5" placeholder="Tính cách, sở thích, quá khứ..."></textarea>
         </div>
-        <div class="card">
-            <b>Lịch sử (Lore)</b>
-            <textarea rows="4" placeholder="Tính cách chi tiết..."></textarea>
-        </div>
-        <button onclick="alert('Đã đúc!'); goPage('pg-home')" style="width:90%; margin:10px 5% 30px 5%; padding:18px; background:var(--main); color:white; border:none; border-radius:18px; font-weight:bold;">XÁC NHẬN</button>
+
+        <button onclick="alert('Đã đúc thành công!'); goPage('pg-home')" style="width:90%; margin:10px 5% 30px 5%; padding:18px; background:var(--main); color:white; border:none; border-radius:18px; font-weight:bold; font-size:16px;">XÁC NHẬN TẠO</button>
     </div>
 
     <div id="pg-me" class="page">
-        <div class="header"><b>Cá nhân</b></div>
+        <div class="header">Tôi</div>
         <div class="card" style="display:flex; align-items:center; gap:15px;">
-            <div style="width:60px; height:60px; background:var(--main); border-radius:50%;"></div>
-            <b>Người dùng C-AI</b>
+            <div id="u-avt" onclick="document.getElementById('u-f').click()" style="width:60px; height:60px; background:var(--main); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:20px; overflow:hidden;">T</div>
+            <input type="file" id="u-f" hidden onchange="previewUser(this)">
+            <div>
+                <b id="u-name">Trùm C-AI</b>
+                <div onclick="editName()" style="font-size:12px; color:var(--main); margin-top:5px;">Sửa tên ✎</div>
+            </div>
+        </div>
+        <div style="margin: 0 15px; background: #222; color: #fff; padding: 20px; border-radius: 20px; display:flex; justify-content:space-between; align-items:center;">
+            <div><small style="opacity:0.7">Tia sét ⚡</small><div style="font-size:24px; font-weight:bold; color:#ffeaa7;">1,000</div></div>
+            <button onclick="alert('Nạp đi ní!')" style="background:var(--main); border:none; color:white; padding:8px 15px; border-radius:12px; font-weight:bold;">Nạp</button>
         </div>
     </div>
 
     <div class="nav">
         <div class="n-btn active" onclick="goPage('pg-home', this)">🏠<span>Home</span></div>
         <div class="n-btn" onclick="goPage('pg-chat', this)">💬<span>Chat</span></div>
-        <div style="flex:1; display:flex; justify-content:center;">
-            <div class="add-btn" onclick="goPage('pg-create')">+</div>
+        <div class="add-btn-wrap">
+            <div class="add-btn" onclick="goPage('pg-create', this)">+</div>
         </div>
         <div class="n-btn" onclick="goPage('pg-me', this)">👤<span>Tôi</span></div>
     </div>
 
     <script>
+        // Hàm chuyển trang cực mượt
         function goPage(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            if(el) {
+            if(el && el.classList.contains('n-btn')) {
                 document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
                 el.classList.add('active');
             }
         }
 
-        function switchTab(type, el) {
-            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+        // Preview ảnh Bot
+        function showImg(i) {
+            if (i.files && i.files[0]) {
+                var r = new FileReader();
+                r.onload = function(e) {
+                    document.getElementById('p').src = e.target.result;
+                    document.getElementById('p').style.display = 'block';
+                    document.getElementById('s').style.display = 'none';
+                }
+                r.readAsDataURL(i.files[0]);
+            }
+        }
+
+        // Các hàm phụ trợ
+        function setV(el) {
+            document.querySelectorAll('.v-item').forEach(v => v.classList.remove('active'));
             el.classList.add('active');
-            
-            const list = document.getElementById('bot-list');
-            if(type === 'fav') {
-                list.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#999; padding:20px;">Bạn chưa yêu thích nhân vật nào.</p>';
-            } else {
-                location.reload(); // Tạm thời reload để hiện lại card mẫu
+        }
+        function editName() {
+            let n = prompt("Tên mới:", document.getElementById('u-name').innerText);
+            if(n) document.getElementById('u-name').innerText = n;
+        }
+        function previewUser(i) {
+            if (i.files && i.files[0]) {
+                var r = new FileReader();
+                r.onload = function(e) { document.getElementById('u-avt').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`; }
+                r.readAsDataURL(i.files[0]);
             }
         }
     </script>
